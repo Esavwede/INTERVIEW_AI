@@ -1,9 +1,9 @@
 import './pre-start'; // Must be the first import
-import logger from 'jet-logger';
 
 import EnvVars from '@src/common/EnvVars';
 import app from './server';
 import { Server, createServer}  from "http" 
+import logger from './system/logger/logger';
 
 
 // **** Run **** //
@@ -17,6 +17,9 @@ const SERVER_START_MSG = ('Express server started on port: ' +
 server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG));
 
 
+logger.info('Log: Info')
+logger.trace('Log: trace')
+logger.debug('Log: debug') 
 
 
 process.on("SIGINT", ()=>{  gracefulShutdown() } ) 
