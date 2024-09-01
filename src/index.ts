@@ -18,7 +18,6 @@ server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG));
 
 
 
-
 process.on("SIGINT", ()=>{  gracefulShutdown() } ) 
 process.on("SIGTERM", ()=>{ gracefulShutdown() } )
 
