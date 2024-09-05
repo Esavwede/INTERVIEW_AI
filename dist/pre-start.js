@@ -16,7 +16,7 @@ const args = (0, ts_command_line_args_1.parse)({
 var result2 = undefined;
 if (args.env === "production") {
     result2 = dotenv_1.default.config({
-        path: `../etc/secrets/${args.env}.env`,
+        path: `etc/secrets/${args.env}.env`,
     });
     if (result2.error) {
         throw result2.error;

@@ -33,7 +33,7 @@ var result2: any = undefined
 if( args.env === "production")
 {
     result2 = dotenv.config({
-      path: `../etc/secrets/${args.env}.env`,
+      path: `etc/secrets/${args.env}.env`,
     });
     if (result2.error) {
       throw result2.error;
