@@ -2,9 +2,14 @@
 import pino from "pino" 
 import config from "config" 
 
-const logger = pino({
-    level: config.get<string>("logger.level")
+const prodLogger = pino({
+    level: config.get<string>("logger.level"),
+    redact: 
+    {
+        paths: ['password'],
+        remove: true 
+    }
 }) 
 
 
-export default logger 
+export default prodLogger 

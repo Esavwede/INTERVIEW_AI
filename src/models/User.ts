@@ -1,70 +1,77 @@
-import moment from 'moment';
+import mongoose, { Schema, Document } from "mongoose" 
+import bcrypt from "bcrypt" 
 
-
-// **** Variables **** //
-
-const INVALID_CONSTRUCTOR_PARAM = 'nameOrObj arg must a string or an object ' + 
-  'with the appropriate user keys.';
-
-
-// **** Types **** //
-
-export interface IUser {
-  id: number;
-  name: string;
-  email: string;
-  created: Date;
+export interface IUser extends Document 
+{
+  firstname: string, 
+  lastname: string,
+  email: string, 
+  password: string, 
+  isVerified: boolean, 
+  createdAt: Date, 
+  updatedAt: Date, 
+  comparePassword( candidatePassword: string): Promise<boolean> 
 }
 
 
-// **** Functions **** //
+  const userSchema = new Schema<IUser>(
+    {
+        firstname: 
+        {
+            type: String,
+            required: true,
+            minlength: 2
+        },
+        lastname: 
+        {
+            type: String, 
+            required: true, 
+            minlength: 2
+        }, 
+        email: 
+        {
+          type: String,
+          required: true, 
+          minlength: 2, 
+          unique: true 
+        },
+        password:
+        {
+          type: String, 
+          required: true, 
+          minlength: 6 
+        },
+        isVerified:   
+        {
+          type: Boolean,
+          required: true, 
+          default: false 
+        }
+    },
+    {
+      timestamps: true 
+    }
+  )
 
-/**
- * Create new User.
- */
-function new_(
-  name?: string,
-  email?: string,
-  created?: Date,
-  id?: number, // id last cause usually set by db
-): IUser {
-  return {
-    id: (id ?? -1),
-    name: (name ?? ''),
-    email: (email ?? ''),
-    created: (created ? new Date(created) : new Date()),
-  };
+  userSchema.pre("save", async function(next){
+
+      if( !this.isModified('password') )return next()
+      const salt = await bcrypt.genSalt(10) 
+      this.password = await bcrypt.hash( this.password, salt )
+      next() 
+  })
+
+  
+userSchema.methods.comparePassword = async function( candidatePassword: string ): Promise<boolean> {
+    try 
+    {
+        return await bcrypt.compare( candidatePassword, this.password )
+    }
+    catch(e: any)
+    {
+        return false
+    }
 }
 
-/**
- * Get user instance from object.
- */
-function from(param: object): IUser {
-  if (isUser(param)) {
-    return new_(param.name, param.email, param.created, param.id);
-  }
-  throw new Error(INVALID_CONSTRUCTOR_PARAM);
-}
 
-/**
- * See if the param meets criteria to be a user.
- */
-function isUser(arg: unknown): arg is IUser {
-  return (
-    !!arg &&
-    typeof arg === 'object' &&
-    'id' in arg && typeof arg.id === 'number' && 
-    'email' in arg && typeof arg.email === 'string' && 
-    'name' in arg && typeof arg.name === 'string' &&
-    'created' in arg && moment(arg.created as string | Date).isValid()
-  );
-}
-
-
-// **** Export default **** //
-
-export default {
-  new: new_,
-  from,
-  isUser,
-} as const;
+  export const User = mongoose.model<IUser>("User", userSchema ) 
