@@ -5,6 +5,8 @@ import { SignupInput} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
 import logger from "@src/system/logger/logger";
 import { generateJwtToken } from "@src/util/Auth/tokens";
+import { config } from "dotenv"
+config() 
 
 // Interfaces 
 import { INewUser } from "@src/repos/user/user.repo";
@@ -25,10 +27,10 @@ export class UserController
     async signup(req: Request<{}, {}, SignupInput["body"]>, res: Response)
     {
         console.log(" Signing up user ")
-
+        console.log( process.env.NODE_ENV ) 
         const userExists = await this.userService.findByEmail( req.body.email ) 
 
-        
+
         if( userExists )
         {
             return res.status(409).json({ msg:"Email Taken"})

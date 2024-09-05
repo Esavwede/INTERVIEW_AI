@@ -28,10 +28,28 @@ const args = parse<IArgs>({
   },
 });
 
-// Set the env file
-const result2 = dotenv.config({
-  path: path.join(__dirname, `../env/${args.env}.env`),
-});
-if (result2.error) {
-  throw result2.error;
+
+if( process.env.NODE_ENV === "production" )
+{
+    // Set the env file
+  const result2 = dotenv.config({
+    path: path.join( __dirname,  "production.env")
+  });
+  if (result2.error) {
+    throw result2.error;
+  }
+
 }
+else 
+{
+  // Set the env file
+  const result2 = dotenv.config({
+    path: path.join(__dirname, `../env/${args.env}.env`),
+  });
+  if (result2.error) {
+    throw result2.error;
+  }
+
+}
+
+
