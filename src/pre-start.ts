@@ -28,13 +28,28 @@ const args = parse<IArgs>({
   },
 });
 
+var result2: any = undefined 
+
+if( args.env === "production")
+{
+    result2 = dotenv.config({
+      path: `../etc/secrets/${args.env}.env`,
+    });
+    if (result2.error) {
+      throw result2.error;
+    }
+}
+else 
+{
+      // Set the env file
+    result2 = dotenv.config({
+      path: path.join(__dirname, `../etc/secrets/${args.env}.env`),
+    });
+    if (result2.error) {
+      throw result2.error;
+    }
+}
 
 
-  // Set the env file
-  const result2 = dotenv.config({
-    path: path.join(__dirname, `../etc/secrets/${args.env}.env`),
-  });
-  if (result2.error) {
-    throw result2.error;
-  }
+
 
