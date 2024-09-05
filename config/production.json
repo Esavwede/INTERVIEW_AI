@@ -2,5 +2,19 @@
     "logger":
     {
         "level":"info" 
-    }   
+    },
+    "db":
+    {
+        "options":
+        {
+            
+        }
+    },
+    "jwt":
+    {
+        "options":
+        {
+            "expiresIn":"1h"
+        }
+    }
 }

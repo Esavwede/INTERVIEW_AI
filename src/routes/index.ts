@@ -1,29 +1,18 @@
-import { Router } from 'express';
 
-import Paths from '../common/Paths';
-import UserRoutes from './UserRoutes';
+import { Express } from "express-serve-static-core"
+import { userRoutes } from "./user"
+import logger from "@src/system/logger/logger"
 
-
-// **** Variables **** //
-
-const apiRouter = Router();
-
-
-// ** Add UserRouter ** //
-
-// Init router
-const userRouter = Router();
-
-// Get all users
-userRouter.get(Paths.Users.Get, UserRoutes.getAll);
-userRouter.post(Paths.Users.Add, UserRoutes.add);
-userRouter.put(Paths.Users.Update, UserRoutes.update);
-userRouter.delete(Paths.Users.Delete, UserRoutes.delete);
-
-// Add UserRouter
-apiRouter.use(Paths.Users.Base, userRouter);
-
-
-// **** Export default **** //
-
-export default apiRouter;
+export function routes( app: Express )
+{
+    try 
+    {
+        userRoutes( app ) 
+        logger.info("API ROUTES CREATED") 
+    }
+    catch(e: any )
+    {
+        console.log("API ROUTES ERROR")
+        console.log(e) 
+    }
+}

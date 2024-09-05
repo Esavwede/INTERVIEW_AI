@@ -4,30 +4,28 @@ import EnvVars from '@src/common/EnvVars';
 import app from './server';
 import { Server, createServer}  from "http" 
 import logger from './system/logger/logger';
+import { createDatabaseConnection } from './system/database/connect';
+import mongoose, { Connection } from "mongoose" 
+import { swaggerInit } from './util/swagger';
 
 
 // **** Run **** //
+var db: Connection = mongoose.connection
 
-const server: Server = createServer(app)
-const SERVER_START_MSG = ('Express server started on port: ' + 
-  EnvVars.Port.toString());
+async function start()
+{
 
-
-
-server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG));
-
-
-logger.info('Log: Info')
-logger.trace('Log: trace')
-logger.debug('Log: debug') 
+      var db: Connection = await createDatabaseConnection()
+      swaggerInit(app) 
+      const server: Server = createServer(app)
+      const SERVER_START_MSG = ('Express server started on port: ' + EnvVars.Port.toString());
+      server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG)); 
 
 
-process.on("SIGINT", ()=>{  gracefulShutdown() } ) 
-process.on("SIGTERM", ()=>{ gracefulShutdown() } )
+      process.on("SIGINT", ()=>{  gracefulShutdown() } ) 
+      process.on("SIGTERM", ()=>{ gracefulShutdown() } )
 
-
-
-function gracefulShutdown()
+      function gracefulShutdown()
 {
   try 
   {
@@ -53,5 +51,8 @@ function gracefulShutdown()
     console.log("Error occured while attempting graceful shutdown ") 
     console.log(e)
   }
+      }
+
 }
 
+start()
