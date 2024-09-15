@@ -2,13 +2,30 @@
 import { Express } from "express-serve-static-core"
 import { userRoutes } from "./user"
 import logger from "@src/system/logger/logger"
+import { learningModuleRoutes } from "./LearningModule/learningModule.route"
+import { quizModuleRoutes } from "./quiz/quiz.route"
+import { learningModulePartRoutes } from "./learningModulePart/learningModulePart"
+import { learningAreaRoutes } from "./learningArea/learningArea.route"
+import { learningProfileRoutes } from "./learningProfile/learningProfile.route"
 
 export function routes( app: Express )
 {
     try 
     {
+       
+
+        learningProfileRoutes( app ) 
         userRoutes( app ) 
-        logger.info("API ROUTES CREATED") 
+        
+        // Learning 
+        learningModulePartRoutes( app ) 
+        learningModuleRoutes(app) 
+        quizModuleRoutes( app ) 
+        learningAreaRoutes( app ) 
+        
+      
+
+        logger.info("API ROUTES CREATED")   
     }
     catch(e: any )
     {

@@ -38,6 +38,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const learningProfile_1 = require("./learningProfile");
+const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const userSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
@@ -64,6 +66,14 @@ const userSchema = new mongoose_1.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    newUser: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    learningProfile: {
+        type: [learningProfile_1.LearningModuleOverviewSchema]
     }
 }, {
     timestamps: true
@@ -83,6 +93,7 @@ userSchema.methods.comparePassword = function (candidatePassword) {
             return yield bcrypt_1.default.compare(candidatePassword, this.password);
         }
         catch (e) {
+            logger_1.default.error(e, 'Bcrypt Error');
             return false;
         }
     });

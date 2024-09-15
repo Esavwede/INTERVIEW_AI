@@ -13,12 +13,12 @@ function swaggerInit(app) {
             definition: {
                 openapi: '3.0.0',
                 info: {
-                    title: 'my api',
-                    description: 'my api',
+                    title: 'Interview AI',
+                    description: 'A documentation of all API Routes, **excluding admin Routes**',
                     version: '1.0.0'
                 }
             },
-            apis: ['./src/routes/**/*.ts']
+            apis: ['./src/docs/**/*.ts']
         };
         const openapiSpecs = (0, swagger_jsdoc_1.default)(options);
         app.use('/docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(openapiSpecs));

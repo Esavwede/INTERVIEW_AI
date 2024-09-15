@@ -1,18 +1,23 @@
 import mongoose, { Schema, Document } from "mongoose" 
 import bcrypt from "bcrypt" 
+import { ILearningModuleOverview, LearningModuleOverviewSchema } from "./learningProfile"
+import logger from "@src/system/logger/logger"
+
 
 export interface IUser extends Document 
 {
   firstname: string, 
   lastname: string,
   email: string, 
-  password: string, 
+  password: string,
   isVerified: boolean, 
+  newUser: boolean, 
   createdAt: Date, 
   updatedAt: Date, 
+  learningProfile: ILearningModuleOverview[], 
   comparePassword( candidatePassword: string): Promise<boolean> 
 }
-
+// 
 
   const userSchema = new Schema<IUser>(
     {
@@ -46,6 +51,16 @@ export interface IUser extends Document
           type: Boolean,
           required: true, 
           default: false 
+        },
+        newUser: 
+        {
+          type: Boolean, 
+          required: true, 
+          default: true 
+        },
+        learningProfile:
+        {
+          type: [ LearningModuleOverviewSchema ]
         }
     },
     {
@@ -69,6 +84,7 @@ userSchema.methods.comparePassword = async function( candidatePassword: string )
     }
     catch(e: any)
     {
+        logger.error(e,'Bcrypt Error') 
         return false
     }
 }

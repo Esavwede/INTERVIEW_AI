@@ -67,7 +67,8 @@
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
     "paths": {
       "@src/*": [
-        "src/*"
+        "src/*",
+        "." 
       ],
     },
     "useUnknownInCatchVariables": false
@@ -76,7 +77,7 @@
     "src/**/*.ts",
     "spec/**/*.ts",
     "build.ts"
-, "swagger.ts"  ],
+, "swagger.ts" , "types.d.ts" ],
   "exclude": [
     "src/public/"
   ]

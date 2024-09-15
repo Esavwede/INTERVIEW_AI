@@ -8,6 +8,7 @@ import path from 'path';
 import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
+import cors from "cors" 
 
 import 'express-async-errors';
 
@@ -26,10 +27,23 @@ const app = express();
 
 // **** Setup **** //
 
+
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
+
+
 // Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cookieParser(EnvVars.CookieProps.Secret));
+app.use(cookieParser(EnvVars.CookieProps.Secret))
+
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {

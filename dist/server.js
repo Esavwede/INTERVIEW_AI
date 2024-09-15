@@ -19,6 +19,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
+app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Dev.valueOf()) {
     app.use((0, morgan_1.default)('dev'));
 }

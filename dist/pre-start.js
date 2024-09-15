@@ -24,7 +24,7 @@ if (args.env === "production") {
 }
 else {
     result2 = dotenv_1.default.config({
-        path: path_1.default.join(__dirname, `../etc/secrets/${args.env}.env`),
+        path: path_1.default.join(__dirname, `../env/${args.env}.env`),
     });
     if (result2.error) {
         throw result2.error;
