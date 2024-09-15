@@ -1,15 +1,19 @@
 import { UserService } from "@src/services/user/user";
 import { UserRepository } from "@src/repos/user/user.repo";
 import  { Request, Response } from "express-serve-static-core" 
-import { SignupInput} from "@src/schemas/user/signupSchema";
+import { SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
-import logger from "@src/system/logger/logger";
-import { generateJwtToken } from "@src/util/Auth/tokens";
+import path from "path";
 import { config } from "dotenv"
 config() 
 
 // Interfaces 
-import { INewUser } from "@src/repos/user/user.repo";
+import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
+import { SaveLearningModuleOverviewSchema } from "@src/schemas/learningModule/learningModule.schema";
+import { ILearningModuleOverview } from "@src/models/learningProfile";
+import { AnyAppError } from "@src/util/Errors/Endpoints/anyAppError";
+import { ConflictError } from "@src/util/Errors/Endpoints/conflictError";
+import logger from "@src/system/logger/logger";
 
 
 export class UserController 
@@ -26,19 +30,38 @@ export class UserController
 
     async signup(req: Request<{}, {}, SignupInput["body"]>, res: Response)
     {
-        console.log(" Signing up user ")
-        console.log( process.env.NODE_ENV ) 
-        const userExists = await this.userService.findByEmail( req.body.email ) 
+        try 
+        {
+                 
 
+        logger.info(`User_Signup_Controller: Signin Up New User`)
+
+        const email = req.body.email 
+        const userExists = await this.userService.findByEmail( email ) 
 
         if( userExists )
         {
-            return res.status(409).json({ msg:"Email Taken"})
+            logger.info(`User Email: ${ email } Taken `)
+            throw new ConflictError("Account with this email exists")
         }
 
-        const newUser: INewUser = await this.userService.create( req.body )
+        const protocol = req.protocol || 'https' || 'http'
+        const host = req.get('host') || 'localhost:3000'
+        const domain = `${protocol}://${host}`
+
+        await this.userService.create( req.body, domain  )
         
-        return res.status(201).json({ status: "success", msg:"user created", data: { newUser } })
+        return res.status(201).json({ status: "success", msg:"User Signup Successfull" })
+
+        }
+        catch(e: any )
+        {
+            const err: AnyAppError = e as AnyAppError
+
+            if( !err.statusCode ) return res.status(500).json({ success: false, msg:"SERVER ERROR"})
+
+            return res.status( err.statusCode ).json({ success: false, msg: err.message })
+        }
     }
 
 
@@ -48,37 +71,80 @@ export class UserController
         {
              const { password, email } = req.body 
 
-             const user =  await this.userService.findByEmail( email ) 
+             const response = await this.userService.signin( email, password )
 
-             if( !user )
-            { 
-                return res.status(400).json({ msg:"check login details"} )
-            }
-
-             const passwordValid = await user.comparePassword( password )
-
-             if( !passwordValid )
-             { 
-                return res.status(400).json({ msg:"check login details"})
-             }
-
-              const accessToken = generateJwtToken( user.toObject() )
-              const refreshToken = generateJwtToken( user.toObject() )
-
-              if( !accessToken || !refreshToken )
-              { 
-                return res.status(500).json({ msg:"Server Error" })
-              }
-            
-             
-             return res.status(200).send({ "msg":"signin successfull", body:{ refreshToken, accessToken }})
+             return res.status(200).json( response ) 
+        
         }
-        catch(e)
+        catch(e: any )
         {
-            logger.error(e,'SIGNUP ERROR')
-            return res.status(500).json({ msg:"server error" })
+            const err = e as AnyAppError
+
+            if( !err.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"}) 
+            return res.status( err.statusCode  ).json({ success: false, message: e.message })
         }
     }
 
+    async verifyUser( req: Request<{},{},{}, VerifyUserSchema['query']>, res: Response)
+    {
+        try 
+        {
+            const userID = req.query.token 
+
+            await this.userService.verifyUser( userID ) 
+        
+            return res.status(200).json({ success: true, msg:"User Verified"})
+        }
+        catch(e: any)
+        {
+            const err = e as AnyAppError
+
+            if( !err.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"})
+
+            return res.status( err.statusCode ).json({ success: false, msg: err.message })
+        }
+    }
+
+    async skipOnboarding(req: Request, res: Response)
+    {
+        try 
+        {
+            const userId =  req.user?._id 
+            if( !userId ){ return res.status(400).json({ success: false, msg:"could not authenticate user"})}
+
+            await this.userService.setUserNewToFalse( userId )
+            return res.status(200).json({ success: true, msg:"Onboarding Skipped"})
+        }
+        catch(e: any)
+        {
+            if( e instanceof NotFoundError )
+            {
+                return res.status( e.statusCode ).json({ success: false, msg: e.message })
+            }
+
+                return res.status(500).json({ success: false, msg: "Server Error"})
+        }
+    }
+
+    async addLearningModulesToUserProfile(req: Request<{},{},SaveLearningModuleOverviewSchema['body']>, res: Response)
+    {
+        try 
+        {
+            const userId = req.user?._id 
+            if( !userId ) return res.status(401).json({ success: false, msg:"could not authenticated user"})
+            
+            const learningModuleOverview = req.body.learningModules as ILearningModuleOverview[]
+            await this.userService.saveUserLearningModuleOverview( userId, learningModuleOverview)
+            return res.status(200).json({ success: true, msg:"Learning Modules Overview Saved to user Learning Profile"})
+        }
+        catch(e: any)
+        {
+           
+                const err = e as AnyAppError
+                if( !err.statusCode ) return res.status(500).json({ success: false, msg: 'Server Error' })
+                
+                return res.status( err.statusCode ).json({ success: false, msg: err.message }) 
+        }
+    }
 
 }
