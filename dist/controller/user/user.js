@@ -20,6 +20,7 @@ const dotenv_1 = require("dotenv");
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const conflictError_1 = require("@src/util/Errors/Endpoints/conflictError");
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
+const tokens_1 = require("@src/util/Auth/tokens");
 class UserController {
     constructor() {
         const userRepository = new user_repo_1.UserRepository();
@@ -61,6 +62,32 @@ class UserController {
                 if (!err.statusCode)
                     return res.status(500).json({ success: false, msg: "Server Error" });
                 return res.status(err.statusCode).json({ success: false, message: e.message });
+            }
+        });
+    }
+    signinWithGoogle(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                var user = req.user;
+                console.log(req.user);
+                if (!user)
+                    return res.status(500).json({ success: false, msg: "User Object Empty" });
+                const { _id, firstname, lastname, email, learningProfile, newUser } = user;
+                const signDetails = { _id, email, firstname, lastname };
+                const accessToken = (0, tokens_1.generateJwtToken)(signDetails);
+                const refreshToken = (0, tokens_1.generateJwtToken)(signDetails);
+                const newUserReturnData = { user: { newUser: true, firstname, lastname }, tokens: { accessToken, refreshToken } };
+                if (newUser) {
+                    return res.status(200).json({ success: true, data: newUserReturnData });
+                }
+                const userReturnData = { user: { newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens: { accessToken, refreshToken } };
+                return res.status(200).json({ success: true, data: userReturnData });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: "Server Error" });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
             }
         });
     }

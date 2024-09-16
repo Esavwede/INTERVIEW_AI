@@ -43,7 +43,7 @@ export interface IUser extends Document
         password:
         {
           type: String, 
-          required: true, 
+          required: false, 
           minlength: 6 
         },
         isVerified:   

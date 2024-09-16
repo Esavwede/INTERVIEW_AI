@@ -4,6 +4,8 @@
 import { config } from "dotenv"
 config()
 
+
+
 import cors from "cors" 
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -11,8 +13,9 @@ import path from 'path';
 import helmet from 'helmet';
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
-
+import cookieSession from 'cookie-session';
 import 'express-async-errors';
+import passport from "./middleware/googleAuth/signinWithGoogle"
 
 
 import EnvVars from '@src/common/EnvVars';
@@ -33,8 +36,20 @@ app.use(cookieParser(EnvVars.CookieProps.Secret))
 
 // Cors 
 app.use(cors({
-  origin: '*', // Allows all origins, you can restrict this to specific origins
+  origin: '*', // Allows clear all origins, you can restrict this to specific origins
 }));
+
+
+// Cookie Sessions 
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  keys: [process.env.COOKIE_KEY || 'random-cookie-key']
+}))
+
+
+// Passport 
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Serve static files from the 'public' directory
@@ -93,11 +108,21 @@ app.get('/', (_: Request, res: Response) => {
 
 // Redirect to login if not logged in.
 app.get('/users', (_: Request, res: Response) => {
-  throw new Error("Sample Error") 
   return res.status(200).json({ success: true, "msg":"Welcome to the Interview AI API"})
 });
 
+app.get('/auth/google', passport.authenticate('google', {
+  scope: ['profile', 'email']
+}));
+
+
+// app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
+//   // Successful authentication, redirect home.
+//   console.log( req.user ) 
+//   res.send("Authentication Successfull For Interview AI") 
+// });
 
 // **** Export default **** //
 
-export default app;
+export { passport } 
+export default app

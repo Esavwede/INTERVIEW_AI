@@ -6,9 +6,9 @@ import { UserController } from "@src/controller/user/user"
 import { validateRequestSchema } from "@src/middleware/validate/request/validateRequestSchema"
 import { OnboardingValidationSchema } from "@src/schemas/onboarding/onboarding.schema"
 import { validateRequestToken } from "@src/util/Auth/tokens"
+import { passport } from "@src/server"
 
 const router = Router() 
-
 
 export function userRoutes( app: Express )
 {
@@ -23,10 +23,11 @@ export function userRoutes( app: Express )
 
     router.patch('/onboarding/skip' , validateRequestToken, userController.skipOnboarding.bind( userController ) )     
 
-    router.patch('/onboarding' , validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) )     
+    router.patch('/onboarding' , validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) ) 
+    
+    app.get('/auth/google/callback', passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind( userController ) )
 
     router.patch('/learning-profile', validateRequestSchema( OnboardingValidationSchema ), userController.addLearningModulesToUserProfile.bind( userController))
-
 
     app.use('/api/v1', router )
     logger.info("User Routes Created")

@@ -3,7 +3,6 @@ import { UserRepository } from "@src/repos/user/user.repo";
 import  { Request, Response } from "express-serve-static-core" 
 import { SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
-import path from "path";
 import { config } from "dotenv"
 config() 
 
@@ -14,6 +13,7 @@ import { ILearningModuleOverview } from "@src/models/learningProfile";
 import { AnyAppError } from "@src/util/Errors/Endpoints/anyAppError";
 import { ConflictError } from "@src/util/Errors/Endpoints/conflictError";
 import logger from "@src/system/logger/logger";
+import { generateJwtToken } from "@src/util/Auth/tokens";
 
 
 export class UserController 
@@ -64,7 +64,6 @@ export class UserController
         }
     }
 
-
     async signin( req: Request<{}, {}, UserSigninDTO>, res: Response )
     {
         try 
@@ -82,6 +81,47 @@ export class UserController
 
             if( !err.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"}) 
             return res.status( err.statusCode  ).json({ success: false, message: e.message })
+        }
+    }
+
+
+    async signinWithGoogle(req: Request, res: Response )
+    {
+        try 
+        {
+           
+            var user = req.user 
+
+            console.log( req.user ) 
+            if( !user ) return res.status(500).json({ success: false, msg:"User Object Empty" })
+                
+            // User Details 
+            const { _id, firstname, lastname,email, learningProfile, newUser } = user 
+            const signDetails = { _id, email,  firstname,lastname }
+
+            // JWT Tokens 
+            const accessToken = generateJwtToken( signDetails )
+            const refreshToken = generateJwtToken( signDetails )
+           
+    
+            // Data For NewUser 
+            const newUserReturnData = { user:{  newUser: true, firstname, lastname }, tokens:{ accessToken, refreshToken}  }
+
+            if( newUser ) 
+            {
+                return res.status(200).json({ success: true, data: newUserReturnData } ) // Returns New User Details  
+            }
+            
+            const userReturnData = {  user:{  newUser: false, userId: _id, firstname, lastname, learningProfile}, tokens:{ accessToken, refreshToken } }
+
+            return res.status(200).json({ success: true, data: userReturnData }) // Returns User Details 
+        }
+        catch( err : any )
+        {
+            const e = err as AnyAppError 
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg: "Server Error" })
+
+            return res.status( e.statusCode ).json({ success: false, msg: e.message }) 
         }
     }
 
@@ -109,7 +149,7 @@ export class UserController
     {
         try 
         {
-            const userId =  req.user?._id 
+            const userId = req.user?._id 
             if( !userId ){ return res.status(400).json({ success: false, msg:"could not authenticate user"})}
 
             await this.userService.setUserNewToFalse( userId )
@@ -146,5 +186,6 @@ export class UserController
                 return res.status( err.statusCode ).json({ success: false, msg: err.message }) 
         }
     }
+
 
 }

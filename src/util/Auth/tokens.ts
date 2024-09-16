@@ -27,6 +27,7 @@ export function generateJwtToken( user: object ): string | boolean
     }
     catch(e: any)
     {
+        logger.error(e,"JWT_SIGNING_ERROR")
         throw new ServerError("Server Encountered Error While Signing User ")
     }
 }
