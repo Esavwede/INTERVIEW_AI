@@ -12,7 +12,7 @@
  * /api/v1/quizzes/{quizId}:
  *   get:
  *     summary: Gets a Quiz
- *     description: Returns a quiz for a particular lesson/part
+ *     description: Returns a quiz belonging to the part of a module
  *     tags:
  *       - Quiz
  *     security:
@@ -130,7 +130,7 @@
  *                   example: false
  *                 msg:
  *                   type: string
- *                   description: Information on failure 
+ *                   description: Information on failure
  *                   example: "Quiz not found"
  *       '500':
  *         description: Server error
