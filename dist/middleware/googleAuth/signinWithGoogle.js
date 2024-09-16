@@ -35,68 +35,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-const mongoose_1 = __importStar(require("mongoose"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const learningProfile_1 = require("./learningProfile");
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+const User_1 = require("@src/models/User");
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
-const userSchema = new mongoose_1.Schema({
-    firstname: {
-        type: String,
-        required: true,
-        minlength: 2
-    },
-    lastname: {
-        type: String,
-        required: true,
-        minlength: 2
-    },
-    email: {
-        type: String,
-        required: true,
-        minlength: 2,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: false,
-        minlength: 6
-    },
-    isVerified: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    newUser: {
-        type: Boolean,
-        required: true,
-        default: true
-    },
-    learningProfile: {
-        type: [learningProfile_1.LearningModuleOverviewSchema]
-    }
-}, {
-    timestamps: true
-});
-userSchema.pre("save", function (next) {
+const serverError_1 = require("@src/util/Errors/Endpoints/serverError");
+const user_repo_1 = require("@src/repos/user/user.repo");
+const passport_1 = __importDefault(require("passport"));
+const passport_google_oauth2_1 = require("passport-google-oauth2");
+const userRepo = new user_repo_1.UserRepository();
+const authCredentials = {
+    clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+};
+function authCallBack(accessToken, refreshToken, profile, done) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!this.isModified('password'))
-            return next();
-        const salt = yield bcrypt_1.default.genSalt(10);
-        this.password = yield bcrypt_1.default.hash(this.password, salt);
-        next();
-    });
-});
-userSchema.methods.comparePassword = function (candidatePassword) {
-    return __awaiter(this, void 0, void 0, function* () {
+        var _a;
         try {
-            return yield bcrypt_1.default.compare(candidatePassword, this.password);
+            var email = profile.emails[0].value;
+            const user = yield userRepo.findByEmail(email);
+            if (!(user === null || user === void 0 ? void 0 : user._id)) {
+                logger_1.default.info("SIGNIN_WITH_GOOGLE: New User Login");
+                const firstName = profile.name.givenName;
+                const lastName = profile.name.familyName;
+                const email = (_a = profile.emails[0]) === null || _a === void 0 ? void 0 : _a.value;
+                const newUserDoc = { firstname: firstName, lastname: lastName, email };
+                const newUser = yield User_1.User.create(newUserDoc);
+                return done(null, newUser);
+            }
+            logger_1.default.info("SIGNIN_WITH_GOOGLE: Existing User Login");
+            return done(null, user);
         }
         catch (e) {
-            logger_1.default.error(e, 'Bcrypt Error');
-            return false;
+            logger_1.default.error(e, `SIGNIN WITH GOOGLE ERROR: Could Not Signin User`);
+            throw new serverError_1.ServerError("Error Occured while signing in User with google");
         }
     });
-};
-exports.User = mongoose_1.default.model("User", userSchema);
-//# sourceMappingURL=User.js.map
+}
+passport_1.default.use(new passport_google_oauth2_1.Strategy(authCredentials, authCallBack));
+exports.default = passport_1.default;
+//# sourceMappingURL=signinWithGoogle.js.map

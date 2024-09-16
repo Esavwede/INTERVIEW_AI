@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.passport = void 0;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const cors_1 = __importDefault(require("cors"));
@@ -12,7 +13,10 @@ const path_1 = __importDefault(require("path"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_1 = __importDefault(require("express"));
 const jet_logger_1 = __importDefault(require("jet-logger"));
+const cookie_session_1 = __importDefault(require("cookie-session"));
 require("express-async-errors");
+const signinWithGoogle_1 = __importDefault(require("./middleware/googleAuth/signinWithGoogle"));
+exports.passport = signinWithGoogle_1.default;
 const EnvVars_1 = __importDefault(require("@src/common/EnvVars"));
 const HttpStatusCodes_1 = __importDefault(require("@src/common/HttpStatusCodes"));
 const classes_1 = require("@src/common/classes");
@@ -25,6 +29,12 @@ app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
 app.use((0, cors_1.default)({
     origin: '*',
 }));
+app.use((0, cookie_session_1.default)({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY || 'random-cookie-key']
+}));
+app.use(signinWithGoogle_1.default.initialize());
+app.use(signinWithGoogle_1.default.session());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Dev.valueOf()) {
     app.use((0, morgan_1.default)('dev'));
@@ -49,8 +59,10 @@ app.get('/', (_, res) => {
     return res.status(200).json({ success: true, "msg": "Welcome to the Interview AI API" });
 });
 app.get('/users', (_, res) => {
-    throw new Error("Sample Error");
     return res.status(200).json({ success: true, "msg": "Welcome to the Interview AI API" });
 });
+app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
+    scope: ['profile', 'email']
+}));
 exports.default = app;
 //# sourceMappingURL=server.js.map

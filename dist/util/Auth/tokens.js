@@ -23,6 +23,7 @@ function generateJwtToken(user) {
         return token;
     }
     catch (e) {
+        logger_1.default.error(e, "JWT_SIGNING_ERROR");
         throw new serverError_1.ServerError("Server Encountered Error While Signing User ");
     }
 }

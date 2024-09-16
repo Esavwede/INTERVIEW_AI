@@ -1,15 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "inlineSources": true,
+    "sourceMap": true,         // Enable source maps
+    "inlineSources": true,     // Include original source in the map
     "removeComments": true
   },
-  "sourceRoot": "/",
   "exclude": [
     "spec",
     "src/public/",
     "build.ts",
-    "dist" 
+    "dist"
   ]
 }
