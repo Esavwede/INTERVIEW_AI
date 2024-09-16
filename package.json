@@ -2,14 +2,14 @@
   "name": "INTERVIEW_AI",
   "version": "0.0.0",
   "scripts": {
-    "build": "npx ts-node build.ts && npm run sentry:sourcemaps",
+    "build": "npx ts-node build.ts && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps",
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
     "start": "node -r module-alias/register ./dist --env=production",
     "dev": "nodemon | pino-pretty",
     "test": "jest",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org nodejs-nf --project node-express dist && sentry-cli sourcemaps upload --org nodejs-nf --project node-express dist"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org nodejs-nf --project node-express ./dist && sentry-cli sourcemaps upload --org nodejs-nf --project node-express ./dist"
   },
   "nodemonConfig": {
     "watch": [

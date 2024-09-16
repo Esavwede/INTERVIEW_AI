@@ -1,13 +1,10 @@
 /**
  * Setup express server.
  */
-
-
-// Import with `import * as Sentry from "@sentry/node"` if you are using ESM
 import { config } from "dotenv"
-config() 
-const Sentry = require("@sentry/node");
-const { nodeProfilingIntegration } = require("@sentry/profiling-node");
+config()
+
+import cors from "cors" 
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
@@ -25,28 +22,19 @@ import { NodeEnvs } from '@src/common/misc';
 import { routes } from './routes';
 
 
-
-
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN ,
-  integrations: [
-    nodeProfilingIntegration(),
-  ],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
-});
-
-
 const app = express();
 
 // Basic middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(EnvVars.CookieProps.Secret))
+
+
+
+// Cors 
+app.use(cors({
+  origin: '*', // Allows all origins, you can restrict this to specific origins
+}));
 
 
 // Serve static files from the 'public' directory
@@ -66,8 +54,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 // Add APIs, must be after middleware
 routes(app) 
 
-// Sentry Error Monitoring 
-Sentry.setupExpressErrorHandler(app); 
+
 
 // Add error handler
 app.use((

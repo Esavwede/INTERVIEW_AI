@@ -24,3 +24,5 @@ var Http = (() => {
     delete: (path) => fetch(path, getOptions('DELETE')),
   };
 })();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9f7c48c9-6e71-50e7-95a7-ee6cdedbf9d0")}catch(e){}}();
+//# debugId=9f7c48c9-6e71-50e7-95a7-ee6cdedbf9d0
