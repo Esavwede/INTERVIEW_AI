@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="04f55a8b-f026-5d55-9755-e5ae0691b698")}catch(e){}}();
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -24,21 +22,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
-const allowedOrigins = [
-    'https://yourproductiondomain.com',
-    'http://localhost:3000',
-];
 app.use((0, cors_1.default)({
-    origin: function (origin, callback) {
-        if (!origin)
-            return;
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: '*',
 }));
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Dev.valueOf()) {
@@ -69,4 +54,3 @@ app.get('/users', (_, res) => {
 });
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=04f55a8b-f026-5d55-9755-e5ae0691b698

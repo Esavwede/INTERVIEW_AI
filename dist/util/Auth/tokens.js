@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5d3bf38c-defc-5652-8c14-7b2a08e7938e")}catch(e){}}();
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -45,4 +43,3 @@ function validateRequestToken(req, res, next) {
     }
 }
 //# sourceMappingURL=tokens.js.map
-//# debugId=5d3bf38c-defc-5652-8c14-7b2a08e7938e

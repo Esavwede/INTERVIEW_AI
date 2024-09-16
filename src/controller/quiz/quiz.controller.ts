@@ -39,7 +39,6 @@ export class QuizController
            const questionIds  = await this.questionService.create( questions )
 
             
-
             const quizBody = { description, title, moduleId, modulePartNumber, questions: questionIds }
 
             const quizCreated = await this.quizService.create( quizBody ) 

@@ -15,7 +15,6 @@ export class QuizRepo
 
     }
 
-
     async create(  quiz: IQuizDTO_Req ): Promise< boolean > 
     {
         try 
@@ -35,11 +34,10 @@ export class QuizRepo
             return false 
         }
     }
-
     
     async find( _id: string ): Promise< { } | null > 
     {
-            var quiz = await Quiz.findById(_id).populate('questions').select('_id description title questions moduleId modulePartNumber').lean() 
+            var quiz = await Quiz.findById(_id).populate({ path: 'questions', select:'_id text options' }).select('_id description title questions moduleId modulePartNumber').lean() 
 
             logger.debug( quiz ) 
             return quiz
@@ -60,7 +58,5 @@ export class QuizRepo
         const { deletedCount } = await Quiz.deleteOne({ _id })
         return deletedCount
     }
-
-
 
 }
