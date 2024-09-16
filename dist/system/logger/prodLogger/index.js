@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1176f437-de18-5a37-b9eb-7c1c22a805e5")}catch(e){}}();
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,4 +14,3 @@ const prodLogger = (0, pino_1.default)({
 });
 exports.default = prodLogger;
 //# sourceMappingURL=index.js.map
-//# debugId=1176f437-de18-5a37-b9eb-7c1c22a805e5

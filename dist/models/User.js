@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5191a20b-f216-568d-b873-53fc30abe161")}catch(e){}}();
-
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -102,4 +100,3 @@ userSchema.methods.comparePassword = function (candidatePassword) {
 };
 exports.User = mongoose_1.default.model("User", userSchema);
 //# sourceMappingURL=User.js.map
-//# debugId=5191a20b-f216-568d-b873-53fc30abe161

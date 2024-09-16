@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d906959a-3865-5977-9cfc-df0c3a06c938")}catch(e){}}();
-
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26,4 +24,3 @@ function userRoutes(app) {
     logger_1.default.info("User Routes Created");
 }
 //# sourceMappingURL=index.js.map
-//# debugId=d906959a-3865-5977-9cfc-df0c3a06c938

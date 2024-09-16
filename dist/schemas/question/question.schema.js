@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d15b716e-02c0-58d5-97de-1a846e74765d")}catch(e){}}();
-
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateQuestionsValidationSchema = void 0;
 const zod_1 = require("zod");
@@ -17,4 +15,3 @@ const QuestionsSchema = zod_1.z.object({
 });
 exports.CreateQuestionsValidationSchema = zod_1.z.array(QuestionsSchema);
 //# sourceMappingURL=question.schema.js.map
-//# debugId=d15b716e-02c0-58d5-97de-1a846e74765d

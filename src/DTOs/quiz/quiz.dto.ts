@@ -1,7 +1,5 @@
-import { IQuestion } from "@src/models/Question"
-import { IQuestionDTO_Req } from "../question/question.dto"
-import mongoose from "mongoose"
 
+import { IQuestionDTO_Req } from "../question/question.dto"
 
 
 

@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="faf18517-c391-5bff-96aa-ee35a8f3458a")}catch(e){}}();
-
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,7 +35,7 @@ class QuizRepo {
     }
     find(_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            var quiz = yield Quiz_1.Quiz.findById(_id).populate('questions').select('_id description title questions moduleId modulePartNumber').lean();
+            var quiz = yield Quiz_1.Quiz.findById(_id).populate({ path: 'questions', select: '_id text options' }).select('_id description title questions moduleId modulePartNumber').lean();
             logger_1.default.debug(quiz);
             return quiz;
         });
@@ -59,4 +57,3 @@ class QuizRepo {
 }
 exports.QuizRepo = QuizRepo;
 //# sourceMappingURL=quiz.repo.js.map
-//# debugId=faf18517-c391-5bff-96aa-ee35a8f3458a

@@ -1,6 +1,4 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f082c4a0-a4e0-5183-8ee3-c6896c0cff92")}catch(e){}}();
-
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -91,4 +89,3 @@ class QuizController {
 }
 exports.QuizController = QuizController;
 //# sourceMappingURL=quiz.controller.js.map
-//# debugId=f082c4a0-a4e0-5183-8ee3-c6896c0cff92
