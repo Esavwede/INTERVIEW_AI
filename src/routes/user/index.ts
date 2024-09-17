@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { Express } from "express-serve-static-core" 
 import logger from "../../system/logger/logger" 
-import { SignupSchema, VerifyUserValidationSchema} from "@src/schemas/user/signupSchema"
+import { SaveUserFirstAndLastNameValidationSchema, SignupSchema, VerifyUserValidationSchema} from "@src/schemas/user/signupSchema"
 import { UserController } from "@src/controller/user/user"
 import { validateRequestSchema } from "@src/middleware/validate/request/validateRequestSchema"
 import { OnboardingValidationSchema } from "@src/schemas/onboarding/onboarding.schema"
@@ -18,6 +18,8 @@ export function userRoutes( app: Express )
     router.post('/signup', validateRequestSchema( SignupSchema ), userController.signup.bind( userController ) )
 
     router.post('/signin', userController.signin.bind( userController ) ) 
+
+    router.patch('/users/update', validateRequestToken, validateRequestSchema( SaveUserFirstAndLastNameValidationSchema ), userController.update.bind( userController ) )
       
     router.get('/users/verify', validateRequestSchema( VerifyUserValidationSchema ) ,userController.verifyUser.bind( userController ) ) 
 

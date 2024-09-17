@@ -1,7 +1,7 @@
 import { UserService } from "@src/services/user/user";
 import { UserRepository } from "@src/repos/user/user.repo";
 import  { Request, Response } from "express-serve-static-core" 
-import { SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
+import { SaveUserFirstAndLastNameSchema, SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
 import { config } from "dotenv"
 config() 
@@ -81,6 +81,31 @@ export class UserController
 
             if( !err.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"}) 
             return res.status( err.statusCode  ).json({ success: false, message: e.message })
+        }
+    }
+
+
+    async update(req: Request<{},{},SaveUserFirstAndLastNameSchema['body']>, res: Response )
+    {
+        try 
+        {
+            const userId = req.user?._id
+
+            if( !userId ) return res.status(500).json({ success: false, msg:"Server Error" })
+
+            const updateBody = req.body 
+
+            await this.userService.update( userId, updateBody ) 
+
+            return res.status(200).json({ success: true, msg:"User Update Successful"})
+        }
+        catch(err: any )
+        {
+            const e = err as AnyAppError 
+
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"})
+                
+            return res.status( e.statusCode ).json({ success: false, msg: e.message }) 
         }
     }
 

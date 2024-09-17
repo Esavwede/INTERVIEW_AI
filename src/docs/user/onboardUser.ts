@@ -9,7 +9,7 @@
  *       scheme: bearer
  *       bearerFormat: JWT
  * /api/v1/onboarding/:
- *   patch:
+ *   post:
  *     summary: Onboard User 
  *     description: Saves selected learning Modules to a user's learning profile.
  *     tags:

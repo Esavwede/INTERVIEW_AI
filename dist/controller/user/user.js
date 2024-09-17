@@ -65,6 +65,25 @@ class UserController {
             }
         });
     }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a._id;
+                if (!userId)
+                    return res.status(500).json({ success: false, msg: "Server Error" });
+                const updateBody = req.body;
+                yield this.userService.update(userId, updateBody);
+                return res.status(200).json({ success: true, msg: "User Update Successful" });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: "Server Error" });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
+            }
+        });
+    }
     signinWithGoogle(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

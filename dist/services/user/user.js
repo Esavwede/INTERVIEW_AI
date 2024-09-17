@@ -74,6 +74,20 @@ class UserService {
             }
         });
     }
+    update(userId, updateBody) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const updateResult = yield this.userRepository.update(userId, updateBody);
+                if (!updateResult) {
+                    throw new serverError_1.ServerError("Server Could Not Update User: " + userId);
+                }
+            }
+            catch (e) {
+                logger_1.default.error(e, `USER_SERVICE_ERROR: Error Occured while Saving Updating User: ${userId}  `);
+                throw e;
+            }
+        });
+    }
     verifyUser(userID) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

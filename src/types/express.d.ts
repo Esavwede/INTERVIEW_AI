@@ -6,8 +6,8 @@ import { Request } from "express-serve-static-core";
 
 export interface IUser {
   _id: string;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   email: string,
   learningProfile?: ILearningProfile[],
   newUser?: boolean 

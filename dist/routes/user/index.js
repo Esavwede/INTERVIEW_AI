@@ -17,6 +17,7 @@ function userRoutes(app) {
     const userController = new user_1.UserController();
     router.post('/signup', (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.SignupSchema), userController.signup.bind(userController));
     router.post('/signin', userController.signin.bind(userController));
+    router.patch('/users/update', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.SaveUserFirstAndLastNameValidationSchema), userController.update.bind(userController));
     router.get('/users/verify', (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.VerifyUserValidationSchema), userController.verifyUser.bind(userController));
     router.patch('/onboarding/skip', tokens_1.validateRequestToken, userController.skipOnboarding.bind(userController));
     router.patch('/onboarding', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));

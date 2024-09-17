@@ -1,9 +1,11 @@
+
+
 /**
  * @openapi
- * /api/v1/signup:
- *   post:
- *     summary: User Signup Route
- *     description: User Signup Route
+ * /api/v1/users/update:
+ *   patch:
+ *     summary: Updates A User 
+ *     description: Updates specific fields on the user like firstname, lastname, email.
  *     tags:
  *       - User
  *     requestBody:
@@ -12,26 +14,23 @@
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - email
- *               - password
- *               - confirmPassword
  *             properties:
+ *               firstname:
+ *                 type: string
+ *                 description: User's firstname
+ *                 example: firstname
+ *               lastname:
+ *                 type: string
+ *                 description: User's lastname
+ *                 example: lastname
  *               email:
  *                 type: string
  *                 description: User email
  *                 example: youremail@gmail.com
- *               password:
- *                 type: string
- *                 description: User password
- *                 example: password
- *               confirmPassword:
- *                 type: string
- *                 description: User confirm password
- *                 example: password
+ *             additionalProperties: false
  *     responses:
- *       '201':
- *         description: Returns user created response
+ *       '200':
+ *         description: User Update Successful 
  *         content:
  *           application/json:
  *             schema:
@@ -39,7 +38,7 @@
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: Signup Successful
+ *                   example: User Update Successful
  *                 success:
  *                   type: boolean
  *                   description: Status of operation
@@ -57,15 +56,15 @@
  *                   example: false
  *                 msg:
  *                   type: string
- *                   description: Info about operation
+ *                   description: Error that occurred with the request 
  *                   example: Bad Request
  *                 errors:
  *                   type: array
  *                   items:
  *                     type: string
- *                     example: 'Email field empty'
- *       '422':
- *         description: Invalid Request Body Items
+ *                     example: 'Firstname field empty'
+ *       '401':
+ *         description: User not authenticated 
  *         content:
  *           application/json:
  *             schema:
@@ -77,27 +76,7 @@
  *                   example: false
  *                 msg:
  *                   type: string
- *                   description: Info about operation
- *                   example: Invalid Request Body Items
- *                 errors:
- *                   type: array
- *                   items:
- *                     type: string
- *                     example: 'Invalid email format'
- *       '409':
- *         description: Account with email exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   description: If signup was successful
- *                   example: false
- *                 msg:
- *                   type: string
- *                   description: Info about operation
+ *                   description: Error message 
  *                   example: Account with this email exists
  *       '500':
  *         description: Server error
