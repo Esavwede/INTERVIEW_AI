@@ -5,27 +5,6 @@ export const SignupSchema = z.object(
     {
         body: z.object
         ({ 
-            firstname: z.string
-            (
-                {
-                    required_error: "firstname not Found In Request Body",
-                    invalid_type_error: "firstname must be of type String",
-                }
-            )
-            .min(2,'firstname length below 2')
-            .max(50,'firstname length cannot be more than 50'),
-
-
-            lastname: z.string
-            (
-                {
-                    required_error: "lastname not Found In Request Body",
-                    invalid_type_error: "lastname must be of type String",
-                }
-            )
-            .min(2,'lastname length below 2')
-            .max(50,'lastname length cannot be more than 50'),
-
             email: z.string
             (
                 {
@@ -78,6 +57,34 @@ export const VerifyUserValidationSchema = z.object
                         }
                     )
                     
+export const SaveUserFirstAndLastNameValidationSchema = z.object
+                                    (
+                                        {
+                                            body: z.object 
+                                                    (
+                                                        {
+                                                            firstname: z.string(
+                                                                                    {
+                                                                                        invalid_type_error:"Firstname Must be of Type String"
+                                                                                    }
+                                                                                ).optional(),
+                                                            lastname:   z.string(
+                                                                                    {
+                                                                                        invalid_type_error: "Lastname must be of type string" 
+                                                                                    }
+                                                                                 ).optional(),
+                                                            email:   z.string(
+                                                                                    {
+                                                                                        invalid_type_error: "email must be of type string" 
+                                                                                    }
+                                                                                 ).optional() 
+                                                        }
+                                                    )
+                                        }
+                                    )
+
+
 
  export type SignupInput =  TypeOf<typeof SignupSchema>
  export type VerifyUserSchema = z.infer<typeof VerifyUserValidationSchema> 
+ export type SaveUserFirstAndLastNameSchema = z.infer<typeof SaveUserFirstAndLastNameValidationSchema> 

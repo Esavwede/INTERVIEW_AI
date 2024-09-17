@@ -33,6 +33,15 @@ export class UserRepository
                 return user 
     }
 
+    async update( _id: string , updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' | 'password' > >): Promise< boolean | null > 
+    {
+        const { modifiedCount } = await User.updateOne({ _id },updateBody,{ upsert: false })
+
+        if( !modifiedCount ) return null 
+        return true 
+    }
+
+
     async findById( userID: string ): Promise< IUser | null > 
     {
             const user = await User.findByIdAndUpdate({ _id: userID },{ isVerified: true })
@@ -65,7 +74,6 @@ export class UserRepository
        
             return learningModuleOverview.learningProfile[0] 
     }
-
     
     async updateLearningModuleCurrentPart( userId: string, moduleId: string, newCurrentPartIndex: number )
     {

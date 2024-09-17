@@ -1,5 +1,3 @@
-
-
 /**
  * @openapi
  * /api/v1/signin:
@@ -27,7 +25,7 @@
  *                 description: User password
  *                 example: password
  *     responses:
- *       '200_for_newUser':
+ *       '200':
  *         description: Successful signin returns user data and tokens
  *         content:
  *           application/json:
@@ -97,7 +95,7 @@
  *                                 example: 66e5ec768f20443946e1ccfb
  *                               imgSrc:
  *                                 type: string
- *                                 description: Learning Module Image Url
+ *                                 description: Learning Module Image URL
  *                                 example: https://pictureurl.com/82932893rh9f2
  *                               description:
  *                                 type: string
@@ -130,7 +128,7 @@
  *                                 example: 66e5ec768f20443946e1ccfb
  *                               imgSrc:
  *                                 type: string
- *                                 description: Learning Module Image Url
+ *                                 description: Learning Module Image URL
  *                                 example: https://pictureurl.com/82932893rh9f2
  *                               description:
  *                                 type: string
@@ -163,7 +161,7 @@
  *                                 example: 66e5ec768f20443946e1ccfb
  *                               imgSrc:
  *                                 type: string
- *                                 description: Learning Module Image Url
+ *                                 description: Learning Module Image URL
  *                                 example: https://pictureurl.com/82932893rh9f2
  *                               description:
  *                                 type: string
@@ -196,7 +194,7 @@
  *                                 example: 66e5ec768f20443946e1ccfb
  *                               imgSrc:
  *                                 type: string
- *                                 description: Learning Module Image Url
+ *                                 description: Learning Module Image URL
  *                                 example: https://pictureurl.com/82932893rh9f2
  *                               description:
  *                                 type: string
@@ -223,18 +221,18 @@
  *                                 type: integer
  *                                 description: Total number of parts in the module
  *                                 example: 3
+ *                               _id:
+ *                                 type: string
+ *                                 description: Module identifier
+ *                                 example: 66e5ec768f20443946e1ccfb
  *                               imgSrc:
  *                                 type: string
- *                                 description: Learning Module Image Url
+ *                                 description: Learning Module Image URL
  *                                 example: https://pictureurl.com/82932893rh9f2
  *                               description:
  *                                 type: string
  *                                 description: Learning Module description
  *                                 example: Learn about a and b
- *                               _id:
- *                                 type: string
- *                                 description: Module identifier
- *                                 example: 66e5ec768f20443946e1ccfb
  *       '400':
  *         description: Bad Request
  *         content:
@@ -293,4 +291,23 @@
  *                 success:
  *                   type: boolean
  *                   description: Indicates that the requested resource was not found
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   description: Detailed error message
+ *                   example: 'Resource not found'
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 msg:
+ *                   type: string
+ *                   description: Description of the server error
+ *                   example: Internal Server Error
  */

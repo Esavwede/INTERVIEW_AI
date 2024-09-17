@@ -34,6 +34,14 @@ class UserRepository {
             return user;
         });
     }
+    update(_id, updateBody) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { modifiedCount } = yield User_1.User.updateOne({ _id }, updateBody, { upsert: false });
+            if (!modifiedCount)
+                return null;
+            return true;
+        });
+    }
     findById(userID) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield User_1.User.findByIdAndUpdate({ _id: userID }, { isVerified: true });

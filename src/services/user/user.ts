@@ -88,6 +88,21 @@ export class UserService
     }
 
 
+    async update( userId: string, updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' | 'password' > > ): Promise<void> 
+    {
+        try 
+        {
+            const updateResult = await this.userRepository.update( userId, updateBody ) 
+
+            if( !updateResult ){ throw new ServerError("Server Could Not Update User: " + userId ) }
+        }
+        catch(e: any )
+        {
+            logger.error(e,`USER_SERVICE_ERROR: Error Occured while Saving Updating User: ${ userId }  `)
+            throw e
+        }
+    }
+
     async verifyUser( userID: string )
     {
         try 
