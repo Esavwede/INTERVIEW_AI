@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = void 0;
+exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = void 0;
 const zod_1 = require("zod");
 exports.LearningModuleOverviewSchema = zod_1.z.object({
     moduleId: zod_1.z.string({
@@ -98,6 +98,22 @@ exports.GetLearningModulePartValidationSchema = zod_1.z.object({
     params: zod_1.z.object({
         moduleId: zod_1.z.string().min(1, 'Learning Module Id length cannot be less than 1 '),
         partNumber: zod_1.z.string({ required_error: "partNumber is required", invalid_type_error: "partNumber must be of type Number" })
+    })
+});
+exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
+    query: zod_1.z.object({
+        page: zod_1.z.string({
+            required_error: "page must be include in request query"
+        })
+            .min(1, 'page not included in request query'),
+        limit: zod_1.z.string({
+            required_error: "limit must be included in request query"
+        })
+            .min(1, 'limit must be included in request query '),
+        stageId: zod_1.z.string({
+            required_error: "stageId must be included in request params",
+            invalid_type_error: "stageId must be of type string"
+        })
     })
 });
 //# sourceMappingURL=learningModule.schema.js.map

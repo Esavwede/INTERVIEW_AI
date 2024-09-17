@@ -55,6 +55,24 @@ class LearningModuleController {
             }
         });
     }
+    getLearningModulesUnderStage(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const stageId = req.query.stageId;
+                const page = Number(req.query.page);
+                const limit = Number(req.query.limit);
+                if (page <= 0)
+                    return res.status(400).json({ success: false, msg: "Page cannot be less than 1" });
+                if (limit <= 0)
+                    return res.status(400).json({ success: false, msg: "limit cannot be less than 1" });
+                const learningModules = yield this.learningModuleService.getLearningModulesUnderStage(stageId, page, limit);
+                return res.status(200).json({ success: true, data: { learningModules } });
+            }
+            catch (e) {
+                return res.status(500).json({ success: false, msg: "Server Error" });
+            }
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

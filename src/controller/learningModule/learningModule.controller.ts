@@ -3,7 +3,7 @@ import { Request, Response } from "express-serve-static-core"
 import { LearningModuleService } from "@src/services/LearningModule/learningModule.service";
 import LearningModuleRepo from "@src/repos/LearningModule/learningModule.repo";
 import logger from "@src/system/logger/logger";
-import { CreateLearningModuleSchema, DeleteLearningModule, GetLearningModulePartSchema, PublishLearningModuleSchema, UpdateLearningModuleInput  } from "@src/schemas/learningModule/learningModule.schema";
+import { CreateLearningModuleSchema, DeleteLearningModule, GetLearningModulePartSchema, GetLearningModulesUnderStageSchema, PublishLearningModuleSchema, UpdateLearningModuleInput  } from "@src/schemas/learningModule/learningModule.schema";
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
 import { ILearningModule } from "@src/models/LearningModule";
 import { IUpdateLearningModuleDTO } from "@src/DTOs/learningModule/learningModule.dto";
@@ -67,6 +67,32 @@ export class LearningModuleController
             return res.status(500).json({ success: false, msg:"SERVER ERROR"})
         }
     }
+
+
+    async getLearningModulesUnderStage(
+        req: Request<   {}, {}, {},  GetLearningModulesUnderStageSchema['query'] >, 
+        res: Response )
+    {
+        try 
+        {
+            const stageId = req.query.stageId 
+            const page = Number( req.query.page ) 
+            const limit = Number( req.query.limit ) 
+
+            if( page <= 0 ) return res.status(400).json({ success: false, msg:"Page cannot be less than 1"})
+            if( limit <= 0 ) return res.status(400).json({ success: false, msg:"limit cannot be less than 1"})
+
+            const learningModules = await this.learningModuleService.getLearningModulesUnderStage( stageId, page, limit )
+            return res.status(200).json({ success: true, data:{ learningModules }})
+        }
+        catch(e: any)
+        {
+            return res.status(500).json({ success: false, msg: "Server Error" })
+        }
+    }
+
+
+
 
     async update( req: Request<UpdateLearningModuleInput['params'], {}, UpdateLearningModuleInput['body'] >, res: Response )
     {

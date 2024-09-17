@@ -27,6 +27,8 @@ export function userRoutes( app: Express )
 
     router.patch('/onboarding' , validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) ) 
     
+    router.post('/users/learning-modules', validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) )
+  
     app.get('/auth/google/callback', passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind( userController ) )
 
     router.patch('/learning-profile', validateRequestSchema( OnboardingValidationSchema ), userController.addLearningModulesToUserProfile.bind( userController))

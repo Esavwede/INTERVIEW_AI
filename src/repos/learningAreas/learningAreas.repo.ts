@@ -28,7 +28,6 @@ export class LearningAreaRepo
     }
 
 
-
     async delete( learningAreaId: string ): Promise<number> 
     {
         const { deletedCount } = await LearningArea.deleteOne({ _id: learningAreaId })

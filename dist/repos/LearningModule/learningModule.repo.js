@@ -93,6 +93,19 @@ class LearningModuleRepo {
             yield LearningModule_1.LearningModule.updateOne({ _id: moduleId }, { $inc: { totalParts: -1 } });
         });
     }
+    getLearningModulesUnderStage(stageId, page, limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const fields = '_id title area description imgSrc stage totalParts';
+            var skip = (page - 1) * limit;
+            const learningModules = yield LearningModule_1.LearningModule.find({ stage: stageId })
+                .select(fields)
+                .skip(skip)
+                .limit(limit);
+            if (learningModules.length === 0)
+                return null;
+            return learningModules;
+        });
+    }
 }
 exports.default = LearningModuleRepo;
 //# sourceMappingURL=learningModule.repo.js.map

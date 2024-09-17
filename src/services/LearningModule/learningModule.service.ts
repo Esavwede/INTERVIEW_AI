@@ -184,4 +184,30 @@ export class LearningModuleService
     {
         await this.learningModuleRepo.incrementNumberOfParts( moduleId )
     }
+
+
+    async getLearningModulesUnderStage
+    ( 
+        stageId: string,
+        page: number, 
+        limit: number 
+    ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'imgSrc' | 'totalParts'>[] | null >
+    {
+        try 
+        {
+            const learningModules = await this.learningModuleRepo.getLearningModulesUnderStage( stageId, page, limit ) 
+
+            if( !learningModules ) return null 
+            
+            return learningModules
+
+        }
+        catch(e: any )
+        {
+            logger.error(e,`LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${ stageId }`)
+            throw e 
+        }
+    }
+
+
 }   

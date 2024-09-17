@@ -21,6 +21,7 @@ function learningModuleRoutes(app) {
         router.get('/:id', (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.GetLearningModuleSchema), learningModuleController.get.bind(learningModuleController));
         router.patch('/:id', (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.UpdateLearningModuleSchema), learningModuleController.update.bind(learningModuleController));
         router.delete('/:id', (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.DeleteLearningModuleSchema), learningModuleController.delete.bind(learningModuleController));
+        router.get('/', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.GetLearningModulesUnderStageValidationSchema), learningModuleController.getLearningModulesUnderStage.bind(learningModuleController));
         router.get('/:moduleId/parts/:partNumber', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_2.GetLearningModulePartValidationSchema), learningModuleController.getPart.bind(learningModuleController));
         router.patch('/:id/publish', (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.PublishLearningModuleValidationSchema), learningModuleController.publish.bind(learningModuleController));
         app.use('/api/v1/modules', router);

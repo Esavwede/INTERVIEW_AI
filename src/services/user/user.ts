@@ -88,7 +88,7 @@ export class UserService
     }
 
 
-    async update( userId: string, updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' | 'password' > > ): Promise<void> 
+    async update( userId: string, updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' > > ): Promise<void> 
     {
         try 
         {
@@ -165,7 +165,7 @@ export class UserService
                     logger.info("User New")
                     // Fetch Learning Areas 
                     const learningModules = await LearningArea.find({})
-
+                    // 
 
                     const learningModulesGroupedByStage = groupLearningAreasByStage( learningModules )
                     console.dir( learningModulesGroupedByStage ) 

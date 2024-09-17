@@ -4,7 +4,7 @@ import { Router, Express } from "express"
 import logger from "@src/system/logger/logger"
 import { LearningModuleController } from "@src/controller/learningModule/learningModule.controller"
 import { validateRequestSchema } from "@src/middleware/validate/request/validateRequestSchema"
-import { CreateLearningModuleSchema, DeleteLearningModuleSchema, GetLearningModuleSchema, PublishLearningModuleValidationSchema, UpdateLearningModuleSchema } from "@src/schemas/learningModule/learningModule.schema"
+import { CreateLearningModuleSchema, DeleteLearningModuleSchema, GetLearningModuleSchema, GetLearningModulesUnderStageValidationSchema, PublishLearningModuleValidationSchema, UpdateLearningModuleSchema } from "@src/schemas/learningModule/learningModule.schema"
 import { LearningModulePartController } from "@src/controller/learningModulePart/learningModulePart.controller"
 import { GetLearningModulePartValidationSchema } from "@src/schemas/learningModule/learningModule.schema"
 import { validateRequestToken } from "@src/util/Auth/tokens"
@@ -209,16 +209,19 @@ export function learningModuleRoutes(app: Express )
         // Update Learning Module 
         router.patch('/:id', validateRequestSchema( UpdateLearningModuleSchema ), learningModuleController.update.bind( learningModuleController ) )
 
-
         // Delete Learning Module 
         router.delete('/:id', validateRequestSchema( DeleteLearningModuleSchema), learningModuleController.delete.bind( learningModuleController ) )
 
+        // Get Learning Modules Under a Stage 
+        router.get('/', validateRequestToken, validateRequestSchema( GetLearningModulesUnderStageValidationSchema ), learningModuleController.getLearningModulesUnderStage.bind( learningModuleController ) )
+       
         // Get Learning Module Part 
         router.get('/:moduleId/parts/:partNumber', validateRequestToken ,validateRequestSchema( GetLearningModulePartValidationSchema ), learningModuleController.getPart.bind( learningModuleController))
 
         // Publish Learning Module 
         router.patch('/:id/publish', validateRequestSchema( PublishLearningModuleValidationSchema ), learningModuleController.publish.bind( learningModuleController))
-    
+
+        
         app.use('/api/v1/modules', router )
 
         logger.info("Learning Module Routes Built")

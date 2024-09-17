@@ -47,7 +47,6 @@ export default class LearningModuleRepo
         }
     }
 
-
     async update( moduleID: string, moduleFields: IUpdateLearningModuleDTO ): Promise<number> 
     {
             const { modifiedCount} = await LearningModule.updateOne({ _id: moduleID }, moduleFields, { rawResult: true })
@@ -108,5 +107,30 @@ export default class LearningModuleRepo
     {
         await LearningModule.updateOne({ _id: moduleId },{ $inc: { totalParts: -1 }})
     }
-// 
+
+    async getLearningModulesUnderStage(
+        stageId: string,
+        page: number,
+        limit: number
+      ): Promise<   Pick<   ILearningModule, '_id' | 'title' | 'area' | 'description' |'stage' | 'imgSrc' | 'totalParts' >[] | null> {
+
+        // Define the fields to be selected in the query
+        const fields = '_id title area description imgSrc stage totalParts';
+      
+        // Calculate the number of documents to skip based on the current page
+        var skip = (page - 1) * limit;
+
+        // Fetch the learning modules with the specified stage ID
+        const learningModules = await LearningModule.find({ stage: stageId })
+          .select(fields)
+          .skip(skip)
+          .limit(limit);
+      
+            // Return null if no learning modules are found
+            if (learningModules.length === 0) return null 
+      
+            // Return the found learning modules
+            return learningModules;
+      }
+      
 } 

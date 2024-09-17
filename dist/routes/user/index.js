@@ -21,6 +21,7 @@ function userRoutes(app) {
     router.get('/users/verify', (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.VerifyUserValidationSchema), userController.verifyUser.bind(userController));
     router.patch('/onboarding/skip', tokens_1.validateRequestToken, userController.skipOnboarding.bind(userController));
     router.patch('/onboarding', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
+    router.post('/users/learning-modules', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     app.get('/auth/google/callback', server_1.passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind(userController));
     router.patch('/learning-profile', (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     app.use('/api/v1', router);

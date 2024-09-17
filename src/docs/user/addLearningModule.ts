@@ -8,10 +8,10 @@
  *       type: http
  *       scheme: bearer
  *       bearerFormat: JWT
- * /api/v1/onboarding/:
+ * /api/v1/users/learning-modules:
  *   post:
- *     summary: Onboard User 
- *     description: Adds selected learning Modules to a user's learning profile.
+ *     summary: Adds Learning Module(s) to a Users Learning Profile 
+ *     description: Saves one or more learning Modules to a users learning Profile 
  *     tags:
  *       - User
  *     security:
@@ -70,7 +70,7 @@
  *                       example: "https://example.com/image.png"
  *     responses:
  *       '200':
- *         description: User Onboarding Successful 
+ *         description: Successfully Added Learning Module(s) to User Learning Profile 
  *         content:
  *           application/json:
  *             schema:
@@ -78,7 +78,7 @@
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: User onboarding Successful 
+ *                   example: Success Message 
  *                 success:
  *                   type: boolean
  *                   description: Status of the operation

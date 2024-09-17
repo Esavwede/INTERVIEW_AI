@@ -1,11 +1,12 @@
 
-import jwt, { SignOptions } from "jsonwebtoken" 
+import jwt, { JsonWebTokenError, SignOptions } from "jsonwebtoken" 
 import dotenv from "dotenv"
 import config from "config"
 import logger from "@src/system/logger/logger"
 import { Request, Response, NextFunction } from "express-serve-static-core"
 import { ServerError } from "../Errors/Endpoints/serverError"
 import { IUserRequest } from "types"
+import { UnauthorizedError } from "../Errors/Endpoints/unauthorizedError"
 dotenv.config() 
 
 
@@ -28,6 +29,7 @@ export function generateJwtToken( user: object ): string | boolean
     catch(e: any)
     {
         logger.error(e,"JWT_SIGNING_ERROR")
+
         throw new ServerError("Server Encountered Error While Signing User ")
     }
 }
@@ -54,6 +56,9 @@ export function validateRequestToken(req: Request, res: Response, next: NextFunc
     catch(e: any )
     {
         logger.error(e,`Error Occured while validating Request Token `)
-        throw new ServerError('Server Error')
+
+        if( e instanceof JsonWebTokenError ) return res.status(401).json({ success: false, msg: e.message })
+           
+        return res.status(500).json({ success: false, msg:"Server Error"})
     }
 }

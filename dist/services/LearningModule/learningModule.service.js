@@ -141,6 +141,20 @@ class LearningModuleService {
             yield this.learningModuleRepo.incrementNumberOfParts(moduleId);
         });
     }
+    getLearningModulesUnderStage(stageId, page, limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const learningModules = yield this.learningModuleRepo.getLearningModulesUnderStage(stageId, page, limit);
+                if (!learningModules)
+                    return null;
+                return learningModules;
+            }
+            catch (e) {
+                logger_1.default.error(e, `LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${stageId}`);
+                throw e;
+            }
+        });
+    }
 }
 exports.LearningModuleService = LearningModuleService;
 //# sourceMappingURL=learningModule.service.js.map

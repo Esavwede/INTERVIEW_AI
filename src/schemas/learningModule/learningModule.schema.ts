@@ -1,4 +1,6 @@
 
+
+
 import { z, TypeOf } from "zod"
 
 
@@ -198,9 +200,46 @@ export const GetLearningModulePartValidationSchema = z.object
                         )
 
 
+export const GetLearningModulesUnderStageValidationSchema = z.object
+                                                            (
+                                                                {
+                                                
+                                                                    query: z.object
+                                                                    (
+                                                                        {
+                                                                            page: z.string
+                                                                                    (
+                                                                                        { 
+                                                                                            required_error:"page must be include in request query"
+                                                                                        }
+                                                                                    )
+                                                                                    .min(1,'page not included in request query'),
+
+                                                                            limit: z.string 
+                                                                                    (
+                                                                                        {
+                                                                                            required_error:"limit must be included in request query" 
+                                                                                        }
+                                                                                    )
+                                                                                    .min(1,'limit must be included in request query '),
+                                                                            stageId: z.string   
+                                                                                    (
+                                                                                        {
+                                                                                            required_error:"stageId must be included in request params", 
+                                                                                            invalid_type_error:"stageId must be of type string" 
+                                                                                        }
+                                                                                    )
+                                                                        }
+                                                                    )
+                                                                }
+                                                            )
+
+
+
 export type GetLearningModulePartSchema = z.infer<typeof GetLearningModulePartValidationSchema> 
 export type CreateLearningModuleSchema = z.infer<typeof CreateLearningModuleSchema>
 export type UpdateLearningModuleInput = TypeOf<typeof UpdateLearningModuleSchema>
 export type DeleteLearningModule = TypeOf<typeof DeleteLearningModuleSchema> 
 export type SaveLearningModuleOverviewSchema = z.infer<typeof SaveLearningModuleSummaryValidationSchema> 
 export type PublishLearningModuleSchema = z.infer<typeof PublishLearningModuleValidationSchema> 
+export type GetLearningModulesUnderStageSchema = z.infer<typeof GetLearningModulesUnderStageValidationSchema>
