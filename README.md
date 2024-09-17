@@ -1,43 +1,91 @@
-## About
-
-Interview AI 
 
 
-## Available Scripts
+# Project Name
 
-### `npm run dev`
+## Description
 
-Run the server in development mode.
+A brief description of your project. Explain what it does, its purpose, and any key features.
 
-### `npm test`
+## Table of Contents
 
-Run all unit-tests with hot-reloading.
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Docs](#Docs)
 
-### `npm test -- --testFile="name of test file" (i.e. --testFile=Users).`
+## Installation
 
-Run a single unit-test.
+To get started with this project, follow these steps:
 
-### `npm run test:no-reloading`
+1. **Clone the repository:**
 
-Run all unit-tests without hot-reloading.
+   ```bash
+   git clone https://github.com/yourusername/your-repository.git
 
-### `npm run lint`
+2. cd your-repository
 
-Check for linting errors.
-
-### `npm run build`
-
-Build the project for production.
-
-### `npm start`
-
-Run the production build (Must be built first).
-
-### `npm start -- --env="name of env file" (default is production).`
-
-Run production build with a different env file.
+3. npm install
 
 
-## Additional Notes
+## Usage 
 
-- If `npm run dev` gives you issues with bcrypt on MacOS you may need to run: `npm rebuild bcrypt --build-from-source`. 
+### Production
+
+    npm start
+
+### Development
+
+    npm run dev
+
+### Build 
+
+    npm run build
+
+
+
+## Configuration 
+
+Environment
+NODE_ENV=
+
+Email
+MAILGUN_API_KEY=
+
+Server
+PORT=
+HOST=
+BASE_URL=
+
+SENTRY
+SENTRY_DSN=
+
+GOOGLE AUTH
+GOOGLE_AUTH_CLIENT_ID=
+GOOGLE_AUTH_CLIENT_SECRET=
+GOOGLE_AUTH_CALLBACK_URL=
+
+COOKIE KEY
+COOKIE_KEY=
+
+Database
+DB_URI=
+
+Setup jet-logger
+JET_LOGGER_MODE=
+JET_LOGGER_FILEPATH=
+JET_LOGGER_TIMESTAMP=
+JET_LOGGER_FORMAT=
+
+Authentication
+COOKIE_DOMAIN=
+COOKIE_PATH=
+SECURE_COOKIE=
+JWT_SECRET=
+COOKIE_SECRET=
+
+expires in 3 days
+COOKIE_EXP=
+
+
+## Docs 
+For more information, visit [API DOCS](https://interview-ai-1-8he2.onrender.com/).
