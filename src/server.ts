@@ -9,7 +9,7 @@ import * as Sentry from "@sentry/node";
 const { nodeProfilingIntegration } = require("@sentry/profiling-node");
 
 Sentry.init({
-  dsn: "https://d8a7d5b5da20623129096550a826ee4f@o4506200956338176.ingest.us.sentry.io/4507980048171008",
+  dsn: process.env.SENTRY_DSN,
   integrations: [
     nodeProfilingIntegration(),
   ],
