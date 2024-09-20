@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fab57337-6561-5ec0-98b8-458fe83e422c")}catch(e){}}();
+
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -67,3 +69,4 @@ const LearningAreaSchema = new mongoose_1.Schema({
 });
 exports.LearningArea = mongoose_1.default.model("learningArea", LearningAreaSchema);
 //# sourceMappingURL=area.js.map
+//# debugId=fab57337-6561-5ec0-98b8-458fe83e422c

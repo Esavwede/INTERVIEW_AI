@@ -24,13 +24,11 @@ export interface IUser extends Document
         firstname: 
         {
             type: String,
-            required: true,
             minlength: 2
         },
         lastname: 
         {
             type: String, 
-            required: true, 
             minlength: 2
         }, 
         email: 

@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="314bdebf-51f5-5242-ac7d-15033ef3c105")}catch(e){}}();
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OnboardingValidationSchema = exports.LearningModuleOverviewSchema = void 0;
 const zod_1 = require("zod");
@@ -15,3 +17,4 @@ exports.OnboardingValidationSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=onboarding.schema.js.map
+//# debugId=314bdebf-51f5-5242-ac7d-15033ef3c105

@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="dc7fc176-9114-52f9-a90d-d68971ed8ec3")}catch(e){}}();
+
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -31,3 +33,4 @@ catch (e) {
 }
 exports.default = logger;
 //# sourceMappingURL=logger.js.map
+//# debugId=dc7fc176-9114-52f9-a90d-d68971ed8ec3

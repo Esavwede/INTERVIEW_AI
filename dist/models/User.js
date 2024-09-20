@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2fb18e17-ba29-5e0f-a2ae-8aba2645cf13")}catch(e){}}();
+
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -43,12 +45,10 @@ const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const userSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
-        required: true,
         minlength: 2
     },
     lastname: {
         type: String,
-        required: true,
         minlength: 2
     },
     email: {
@@ -100,3 +100,4 @@ userSchema.methods.comparePassword = function (candidatePassword) {
 };
 exports.User = mongoose_1.default.model("User", userSchema);
 //# sourceMappingURL=User.js.map
+//# debugId=2fb18e17-ba29-5e0f-a2ae-8aba2645cf13

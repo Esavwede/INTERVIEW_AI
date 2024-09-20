@@ -1,9 +1,44 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9ad14b79-6dd3-5b1d-b082-870dce6bf113")}catch(e){}}();
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.passport = void 0;
+const Sentry = __importStar(require("@sentry/node"));
+const { nodeProfilingIntegration } = require("@sentry/profiling-node");
+Sentry.init({
+    dsn: "https://d8a7d5b5da20623129096550a826ee4f@o4506200956338176.ingest.us.sentry.io/4507980048171008",
+    integrations: [
+        nodeProfilingIntegration(),
+    ],
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0,
+});
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const cors_1 = __importDefault(require("cors"));
@@ -43,6 +78,8 @@ if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Production.valueOf()) {
     app.use((0, helmet_1.default)());
 }
 (0, routes_1.routes)(app);
+app.get('/sentry-test', (req, res) => { throw new Error("I'm disappointed withh sentry's documentation "); });
+Sentry.setupExpressErrorHandler(app);
 app.use((err, _, res, next) => {
     if (EnvVars_1.default.NodeEnv !== misc_1.NodeEnvs.Test.valueOf()) {
         jet_logger_1.default.err(err, true);
@@ -66,3 +103,4 @@ app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
+//# debugId=9ad14b79-6dd3-5b1d-b082-870dce6bf113

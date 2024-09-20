@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7f5d3b18-903c-5327-9417-33c268d8cbbc")}catch(e){}}();
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteQuizValidationSchema = exports.UpdateQuizValidationSchema = exports.FindQuizValidationSchema = exports.CreateQuizValidationSchema = void 0;
 const zod_1 = require("zod");
@@ -35,3 +37,4 @@ exports.DeleteQuizValidationSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=quiz.schema.js.map
+//# debugId=7f5d3b18-903c-5327-9417-33c268d8cbbc

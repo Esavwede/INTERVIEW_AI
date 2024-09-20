@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8425ab5d-3364-5d98-97d0-976e05213f4e")}catch(e){}}();
+
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -25,3 +27,4 @@ function quizModuleRoutes(app) {
     }
 }
 //# sourceMappingURL=quiz.route.js.map
+//# debugId=8425ab5d-3364-5d98-97d0-976e05213f4e

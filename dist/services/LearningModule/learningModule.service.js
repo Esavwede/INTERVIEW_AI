@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bd4e56d4-2822-5ea4-8fcb-9740f430e13e")}catch(e){}}();
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -158,3 +160,4 @@ class LearningModuleService {
 }
 exports.LearningModuleService = LearningModuleService;
 //# sourceMappingURL=learningModule.service.js.map
+//# debugId=bd4e56d4-2822-5ea4-8fcb-9740f430e13e

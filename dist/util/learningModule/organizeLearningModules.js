@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="019e59bd-fd8f-5e63-b688-b7b7f54f4439")}catch(e){}}();
+
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -28,3 +30,4 @@ function groupLearningAreasByStage(areas) {
     }
 }
 //# sourceMappingURL=organizeLearningModules.js.map
+//# debugId=019e59bd-fd8f-5e63-b688-b7b7f54f4439

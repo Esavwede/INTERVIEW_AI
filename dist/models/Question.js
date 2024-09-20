@@ -1,4 +1,6 @@
 "use strict";
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8ca8acc8-940f-50eb-88c8-69cda18a4226")}catch(e){}}();
+
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -62,3 +64,4 @@ const QuestionSchema = new mongoose_1.Schema({
 });
 exports.Question = mongoose_1.default.model('Question', QuestionSchema);
 //# sourceMappingURL=Question.js.map
+//# debugId=8ca8acc8-940f-50eb-88c8-69cda18a4226

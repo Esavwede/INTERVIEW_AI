@@ -1,9 +1,28 @@
 /**
  * Setup express server.
  */
+
+
+// Import with `import * as Sentry from "@sentry/node"` if you are using ESM
+import * as Sentry from "@sentry/node";
+
+const { nodeProfilingIntegration } = require("@sentry/profiling-node");
+
+Sentry.init({
+  dsn: "https://d8a7d5b5da20623129096550a826ee4f@o4506200956338176.ingest.us.sentry.io/4507980048171008",
+  integrations: [
+    nodeProfilingIntegration(),
+  ],
+  // Tracing
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
+
+
 import { config } from "dotenv"
 config()
-
 
 
 import cors from "cors" 
@@ -68,6 +87,10 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 
 // Add APIs, must be after middleware
 routes(app) 
+
+app.get('/sentry-test',(req, res)=>{ throw new Error("I'm disappointed withh sentry's documentation ")})
+// The error handler must be registered before any other error middleware and after all controllers
+Sentry.setupExpressErrorHandler(app);
 
 
 
