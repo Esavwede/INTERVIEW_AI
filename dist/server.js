@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9ad14b79-6dd3-5b1d-b082-870dce6bf113")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cba8a703-000b-58f4-9be4-82634038440b")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -32,7 +32,7 @@ exports.passport = void 0;
 const Sentry = __importStar(require("@sentry/node"));
 const { nodeProfilingIntegration } = require("@sentry/profiling-node");
 Sentry.init({
-    dsn: "https://d8a7d5b5da20623129096550a826ee4f@o4506200956338176.ingest.us.sentry.io/4507980048171008",
+    dsn: process.env.SENTRY_DSN,
     integrations: [
         nodeProfilingIntegration(),
     ],
@@ -103,4 +103,4 @@ app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=9ad14b79-6dd3-5b1d-b082-870dce6bf113
+//# debugId=cba8a703-000b-58f4-9be4-82634038440b
