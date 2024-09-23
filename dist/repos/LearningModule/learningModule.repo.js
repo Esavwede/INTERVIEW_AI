@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f0bf1fbc-fd9d-5cba-96e6-c0d4982b0088")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1cad694c-89cc-5b19-90fc-3c00a55e77a4")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -95,11 +95,11 @@ class LearningModuleRepo {
             yield LearningModule_1.LearningModule.updateOne({ _id: moduleId }, { $inc: { totalParts: -1 } });
         });
     }
-    getLearningModulesUnderStage(stageId, page, limit) {
+    getLearningModulesUnderStage(stageNumber, page, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const fields = '_id title area description imgSrc stage totalParts';
+            const fields = '_id title area description imgSrc stage stageName stageNumber totalParts';
             var skip = (page - 1) * limit;
-            const learningModules = yield LearningModule_1.LearningModule.find({ stage: stageId })
+            const learningModules = yield LearningModule_1.LearningModule.find({ stageNumber })
                 .select(fields)
                 .skip(skip)
                 .limit(limit);
@@ -111,4 +111,4 @@ class LearningModuleRepo {
 }
 exports.default = LearningModuleRepo;
 //# sourceMappingURL=learningModule.repo.js.map
-//# debugId=f0bf1fbc-fd9d-5cba-96e6-c0d4982b0088
+//# debugId=1cad694c-89cc-5b19-90fc-3c00a55e77a4

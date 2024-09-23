@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="72803402-4fd7-56e9-8ce2-528b6c04a2c7")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="91b7b575-a693-50ad-b589-38a405eeb9ec")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -60,14 +60,14 @@ class LearningModuleController {
     getLearningModulesUnderStage(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const stageId = req.query.stageId;
+                const stageNumber = Number(req.query.stageNumber);
                 const page = Number(req.query.page);
                 const limit = Number(req.query.limit);
                 if (page <= 0)
                     return res.status(400).json({ success: false, msg: "Page cannot be less than 1" });
                 if (limit <= 0)
                     return res.status(400).json({ success: false, msg: "limit cannot be less than 1" });
-                const learningModules = yield this.learningModuleService.getLearningModulesUnderStage(stageId, page, limit);
+                const learningModules = yield this.learningModuleService.getLearningModulesUnderStage(stageNumber, page, limit);
                 return res.status(200).json({ success: true, data: { learningModules } });
             }
             catch (e) {
@@ -149,4 +149,4 @@ class LearningModuleController {
 }
 exports.LearningModuleController = LearningModuleController;
 //# sourceMappingURL=learningModule.controller.js.map
-//# debugId=72803402-4fd7-56e9-8ce2-528b6c04a2c7
+//# debugId=91b7b575-a693-50ad-b589-38a405eeb9ec

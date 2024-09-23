@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="40fcccd2-1b06-55be-a543-56ab4397d316")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9f3b8934-4ac9-54ae-980a-511a4d722e5d")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -125,9 +125,10 @@ class UserService {
                 const passwordValid = yield user.comparePassword(password);
                 if (!passwordValid)
                     throw new unauthorizedError_1.UnauthorizedError("Password Invalid");
-                const accessToken = (0, tokens_1.generateJwtToken)(user.toObject());
-                const refreshToken = (0, tokens_1.generateJwtToken)(user.toObject());
-                const { _id, firstname, lastname, learningProfile, newUser } = user;
+                const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user;
+                const payload = { _id, userHasCreatedFirstJobProfile };
+                const accessToken = (0, tokens_1.generateJwtToken)(payload);
+                const refreshToken = (0, tokens_1.generateJwtToken)(payload);
                 if (newUser) {
                     logger_1.default.info("User New");
                     const learningModules = yield area_1.LearningArea.find({});
@@ -201,7 +202,12 @@ class UserService {
             }
         });
     }
+    markUserHasCreatedFirstJobProfileAsFalse(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.userRepository.markUserHasCreatedFirstJobProfileAsFalse(userId);
+        });
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=40fcccd2-1b06-55be-a543-56ab4397d316
+//# debugId=9f3b8934-4ac9-54ae-980a-511a4d722e5d

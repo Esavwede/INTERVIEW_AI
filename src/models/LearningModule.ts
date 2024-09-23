@@ -66,7 +66,9 @@ export interface ILearningModule extends Document
 {
     title: string, 
     area: ObjectId, 
-    stage: ObjectId, 
+    stage: ObjectId,
+    stageName: string,
+    stageNumber: number, 
     description: string, 
     imgSrc: string,
     totalParts: number, 
@@ -92,6 +94,16 @@ const LearningModuleSchema = new Schema<ILearningModule>
                 stage: 
                 {
                     type: mongoose.Types.ObjectId, 
+                    required: true 
+                },
+                stageName:
+                {
+                    type: String, 
+                    required: true 
+                },
+                stageNumber:
+                {
+                    type: Number,
                     required: true 
                 },
                 description: 

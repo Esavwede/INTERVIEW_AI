@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bd4e56d4-2822-5ea4-8fcb-9740f430e13e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1a1e4892-71ad-5f54-81d2-cfe6c586836f")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -143,16 +143,16 @@ class LearningModuleService {
             yield this.learningModuleRepo.incrementNumberOfParts(moduleId);
         });
     }
-    getLearningModulesUnderStage(stageId, page, limit) {
+    getLearningModulesUnderStage(stageNumber, page, limit) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const learningModules = yield this.learningModuleRepo.getLearningModulesUnderStage(stageId, page, limit);
+                const learningModules = yield this.learningModuleRepo.getLearningModulesUnderStage(stageNumber, page, limit);
                 if (!learningModules)
                     return null;
                 return learningModules;
             }
             catch (e) {
-                logger_1.default.error(e, `LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${stageId}`);
+                logger_1.default.error(e, `LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${stageNumber}`);
                 throw e;
             }
         });
@@ -160,4 +160,4 @@ class LearningModuleService {
 }
 exports.LearningModuleService = LearningModuleService;
 //# sourceMappingURL=learningModule.service.js.map
-//# debugId=bd4e56d4-2822-5ea4-8fcb-9740f430e13e
+//# debugId=1a1e4892-71ad-5f54-81d2-cfe6c586836f

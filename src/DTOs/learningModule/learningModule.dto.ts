@@ -36,6 +36,8 @@ export interface IUpdateLearningModuleDTO
     title?: string, 
     area?: string,
     stage?: string, 
+    stageName?: string, 
+    stageNumber?: number, 
     description?: string,
     imgSrc?: string,
     isDraft: boolean 

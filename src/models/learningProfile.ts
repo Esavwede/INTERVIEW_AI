@@ -7,6 +7,8 @@ export interface ILearningModuleOverview extends Document
     moduleId: Types.ObjectId | string, 
     area: string, 
     stage: ObjectId | string, 
+    stageName: string,
+    stageNumber: number,
     title: string,
     description: string,
     imgSrc: string,
@@ -14,15 +16,6 @@ export interface ILearningModuleOverview extends Document
     currentPart: number,
     nextPart: number 
 }
-
-export interface ILearningModuleOverview_Req
-{
-    moduleId: Types.ObjectId | string, 
-    stage: Types.ObjectId | string, 
-    title: string,
-    description: string 
-}
-
 
 
 export const LearningModuleOverviewSchema = new Schema<ILearningModuleOverview>
@@ -42,6 +35,16 @@ export const LearningModuleOverviewSchema = new Schema<ILearningModuleOverview>
                 stage: 
                 {
                     type: Schema.Types.ObjectId, 
+                    required: true 
+                },
+                stageName:
+                {
+                    type: String, 
+                    required: true 
+                },
+                stageNumber:
+                {
+                    type: Number, 
                     required: true 
                 },
                 title: 

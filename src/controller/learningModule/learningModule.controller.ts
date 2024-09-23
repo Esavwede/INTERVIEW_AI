@@ -28,7 +28,7 @@ export class LearningModuleController
 
             logger.info("Creating Learning Module") 
 
-            const body = req.body as any as Pick< ILearningModule , 'title' | 'description' | 'area' | 'stage' | 'imgSrc' | 'isDraft' >
+            const body = req.body as any as Pick< ILearningModule , 'title' | 'description' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'isDraft' >
             const newLearningModule = await this.learningModuleService.create( body )
 
             if( !newLearningModule )
@@ -68,21 +68,20 @@ export class LearningModuleController
         }
     }
 
-
     async getLearningModulesUnderStage(
         req: Request<   {}, {}, {},  GetLearningModulesUnderStageSchema['query'] >, 
         res: Response )
     {
         try 
         {
-            const stageId = req.query.stageId 
+            const stageNumber = Number( req.query.stageNumber )
             const page = Number( req.query.page ) 
             const limit = Number( req.query.limit ) 
 
             if( page <= 0 ) return res.status(400).json({ success: false, msg:"Page cannot be less than 1"})
             if( limit <= 0 ) return res.status(400).json({ success: false, msg:"limit cannot be less than 1"})
 
-            const learningModules = await this.learningModuleService.getLearningModulesUnderStage( stageId, page, limit )
+            const learningModules = await this.learningModuleService.getLearningModulesUnderStage( stageNumber, page, limit )
             return res.status(200).json({ success: true, data:{ learningModules }})
         }
         catch(e: any)
@@ -90,9 +89,6 @@ export class LearningModuleController
             return res.status(500).json({ success: false, msg: "Server Error" })
         }
     }
-
-
-
 
     async update( req: Request<UpdateLearningModuleInput['params'], {}, UpdateLearningModuleInput['body'] >, res: Response )
     {
@@ -125,7 +121,7 @@ export class LearningModuleController
         {
             logger.info(`Controller: ublishing Learning Module`)
             const moduleId = req.params.id 
-            const moduleContent = req.body as any as Pick< ILearningModule,'title' | 'area' | 'stage' | 'description' | 'imgSrc' | 'totalParts' | 'isDraft' >
+            const moduleContent = req.body as any as Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'totalParts' | 'isDraft' >
             await this.learningModuleService.publish( moduleId,  moduleContent)
             return res.status(200).json({ success: true, msg:"Learning Module Publish Successfully"})
         }

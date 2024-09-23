@@ -84,7 +84,6 @@ export class UserController
         }
     }
 
-
     async update(req: Request<{},{},SaveUserFirstAndLastNameSchema['body']>, res: Response )
     {
         try 
@@ -213,4 +212,4 @@ export class UserController
     }
 
 
-}
+} 

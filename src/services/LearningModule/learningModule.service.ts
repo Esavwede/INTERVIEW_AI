@@ -28,7 +28,7 @@ export class LearningModuleService
         this.learningModulePartService = new LearningModulePartService( learningModulePartRepo )
     }
 
-    async create( learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'description' | 'imgSrc' | 'isDraft' > )
+    async create( learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'isDraft'  > )
     {
            try 
            {
@@ -113,13 +113,12 @@ export class LearningModuleService
         }
     }
 
-    async publish( learningModuleId: string, learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'description' | 'imgSrc' | 'isDraft' | 'totalParts' > )
+    async publish( learningModuleId: string, learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'isDraft' | 'totalParts'> )
     {
         try 
         {
             // Modify isDraft Property on module 
             const modifiedCount = await this.learningModuleRepo.update( learningModuleId, { isDraft: false } )
-
 
             if( !modifiedCount )
             {
@@ -188,14 +187,14 @@ export class LearningModuleService
 
     async getLearningModulesUnderStage
     ( 
-        stageId: string,
+        stageNumber: number,
         page: number, 
         limit: number 
-    ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'imgSrc' | 'totalParts'>[] | null >
+    ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts'>[] | null >
     {
         try 
         {
-            const learningModules = await this.learningModuleRepo.getLearningModulesUnderStage( stageId, page, limit ) 
+            const learningModules = await this.learningModuleRepo.getLearningModulesUnderStage( stageNumber, page, limit ) 
 
             if( !learningModules ) return null 
             
@@ -204,7 +203,7 @@ export class LearningModuleService
         }
         catch(e: any )
         {
-            logger.error(e,`LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${ stageId }`)
+            logger.error(e,`LEARNING_MODULE_SERVICE: Error occured while getting learning modules under stage ${ stageNumber }`)
             throw e 
         }
     }

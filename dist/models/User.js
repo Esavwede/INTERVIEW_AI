@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2fb18e17-ba29-5e0f-a2ae-8aba2645cf13")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a7c5b98a-2eab-59bd-aeb2-a731827169c1")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -74,6 +74,11 @@ const userSchema = new mongoose_1.Schema({
     },
     learningProfile: {
         type: [learningProfile_1.LearningModuleOverviewSchema]
+    },
+    userHasCreatedFirstJobProfile: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 }, {
     timestamps: true
@@ -100,4 +105,4 @@ userSchema.methods.comparePassword = function (candidatePassword) {
 };
 exports.User = mongoose_1.default.model("User", userSchema);
 //# sourceMappingURL=User.js.map
-//# debugId=2fb18e17-ba29-5e0f-a2ae-8aba2645cf13
+//# debugId=a7c5b98a-2eab-59bd-aeb2-a731827169c1

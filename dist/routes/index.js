@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="84969433-e648-5567-a6d6-f38198a492d8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="aca25f7a-b91b-53b5-882e-ca8cde562967")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -13,6 +13,7 @@ const quiz_route_1 = require("./quiz/quiz.route");
 const learningModulePart_1 = require("./learningModulePart/learningModulePart");
 const learningArea_route_1 = require("./learningArea/learningArea.route");
 const learningProfile_route_1 = require("./learningProfile/learningProfile.route");
+const jobProfile_route_1 = require("./jobProfile/jobProfile.route");
 function routes(app) {
     try {
         (0, learningProfile_route_1.learningProfileRoutes)(app);
@@ -21,6 +22,7 @@ function routes(app) {
         (0, learningModule_route_1.learningModuleRoutes)(app);
         (0, quiz_route_1.quizModuleRoutes)(app);
         (0, learningArea_route_1.learningAreaRoutes)(app);
+        (0, jobProfile_route_1.jobProfileRoutes)(app);
         logger_1.default.info("API ROUTES CREATED");
     }
     catch (e) {
@@ -29,4 +31,4 @@ function routes(app) {
     }
 }
 //# sourceMappingURL=index.js.map
-//# debugId=84969433-e648-5567-a6d6-f38198a492d8
+//# debugId=aca25f7a-b91b-53b5-882e-ca8cde562967

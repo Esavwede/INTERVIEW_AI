@@ -6,10 +6,23 @@ import {  Request } from "express-serve-static-core"
 
 interface IUserRequest 
 {
-    email: string, 
+    email?: string, 
     _id: string,
-    firstname, 
-    lastname 
+    userHasCreatedFirstJobProfile: boolean,
+    firstname?: string, 
+    lastname?: string
+}
+
+interface IUserLogContext
+{
+    userId: string, 
+    requestId: string, 
+    endPoint: string, 
+    httpMethod: string, 
+    clientIp: string, 
+    environment: string | undefined,
+    userAgent: string | undefined, 
+    timeStamp: string 
 }
 
 declare global 
@@ -18,7 +31,8 @@ declare global
     {
         interface Request 
         {
-            user: IUserRequest 
+            user: IUserRequest,
+            context?: IUserLogContext
         }
     }
 }

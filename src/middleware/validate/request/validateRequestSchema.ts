@@ -1,7 +1,7 @@
 
 import logger from "@src/system/logger/logger"
 import { Request, Response, NextFunction } from "express-serve-static-core"
-import { AnyZodObject, z, ZodError } from "zod" 
+import { AnyZodObject, ZodError } from "zod" 
 
 
 export function validateRequestSchema( schema: AnyZodObject )
@@ -23,7 +23,7 @@ export function validateRequestSchema( schema: AnyZodObject )
         }
         catch(e: any)
         {
-            logger.error(e,'Request Schema Error')
+           
 
            if( e instanceof ZodError )
            {
@@ -31,9 +31,12 @@ export function validateRequestSchema( schema: AnyZodObject )
              var errs: string[] = [] 
              e.errors.forEach((e)=>{  errs.push(e.message) })
              
+             logger.error('Zod: Request Schema Error')
+             logger.error(errs)
              return res.status(422).json({ success: false, msg:"bad request", errors: errs  })
            }
           
+           logger.error(`Server: Request Schema Validation Error ${ e }`)
            return res.status(500).json({ success: false, msg:"Server Error"})
         }
     }
