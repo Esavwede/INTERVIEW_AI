@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7ebc8a04-47bf-5e68-903c-000478ea9718")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="49871be5-4466-567f-bbf2-848b9e9c1c03")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateLearningModulePartSchema = exports.GetLearningModuleValidationSchema = exports.LearningModulePartValidationSchema = void 0;
@@ -17,6 +17,7 @@ const PartSchema = zod_1.z.array(SectionSchema);
 exports.LearningModulePartValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
         learningModuleId: zod_1.z.string().min(1, 'INPUT LEARNING MODULE ID'),
+        quizId: zod_1.z.string().optional(),
         content: PartSchema,
         isLast: zod_1.z.boolean({
             required_error: "isLast Field Not Present",
@@ -37,4 +38,4 @@ exports.UpdateLearningModulePartSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=learningModulePart.schema.js.map
-//# debugId=7ebc8a04-47bf-5e68-903c-000478ea9718
+//# debugId=49871be5-4466-567f-bbf2-848b9e9c1c03
