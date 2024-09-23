@@ -32,6 +32,7 @@ export const LearningModulePartValidationSchema = z.object
                             (
                                 {
                                     learningModuleId: z.string().min(1,'INPUT LEARNING MODULE ID'),
+                                    quizId: z.string().optional(), 
                                     content: PartSchema,
                                     isLast: z.boolean({
                                         required_error: "isLast Field Not Present",
