@@ -34,6 +34,22 @@ export const LearningModuleOverviewSchema = z.object
                                 }
                             )
                             .min(1,'Stage Length Cannot Be less Than 1'),
+                            stageName: z.string
+                            (
+                                {
+                                    required_error: "StageName not Found In Request Body",
+                                    invalid_type_error: "StageName Must Be Of Type String",
+                                }
+                            )
+                            .min(1,'Stage Name Length Cannot Be less Than 1'),
+                            stageNumber: z.number
+                            (
+                                {
+                                    required_error: "StageNumber not Found In Request Body",
+                                    invalid_type_error: "StageNumber Must Be Of Type String",
+                                }
+                            )
+                            .min(1,'Stage Number Cannot Be less Than 1'),
 
                             title: z.string
                             (
@@ -82,6 +98,8 @@ export const CreateLearningModuleSchema = z.object
                             title: z.string().min(1,'Please Input Title'),
                             area: z.string().min(1,'Please Input Knowledge Area'),
                             stage: z.string().min(1,'Please Input Stage'),
+                            stageName: z.string().min(1,"stage Id cannot be less than 1"),
+                            stageNumber: z.number().int(),
                             description: z.string().min(1,'Please Input Description'),
                             imgSrc: z.string().url("Please input Valid Url"),
                             isDraft: z.boolean() 
@@ -100,6 +118,8 @@ export const CreateLearningModuleSchema = z.object
                             title: z.string().min(1,'Please Input Title'),
                             area: z.string().min(1,'Please Input Knowledge Area'),
                             stage: z.string().min(1,'Please Input Stage'),
+                            stageName: z.string().min(1,"stage Id cannot be less than 1"),
+                            stageNumber: z.number().int(),
                             description: z.string().min(1,'Please Input Description'),
                             imgSrc: z.string().url("Please input Valid Url"),
                             totalParts: z.number(), 
@@ -139,6 +159,8 @@ export const UpdateLearningModuleSchema = z.object
                         title: z.string().min(1,'check title length').optional(),
                         area: z.string().min(1,'check title length').optional(),
                         stage:z.string().min(1,'check title length').optional(),
+                        stageName: z.string().min(2,"stage name length cannot be less than 2").optional(),
+                        stageNumber: z.number().min(2,"stage number length cannot be less than 2").optional(),
                         description: z.string().min(1,'check title length').optional(),
                         imgSrc: z.string().min(1,'check title length').optional()    
                     }
@@ -222,11 +244,11 @@ export const GetLearningModulesUnderStageValidationSchema = z.object
                                                                                         }
                                                                                     )
                                                                                     .min(1,'limit must be included in request query '),
-                                                                            stageId: z.string   
+                                                                            stageNumber: z.string
                                                                                     (
                                                                                         {
-                                                                                            required_error:"stageId must be included in request params", 
-                                                                                            invalid_type_error:"stageId must be of type string" 
+                                                                                            required_error:"stageNumber must be included in request params", 
+                                                                                            invalid_type_error:"stageNumber must be of type string" 
                                                                                         }
                                                                                     )
                                                                         }

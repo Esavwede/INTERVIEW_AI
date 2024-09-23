@@ -15,6 +15,7 @@ export interface IUser extends Document
   createdAt: Date, 
   updatedAt: Date, 
   learningProfile: ILearningModuleOverview[], 
+  userHasCreatedFirstJobProfile: boolean, 
   comparePassword( candidatePassword: string): Promise<boolean> 
 }
 // 
@@ -59,7 +60,14 @@ export interface IUser extends Document
         learningProfile:
         {
           type: [ LearningModuleOverviewSchema ]
+        },
+        userHasCreatedFirstJobProfile: 
+        {
+          type: Boolean, 
+          required: true, 
+          default: false 
         }
+
     },
     {
       timestamps: true 

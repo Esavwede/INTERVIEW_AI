@@ -153,10 +153,15 @@ export class UserService
              if( !passwordValid ) throw new UnauthorizedError("Password Invalid")
 
 
-             const accessToken = generateJwtToken( user.toObject() )
-             const refreshToken = generateJwtToken( user.toObject() )
+            const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user 
+
+            // Data to Store in Jwt 
+            const payload = { _id, userHasCreatedFirstJobProfile  } 
+
+             const accessToken = generateJwtToken( payload)
+             const refreshToken = generateJwtToken( payload )
             
-             const { _id, firstname, lastname, learningProfile, newUser } = user 
+           
 
 
              if( newUser ) 
@@ -256,4 +261,10 @@ export class UserService
             throw e 
         }
     }
+
+    async markUserHasCreatedFirstJobProfileAsFalse( userId: string )
+    {
+        await this.userRepository.markUserHasCreatedFirstJobProfileAsFalse( userId ) 
+    }   
+
 }// 

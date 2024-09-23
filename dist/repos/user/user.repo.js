@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="26959421-f9f2-507e-b4c4-2e2da1ff9ae4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="31087d01-b0c4-5e4e-be11-0929fd50dac8")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -27,7 +27,7 @@ class UserRepository {
     }
     findByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield User_1.User.findOne({ email }, { _id: 1, email: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 });
+            const user = yield User_1.User.findOne({ email }, { _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 });
             if (user) {
                 logger_1.default.info(`User_Repo: User Found: ${String(user._id)}`);
                 return user;
@@ -86,7 +86,13 @@ class UserRepository {
             console.log(update);
         });
     }
+    markUserHasCreatedFirstJobProfileAsFalse(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { modifiedCount } = yield User_1.User.updateOne({ _id: userId }, { userHasCreatedFirstJobProfile: true });
+            return modifiedCount;
+        });
+    }
 }
 exports.UserRepository = UserRepository;
 //# sourceMappingURL=user.repo.js.map
-//# debugId=26959421-f9f2-507e-b4c4-2e2da1ff9ae4
+//# debugId=31087d01-b0c4-5e4e-be11-0929fd50dac8

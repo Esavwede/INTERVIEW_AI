@@ -24,7 +24,7 @@ Sentry.init({
 import { config } from "dotenv"
 config()
 
-
+import  compression from "compression"
 import cors from "cors" 
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -47,10 +47,10 @@ import { routes } from './routes';
 const app = express();
 
 // Basic middleware
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(EnvVars.CookieProps.Secret))
-
 
 
 // Cors 

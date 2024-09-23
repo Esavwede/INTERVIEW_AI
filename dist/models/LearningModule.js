@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="856a0d67-467c-530a-bf02-82d9bfdfa611")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="63c7b716-862d-5556-87a2-1d243ca82772")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -69,6 +69,14 @@ const LearningModuleSchema = new mongoose_1.Schema({
         type: mongoose_1.default.Types.ObjectId,
         required: true
     },
+    stageName: {
+        type: String,
+        required: true
+    },
+    stageNumber: {
+        type: Number,
+        required: true
+    },
     description: {
         type: String,
         required: true
@@ -94,4 +102,4 @@ const LearningModuleSchema = new mongoose_1.Schema({
 });
 exports.LearningModule = mongoose_1.default.model('learningModule', LearningModuleSchema);
 //# sourceMappingURL=LearningModule.js.map
-//# debugId=856a0d67-467c-530a-bf02-82d9bfdfa611
+//# debugId=63c7b716-862d-5556-87a2-1d243ca82772

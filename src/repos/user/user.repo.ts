@@ -21,7 +21,7 @@ export class UserRepository
 
     async findByEmail( email: string ): Promise<IUser | null > 
     {
-            const user = await User.findOne({ email },{ _id: 1, email: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 })
+            const user = await User.findOne({ email },{ _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 })
 
             if(user)
             { 
@@ -92,5 +92,15 @@ export class UserRepository
           console.log( update )
     }
 
+    async markUserHasCreatedFirstJobProfileAsFalse
+    (
+        userId: string 
 
+    ): Promise<number> 
+    {
+        const { modifiedCount } = await User.updateOne({ _id: userId },{ userHasCreatedFirstJobProfile: true }) 
+        return modifiedCount
+    }
+
+    
 }// 

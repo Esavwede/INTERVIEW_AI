@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0392ca8f-9415-5e5b-af6e-5ffdfbe38755")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3751ae86-ec25-5a4c-b5b7-60771ecc1160")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -61,6 +61,8 @@ function validateRequestToken(req, res, next) {
         }
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
+        if (!req.user._id)
+            return res.status(500).json({ success: false, msg: "server error" });
         next();
     }
     catch (e) {
@@ -71,4 +73,4 @@ function validateRequestToken(req, res, next) {
     }
 }
 //# sourceMappingURL=tokens.js.map
-//# debugId=0392ca8f-9415-5e5b-af6e-5ffdfbe38755
+//# debugId=3751ae86-ec25-5a4c-b5b7-60771ecc1160

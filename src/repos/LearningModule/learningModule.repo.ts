@@ -12,7 +12,7 @@ export default class LearningModuleRepo
 
     }
 
-    async create( learningModuleDoc: Pick< ILearningModule, 'title' | 'area' | 'stage' | 'description' | 'imgSrc' | 'isDraft' >  ): Promise< { learningModuleId: string, title: string, stage: string } | false > 
+    async create( learningModuleDoc: Pick< ILearningModule, 'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' |  'description' | 'imgSrc' | 'isDraft' >  ): Promise< { learningModuleId: string, title: string, stage: string } | false > 
     {
         try 
         {
@@ -27,7 +27,7 @@ export default class LearningModuleRepo
         }
     }  
 
-    async get( moduleId: string ):Promise<    Pick<ILearningModule,'title' | 'description' | 'area' | 'stage' | 'imgSrc'> | boolean  > 
+    async get( moduleId: string ):Promise<    Pick<ILearningModule,'title' | 'description' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc'> | boolean  > 
     {
         try 
         {
@@ -109,19 +109,19 @@ export default class LearningModuleRepo
     }
 
     async getLearningModulesUnderStage(
-        stageId: string,
+        stageNumber: number,
         page: number,
         limit: number
-      ): Promise<   Pick<   ILearningModule, '_id' | 'title' | 'area' | 'description' |'stage' | 'imgSrc' | 'totalParts' >[] | null> {
+      ): Promise<   Pick<   ILearningModule, '_id' | 'title' | 'area' | 'description' |'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts' >[] | null> {
 
         // Define the fields to be selected in the query
-        const fields = '_id title area description imgSrc stage totalParts';
+        const fields = '_id title area description imgSrc stage stageName stageNumber totalParts';
       
         // Calculate the number of documents to skip based on the current page
         var skip = (page - 1) * limit;
 
         // Fetch the learning modules with the specified stage ID
-        const learningModules = await LearningModule.find({ stage: stageId })
+        const learningModules = await LearningModule.find({ stageNumber })
           .select(fields)
           .skip(skip)
           .limit(limit);

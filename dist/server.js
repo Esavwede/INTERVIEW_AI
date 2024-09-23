@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cba8a703-000b-58f4-9be4-82634038440b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="71aef683-e6b8-5b42-b364-c81c6cec1853")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -41,6 +41,7 @@ Sentry.init({
 });
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
+const compression_1 = __importDefault(require("compression"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
@@ -58,6 +59,7 @@ const classes_1 = require("@src/common/classes");
 const misc_1 = require("@src/common/misc");
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
+app.use((0, compression_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
@@ -103,4 +105,4 @@ app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=cba8a703-000b-58f4-9be4-82634038440b
+//# debugId=71aef683-e6b8-5b42-b364-c81c6cec1853

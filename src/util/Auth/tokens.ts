@@ -50,6 +50,8 @@ export function validateRequestToken(req: Request, res: Response, next: NextFunc
 
           // Attach the decoded user data to the request object
           req.user = decoded
+
+          if( !req.user._id ) return res.status(500).json({ success: false, msg:"server error"})
          
          next();
     }

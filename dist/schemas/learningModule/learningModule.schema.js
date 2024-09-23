@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="61fdf1d9-8fba-5ad0-8ba8-18f4043c154e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ad3151b8-145c-5c33-a0a2-d2102f6a4348")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = void 0;
@@ -20,6 +20,16 @@ exports.LearningModuleOverviewSchema = zod_1.z.object({
         invalid_type_error: "Stage Must Be Of Type String",
     })
         .min(1, 'Stage Length Cannot Be less Than 1'),
+    stageName: zod_1.z.string({
+        required_error: "StageName not Found In Request Body",
+        invalid_type_error: "StageName Must Be Of Type String",
+    })
+        .min(1, 'Stage Name Length Cannot Be less Than 1'),
+    stageNumber: zod_1.z.number({
+        required_error: "StageNumber not Found In Request Body",
+        invalid_type_error: "StageNumber Must Be Of Type String",
+    })
+        .min(1, 'Stage Number Cannot Be less Than 1'),
     title: zod_1.z.string({
         required_error: "Title not Found In Request Body",
         invalid_type_error: "Title Must Be Of Type String",
@@ -45,6 +55,8 @@ exports.CreateLearningModuleSchema = zod_1.z.object({
         title: zod_1.z.string().min(1, 'Please Input Title'),
         area: zod_1.z.string().min(1, 'Please Input Knowledge Area'),
         stage: zod_1.z.string().min(1, 'Please Input Stage'),
+        stageName: zod_1.z.string().min(1, "stage Id cannot be less than 1"),
+        stageNumber: zod_1.z.number().int(),
         description: zod_1.z.string().min(1, 'Please Input Description'),
         imgSrc: zod_1.z.string().url("Please input Valid Url"),
         isDraft: zod_1.z.boolean()
@@ -55,6 +67,8 @@ exports.PublishLearningModuleValidationSchema = zod_1.z.object({
         title: zod_1.z.string().min(1, 'Please Input Title'),
         area: zod_1.z.string().min(1, 'Please Input Knowledge Area'),
         stage: zod_1.z.string().min(1, 'Please Input Stage'),
+        stageName: zod_1.z.string().min(1, "stage Id cannot be less than 1"),
+        stageNumber: zod_1.z.number().int(),
         description: zod_1.z.string().min(1, 'Please Input Description'),
         imgSrc: zod_1.z.string().url("Please input Valid Url"),
         totalParts: zod_1.z.number(),
@@ -76,6 +90,8 @@ exports.UpdateLearningModuleSchema = zod_1.z.object({
         title: zod_1.z.string().min(1, 'check title length').optional(),
         area: zod_1.z.string().min(1, 'check title length').optional(),
         stage: zod_1.z.string().min(1, 'check title length').optional(),
+        stageName: zod_1.z.string().min(2, "stage name length cannot be less than 2").optional(),
+        stageNumber: zod_1.z.number().min(2, "stage number length cannot be less than 2").optional(),
         description: zod_1.z.string().min(1, 'check title length').optional(),
         imgSrc: zod_1.z.string().min(1, 'check title length').optional()
     }),
@@ -112,11 +128,11 @@ exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
             required_error: "limit must be included in request query"
         })
             .min(1, 'limit must be included in request query '),
-        stageId: zod_1.z.string({
-            required_error: "stageId must be included in request params",
-            invalid_type_error: "stageId must be of type string"
+        stageNumber: zod_1.z.string({
+            required_error: "stageNumber must be included in request params",
+            invalid_type_error: "stageNumber must be of type string"
         })
     })
 });
 //# sourceMappingURL=learningModule.schema.js.map
-//# debugId=61fdf1d9-8fba-5ad0-8ba8-18f4043c154e
+//# debugId=ad3151b8-145c-5c33-a0a2-d2102f6a4348

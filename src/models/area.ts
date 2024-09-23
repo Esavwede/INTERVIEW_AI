@@ -5,7 +5,9 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export interface ILearningModuleUnderArea extends Document 
 {
     learningModuleId: Types.ObjectId | string, 
-    stage: string, 
+    stage: string,
+    stageNumber: number,
+    stageName: string, 
     title: string,
     area?: string, 
     totalParts: number, 
@@ -25,6 +27,16 @@ const LearningModuleUnderAreaSchema = new Schema<ILearningModuleUnderArea>
                     stage: 
                     {
                         type: String, 
+                        required: true 
+                    },
+                    stageName:
+                    {
+                        type: String, 
+                        required: true 
+                    },
+                    stageNumber:
+                    {
+                        type: Number,
                         required: true 
                     },
                     title: 
