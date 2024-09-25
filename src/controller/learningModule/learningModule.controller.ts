@@ -68,6 +68,7 @@ export class LearningModuleController
         }
     }
 
+
     async getLearningModulesUnderStage(
         req: Request<   {}, {}, {},  GetLearningModulesUnderStageSchema['query'] >, 
         res: Response )
@@ -78,6 +79,11 @@ export class LearningModuleController
             const page = Number( req.query.page ) 
             const limit = Number( req.query.limit ) 
 
+            if( typeof stageNumber !== 'number' )
+            {
+                return res.status(400).json({ success: false, msg:"stageNumber Must be a number, e.g 1"})
+            }
+
             if( page <= 0 ) return res.status(400).json({ success: false, msg:"Page cannot be less than 1"})
             if( limit <= 0 ) return res.status(400).json({ success: false, msg:"limit cannot be less than 1"})
 
@@ -86,6 +92,7 @@ export class LearningModuleController
         }
         catch(e: any)
         {
+            logger.error(e,"CONTROLLER:")
             return res.status(500).json({ success: false, msg: "Server Error" })
         }
     }

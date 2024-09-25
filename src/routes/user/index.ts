@@ -1,12 +1,13 @@
 import { Router } from "express"
 import { Express } from "express-serve-static-core" 
-import logger from "../../system/logger/logger" 
+import   logger from "../../system/logger/logger" 
 import { SaveUserFirstAndLastNameValidationSchema, SignupSchema, VerifyUserValidationSchema} from "@src/schemas/user/signupSchema"
 import { UserController } from "@src/controller/user/user"
 import { validateRequestSchema } from "@src/middleware/validate/request/validateRequestSchema"
 import { OnboardingValidationSchema } from "@src/schemas/onboarding/onboarding.schema"
 import { validateRequestToken } from "@src/util/Auth/tokens"
 import { passport } from "@src/server"
+import { SaveLearningModuleSummaryValidationSchema } from "@src/schemas/learningModule/learningModule.schema"
 
 const router = Router() 
 
@@ -27,7 +28,7 @@ export function userRoutes( app: Express )
 
     router.patch('/onboarding' , validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) ) 
     
-    router.post('/users/learning-modules', validateRequestToken, validateRequestSchema( OnboardingValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) )
+    router.post('/users/learning-modules', validateRequestToken, validateRequestSchema( SaveLearningModuleSummaryValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) )
   
     app.get('/auth/google/callback', passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind( userController ) )
 

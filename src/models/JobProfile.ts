@@ -2,6 +2,24 @@
 import mongoose, { Schema, Types, Document } from "mongoose" 
 
 
+/** Generated Job Role Interface */
+export interface IGeneratedJobRole 
+{
+    roleContent: string 
+}
+
+const GeneratedJobRoleSchema = new Schema<IGeneratedJobRole>
+                                        (
+                                            {
+                                                roleContent: 
+                                                {
+                                                    type: String, 
+                                                    required: true 
+                                                }
+                                            }
+                                        )
+                                
+
 /** Job Profile Item Interface */
 export interface IJobProfileEntry extends Document 
 {
@@ -10,7 +28,6 @@ export interface IJobProfileEntry extends Document
     resumeUrl: string, 
     resumeId: string 
 }
-
 
 /** Job Profile Item Schema */
 const JobProfileEntrySchema = new Schema<IJobProfileEntry>
@@ -43,7 +60,8 @@ const JobProfileEntrySchema = new Schema<IJobProfileEntry>
 export interface IJobProfile extends Document 
 {
     userId: Types.ObjectId | string,
-    jobProfiles: IJobProfileEntry[] 
+    jobProfiles: IJobProfileEntry[], 
+    generatedJobRoles: IGeneratedJobRole[] 
 }
 
 
@@ -60,6 +78,10 @@ const JobProfileSchema = new Schema<IJobProfile>
                                     jobProfiles:
                                     {
                                         type: [JobProfileEntrySchema] 
+                                    },
+                                    generatedJobRoles:
+                                    {
+                                        type: [GeneratedJobRoleSchema]
                                     }
                                 }
                             )

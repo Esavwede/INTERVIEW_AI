@@ -8,7 +8,7 @@ import { z, TypeOf } from "zod"
 export const LearningModuleOverviewSchema = z.object
                     (
                         {
-                            moduleId: z.string
+                            _id: z.string
                             (
                                 {
                                     required_error: "Module Id Not In Request",
@@ -255,7 +255,6 @@ export const GetLearningModulesUnderStageValidationSchema = z.object
                                                                     )
                                                                 }
                                                             )
-
 
 
 export type GetLearningModulePartSchema = z.infer<typeof GetLearningModulePartValidationSchema> 

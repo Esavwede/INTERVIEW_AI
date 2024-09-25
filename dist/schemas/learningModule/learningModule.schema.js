@@ -1,11 +1,11 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ad3151b8-145c-5c33-a0a2-d2102f6a4348")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="11915e2c-0246-57bc-82f1-f3a322e76f80")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = void 0;
 const zod_1 = require("zod");
 exports.LearningModuleOverviewSchema = zod_1.z.object({
-    moduleId: zod_1.z.string({
+    _id: zod_1.z.string({
         required_error: "Module Id Not In Request",
         invalid_type_error: "Module Id Must Be of Type String",
     })
@@ -135,4 +135,4 @@ exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=learningModule.schema.js.map
-//# debugId=ad3151b8-145c-5c33-a0a2-d2102f6a4348
+//# debugId=11915e2c-0246-57bc-82f1-f3a322e76f80
