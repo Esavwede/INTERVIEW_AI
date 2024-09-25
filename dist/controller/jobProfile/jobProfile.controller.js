@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="db8382df-9004-5259-aa21-96f5dfa89a98")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a81dcdae-e33c-5751-86cb-c4467de30a9e")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -19,6 +19,7 @@ const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const jobProfile_service_1 = require("@src/services/jobProfile/jobProfile.service");
 const jobProfile_repo_1 = require("@src/repos/jobProfile/jobProfile.repo");
 const uploadDocToCloud_1 = require("@src/util/upload/doc/uploadDocToCloud");
+const generateJobRole_1 = require("@src/util/jobRoleGenerator/generateJobRole");
 class JobProfileController {
     constructor() {
         const jobProfileRepo = new jobProfile_repo_1.JobProfileRepo();
@@ -50,7 +51,9 @@ class JobProfileController {
                     childLogger.debug(`User ${userId} does not have an existing Job Profile. Creating new Job profile and adding new JobProfileEntry `);
                     yield this.jobProfileService.createNewJobProfile(userId, jobProfileDoc, childLogger);
                 }
-                return res.status(201).json({ success: true, msg: "Job Profile Created" });
+                res.status(201).json({ success: true, msg: "Job Profile Created" });
+                const resumePath = req.resumePath || '';
+                return (0, generateJobRole_1.generateJobRoleFromResume)(userId, jobRole, experienceLevel, resumePath);
             }
             catch (err) {
                 const e = err;
@@ -112,4 +115,4 @@ class JobProfileController {
 }
 exports.JobProfileController = JobProfileController;
 //# sourceMappingURL=jobProfile.controller.js.map
-//# debugId=db8382df-9004-5259-aa21-96f5dfa89a98
+//# debugId=a81dcdae-e33c-5751-86cb-c4467de30a9e

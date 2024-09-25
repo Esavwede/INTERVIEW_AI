@@ -4,7 +4,7 @@ import mongoose, { Schema, Document, Types, ObjectId} from "mongoose"
 
 export interface ILearningModuleOverview extends Document 
 {
-    moduleId: Types.ObjectId | string, 
+    _id: Types.ObjectId | string, 
     area: string, 
     stage: ObjectId | string, 
     stageName: string,
@@ -21,7 +21,7 @@ export interface ILearningModuleOverview extends Document
 export const LearningModuleOverviewSchema = new Schema<ILearningModuleOverview>
         (
             {
-                moduleId: 
+                _id: 
                 {
                     type: Schema.Types.ObjectId, 
                     required: true,

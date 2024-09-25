@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="91b7b575-a693-50ad-b589-38a405eeb9ec")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bd90056c-9459-5a56-a48e-8d1e3f7fa58e")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -63,6 +63,9 @@ class LearningModuleController {
                 const stageNumber = Number(req.query.stageNumber);
                 const page = Number(req.query.page);
                 const limit = Number(req.query.limit);
+                if (typeof stageNumber !== 'number') {
+                    return res.status(400).json({ success: false, msg: "stageNumber Must be a number, e.g 1" });
+                }
                 if (page <= 0)
                     return res.status(400).json({ success: false, msg: "Page cannot be less than 1" });
                 if (limit <= 0)
@@ -71,6 +74,7 @@ class LearningModuleController {
                 return res.status(200).json({ success: true, data: { learningModules } });
             }
             catch (e) {
+                logger_1.default.error(e, "CONTROLLER:");
                 return res.status(500).json({ success: false, msg: "Server Error" });
             }
         });
@@ -149,4 +153,4 @@ class LearningModuleController {
 }
 exports.LearningModuleController = LearningModuleController;
 //# sourceMappingURL=learningModule.controller.js.map
-//# debugId=91b7b575-a693-50ad-b589-38a405eeb9ec
+//# debugId=bd90056c-9459-5a56-a48e-8d1e3f7fa58e

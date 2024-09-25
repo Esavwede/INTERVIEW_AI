@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d906e156-a3c6-5932-8014-defc4f4adcde")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5c3755fd-a709-5aef-bd09-ca01bca37134")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -26,6 +26,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const GeneratedJobRoleSchema = new mongoose_1.Schema({
+    roleContent: {
+        type: String,
+        required: true
+    }
+});
 const JobProfileEntrySchema = new mongoose_1.Schema({
     jobRole: {
         type: String,
@@ -52,9 +58,12 @@ const JobProfileSchema = new mongoose_1.Schema({
     },
     jobProfiles: {
         type: [JobProfileEntrySchema]
+    },
+    generatedJobRoles: {
+        type: [GeneratedJobRoleSchema]
     }
 });
 const JobProfile = mongoose_1.default.model("jobProfile", JobProfileSchema);
 exports.default = JobProfile;
 //# sourceMappingURL=JobProfile.js.map
-//# debugId=d906e156-a3c6-5932-8014-defc4f4adcde
+//# debugId=5c3755fd-a709-5aef-bd09-ca01bca37134

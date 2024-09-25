@@ -32,7 +32,8 @@ declare global
         interface Request 
         {
             user: IUserRequest,
-            context?: IUserLogContext
+            context?: IUserLogContext,
+            resumePath?: string 
         }
     }
 }

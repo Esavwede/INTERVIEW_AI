@@ -7,6 +7,7 @@ import { JobProfileService } from "@src/services/jobProfile/jobProfile.service"
 import { CreateJobProfileSchema, DeleteJobProfileSchema } from "@src/schemas/jobProfile/jobProfile.schema"
 import { JobProfileRepo } from "@src/repos/jobProfile/jobProfile.repo"
 import { uploadFile } from "@src/util/upload/doc/uploadDocToCloud"
+import { generateJobRoleFromResume } from "@src/util/jobRoleGenerator/generateJobRole"
 
 
 export class JobProfileController
@@ -36,18 +37,17 @@ export class JobProfileController
 
             if( !req.file ){ return res.status(400).json({ success: false, msg:"Please Input a Valid Resume "})}
 
-              /** Ensure User Context Exists */
-              if( !userLogContext  || !userId )
-                {
-                    logger.warn(`Request Context Missing for User: ${ userId }`)
-                    return res.status(500).json({ success: false, msg: "Server Error"})
-                }
+            /** Ensure User Context Exists */
+            if( !userLogContext  || !userId )
+            {
+                logger.warn(`Request Context Missing for User: ${ userId }`)
+                return res.status(500).json({ success: false, msg: "Server Error"})
+            }
 
-               /** Create Child Logger */
-               const childLogger = logger.child( userLogContext )
+            /** Create Child Logger */
+            const childLogger = logger.child( userLogContext )
 
             const { public_id, secure_url } = await uploadFile( req.file?.path, childLogger ) 
-
 
             // Upload Resume 
             const jobProfileDoc = { jobRole, experienceLevel, resumeUrl: secure_url, resumeId: public_id }
@@ -68,9 +68,12 @@ export class JobProfileController
                 await this.jobProfileService.createNewJobProfile( userId, jobProfileDoc, childLogger) 
             }
 
-
-            return res.status(201).json({ success: true, msg:"Job Profile Created" })
             
+            res.status(201).json({ success: true, msg:"Job Profile Created" })
+
+            // Generate Job Role For User In the Background 
+            const resumePath = req.resumePath || ''  
+          return  generateJobRoleFromResume( userId, jobRole, experienceLevel, resumePath ) 
         }
         catch(err: any)
         {
@@ -85,11 +88,6 @@ export class JobProfileController
             return res.status( e.statusCode ).json({ success: false, msg: e.message })
         }
     }
- 
-
-
-
-
 
     
     async getUserJobProfiles(req: Request, res: Response )

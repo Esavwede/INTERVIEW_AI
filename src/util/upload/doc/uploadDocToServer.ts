@@ -16,10 +16,18 @@ const storage = multer.diskStorage({
     
       const userId = req.user?._id 
       const fileExt = path.extname( file.originalname )  
-      cb(null, `${userId}-resume.${ fileExt }`)
+
+      const parentPath = path.resolve("src","uploads") // Set Parent Path 
+      const filePath = `${userId}-resume${ fileExt }`// Set File Path 
+
+      const fullPath = path.join(parentPath, filePath ) // Set Full Path 
+      
+      // Save File Path To Request 
+      req.resumePath = fullPath
+      
+      cb(null, filePath)
     },
   });
 
 
-  export const uploadToServer = multer({ storage , limits: { fileSize: 3 * 1024 * 1024 }});
-
+  export const uploadToServer = multer({ storage , limits: { fileSize: 3 * 1024 * 1024 }})
