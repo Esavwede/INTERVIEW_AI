@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f20d053b-fc70-584a-be09-9c3f13ec1dee")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="005437fd-8faf-5ee3-bd67-f0dcc14e46aa")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -15,6 +15,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateJobRoleFromResume = generateJobRoleFromResume;
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const promises_1 = __importDefault(require("fs/promises"));
 const path_1 = __importDefault(require("path"));
 const pdf_parse_1 = __importDefault(require("pdf-parse"));
@@ -94,7 +96,7 @@ Role: ${jobRole}
 experienceLevel: ${experienceLevel}
 resume: ${resume}
   `;
-        const GEMINI_API_KEY = "AIzaSyDZtoTyjwzfjnyG09c2wF2bmVcmewEfi7Y";
+        const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
         const genAI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API_KEY);
         function run() {
             return __awaiter(this, void 0, void 0, function* () {
@@ -120,4 +122,4 @@ function saveGeneratedJobRoleToDB(userId, generatedJobRole) {
     });
 }
 //# sourceMappingURL=generateJobRole.js.map
-//# debugId=f20d053b-fc70-584a-be09-9c3f13ec1dee
+//# debugId=005437fd-8faf-5ee3-bd67-f0dcc14e46aa

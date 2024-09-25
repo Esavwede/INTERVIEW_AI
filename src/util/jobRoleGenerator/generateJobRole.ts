@@ -1,5 +1,6 @@
 
-
+import { config } from "dotenv"
+config() 
 
 /*****************THE DIRTY FILE *********************************************** */
 import fs from "fs/promises"
@@ -111,7 +112,7 @@ resume: ${ resume }
   `     
 
 
-    const GEMINI_API_KEY = "AIzaSyDZtoTyjwzfjnyG09c2wF2bmVcmewEfi7Y"
+    const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '' 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
     async function run() 
