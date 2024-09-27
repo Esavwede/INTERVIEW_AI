@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="744c4757-8af8-5e2d-8d78-5b042674f8be")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0e96f3ea-95b1-5553-a79a-722d25e7a84f")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -64,7 +64,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
 app.use((0, cors_1.default)({
-    origin: "*",
+    origin: ["http://localhost:3000", "http://localhost:5173", "https://interviewaiafrotech.netlify.app"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: false
 }));
@@ -107,4 +107,4 @@ app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=744c4757-8af8-5e2d-8d78-5b042674f8be
+//# debugId=0e96f3ea-95b1-5553-a79a-722d25e7a84f

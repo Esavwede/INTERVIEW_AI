@@ -55,7 +55,7 @@ app.use(cookieParser(EnvVars.CookieProps.Secret))
 
 // Cors 
 app.use(cors({
-  origin: ["http://localhost:3000","http://localhost:5173","*"], // Allows clear all origins, you can restrict this to specific origins
+  origin: ["http://localhost:3000","http://localhost:5173","https://interviewaiafrotech.netlify.app"], // Allows clear all origins, you can restrict this to specific origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: false 
 }));
