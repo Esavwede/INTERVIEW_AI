@@ -31,7 +31,7 @@
  *                 items:
  *                   type: object
  *                   required:
- *                     - moduleId
+ *                     - _id
  *                     - stage
  *                     - stageName
  *                     - stageNumber
@@ -42,7 +42,7 @@
  *                     - imgSrc
  *                     - partsMetaData # Added here
  *                   properties:
- *                     moduleId:
+ *                     _id:
  *                       type: string
  *                       description: The unique identifier of the module
  *                       example: "66e435b00c582c06d8d9c85f"

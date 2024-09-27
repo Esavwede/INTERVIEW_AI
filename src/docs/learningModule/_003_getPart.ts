@@ -56,7 +56,7 @@
  *                           example: "66e61f3aa6f33d9d932a26d3"
  *                         quizId:
  *                           type: string
- *                           example: ""
+ *                           example: "hddhdtrd656d6dd56d"
  *                         content:
  *                           type: array
  *                           items:

@@ -33,6 +33,7 @@ export const LearningModulePartValidationSchema = z.object
                                 {
                                     title: z.string({ required_error: "Part Title Must Be Provided", invalid_type_error:"Part Title Must be string"}),
                                     learningModuleId: z.string().min(1,'INPUT LEARNING MODULE ID'),
+                                    quizId: z.string().optional(), 
                                     content: PartSchema,
                                     isLast: z.boolean({
                                         required_error: "isLast Field Not Present",
