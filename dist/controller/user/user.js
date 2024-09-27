@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="35dd6189-56c6-5b85-93b9-e733af764482")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5e40e586-21df-57a2-9469-c0ce2f1ad1a5")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -165,7 +165,24 @@ class UserController {
             }
         });
     }
+    markUserLearningPartAsComplete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const { _id, partTitle } = req.body;
+                const userId = ((_a = req.user) === null || _a === void 0 ? void 0 : _a._id) || '';
+                this.userService.markLearningModulePartAsCompleted(userId, _id, partTitle);
+                return res.status(200).json({ success: true, msg: "Successfully marked part as completed" });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: e.message });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
+            }
+        });
+    }
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=35dd6189-56c6-5b85-93b9-e733af764482
+//# debugId=5e40e586-21df-57a2-9469-c0ce2f1ad1a5

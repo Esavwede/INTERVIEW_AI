@@ -1,8 +1,6 @@
 import { ICreateLearningModulePart_Req } from "@src/DTOs/learningModulePart/learningModulePart.dto";
 import { ILearningModulePart, IPartContent, LearningModule } from "@src/models/LearningModule";
 import logger from "@src/system/logger/logger";
-import mongoose,{ ObjectId } from "mongoose";
-
 
 
 export class LearningModulePartRepo 
@@ -16,7 +14,8 @@ export class LearningModulePartRepo
 
     async create( moduleID: string, part: ICreateLearningModulePart_Req): Promise<void> 
     {
-        await LearningModule.findByIdAndUpdate( moduleID, { $addToSet: {  parts: part }, $inc:{ numberOfParts: 1 } },{ new: false })
+        
+        await LearningModule.findByIdAndUpdate( moduleID, { $addToSet: {  parts: part , partsMetaData: { title: part.title } }, $inc:{ numberOfParts: 1 } },{ new: false })
     }
 
     

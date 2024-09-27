@@ -1,8 +1,8 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4fec03fb-7c46-570f-8421-481132ffc35b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="35d64d9d-c1ca-5a3c-bb90-4cd971ab1d36")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SaveUserFirstAndLastNameValidationSchema = exports.VerifyUserValidationSchema = exports.SignupSchema = void 0;
+exports.markLearningModulePartAsCompletedValidationSchema = exports.SaveUserFirstAndLastNameValidationSchema = exports.VerifyUserValidationSchema = exports.SignupSchema = void 0;
 const zod_1 = require("zod");
 exports.SignupSchema = zod_1.z.object({
     body: zod_1.z.object({
@@ -46,5 +46,17 @@ exports.SaveUserFirstAndLastNameValidationSchema = zod_1.z.object({
         }).optional()
     })
 });
+exports.markLearningModulePartAsCompletedValidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        _id: zod_1.z.string({
+            required_error: "learning id required",
+            invalid_type_error: "learning id must be of type string"
+        }),
+        partTitle: zod_1.z.string({
+            required_error: "partTitle required",
+            invalid_type_error: "partTitle must be of type string"
+        })
+    })
+});
 //# sourceMappingURL=signupSchema.js.map
-//# debugId=4fec03fb-7c46-570f-8421-481132ffc35b
+//# debugId=35d64d9d-c1ca-5a3c-bb90-4cd971ab1d36

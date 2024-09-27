@@ -11,6 +11,7 @@ interface learningModulePartContent
 
 export interface ICreateLearningModulePart_Req
 {
+    title: string, 
     learningModuleId: string,
     content: learningModulePartContent[]
 }

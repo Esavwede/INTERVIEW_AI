@@ -1,9 +1,59 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="11915e2c-0246-57bc-82f1-f3a322e76f80")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4cee3e0e-9738-5bb6-b6fa-eb8d20263693")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = void 0;
+exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = exports.LearningModuleOverviewSchema2 = void 0;
 const zod_1 = require("zod");
+exports.LearningModuleOverviewSchema2 = zod_1.z.object({
+    _id: zod_1.z.string({
+        required_error: "Module Id Not In Request",
+        invalid_type_error: "Module Id Must Be of Type String",
+    })
+        .min(1, 'Invalid Length For Module Id'),
+    area: zod_1.z.string({
+        required_error: "Learning Area Not Found In Request",
+        invalid_type_error: "Learning Area Must Be of Type String",
+    })
+        .min(2, "Learning Area Length Cannot Be less than 2"),
+    stage: zod_1.z.string({
+        required_error: "Stage not Found In Request Body",
+        invalid_type_error: "Stage Must Be Of Type String",
+    })
+        .min(1, 'Stage Length Cannot Be less Than 1'),
+    stageName: zod_1.z.string({
+        required_error: "StageName not Found In Request Body",
+        invalid_type_error: "StageName Must Be Of Type String",
+    })
+        .min(1, 'Stage Name Length Cannot Be less Than 1'),
+    stageNumber: zod_1.z.number({
+        required_error: "StageNumber not Found In Request Body",
+        invalid_type_error: "StageNumber Must Be Of Type String",
+    })
+        .min(1, 'Stage Number Cannot Be less Than 1'),
+    title: zod_1.z.string({
+        required_error: "Title not Found In Request Body",
+        invalid_type_error: "Title Must Be Of Type String",
+    })
+        .min(1, 'Title Length Cannot Be less than 1'),
+    description: zod_1.z.string({
+        required_error: "Description not Found In Request Body",
+        invalid_type_error: "User Id Incorrect. Must be type: string",
+    })
+        .min(1, "Description Length Cannot Be less than 1"),
+    imgSrc: zod_1.z.string({
+        required_error: "imgSrc not Found In Request Body",
+        invalid_type_error: "imgSrc Must Be A String",
+    })
+        .min(1, "imgSrc Length Cannot be less than 1"),
+    totalParts: zod_1.z.number({
+        required_error: "totalParts not Found In Request Body",
+        invalid_type_error: "total Parts must be type: number",
+    }),
+    partsMetaData: zod_1.z.array(zod_1.z.object({
+        title: zod_1.z.string({ required_error: "part title not found", invalid_type_error: "must be string" }),
+        hasBeenCompleted: zod_1.z.boolean()
+    }))
+});
 exports.LearningModuleOverviewSchema = zod_1.z.object({
     _id: zod_1.z.string({
         required_error: "Module Id Not In Request",
@@ -106,7 +156,7 @@ exports.DeleteLearningModuleSchema = zod_1.z.object({
 });
 exports.SaveLearningModuleSummaryValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
-        learningModules: zod_1.z.array(exports.LearningModuleOverviewSchema)
+        learningModules: zod_1.z.array(exports.LearningModuleOverviewSchema2)
     })
 });
 exports.GetLearningModulePartValidationSchema = zod_1.z.object({
@@ -135,4 +185,4 @@ exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=learningModule.schema.js.map
-//# debugId=11915e2c-0246-57bc-82f1-f3a322e76f80
+//# debugId=4cee3e0e-9738-5bb6-b6fa-eb8d20263693

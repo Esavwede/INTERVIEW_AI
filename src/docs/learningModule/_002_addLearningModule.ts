@@ -11,7 +11,7 @@
  * /api/v1/users/learning-modules:
  *   post:
  *     summary: Adds Learning Module(s) to a Users Learning Profile 
- *     description: Saves one or more learning Modules to a users learning Profile 
+ *     description: Saves one or more learning Modules to a user's learning Profile 
  *     tags:
  *       - Learning Module
  *     security:
@@ -24,7 +24,7 @@
  *           schema:
  *             type: object
  *             required:
- *               - overviews
+ *               - learningModules
  *             properties:
  *               learningModules:
  *                 type: array
@@ -40,6 +40,7 @@
  *                     - title
  *                     - description
  *                     - imgSrc
+ *                     - partsMetaData # Added here
  *                   properties:
  *                     _id:
  *                       type: string
@@ -78,6 +79,22 @@
  *                       format: uri
  *                       description: The URL of the image associated with the module
  *                       example: "https://example.com/image.png"
+ *                     partsMetaData: # New field added here
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         required:
+ *                           - title
+ *                           - hasBeenCompleted
+ *                         properties:
+ *                           title:
+ *                             type: string
+ *                             description: The title of the part
+ *                             example: "Introduction to dressing"
+ *                           hasBeenCompleted:
+ *                             type: boolean
+ *                             description: Indicates if the part has been completed
+ *                             example: false
  *     responses:
  *       '200':
  *         description: Successfully Added Learning Module(s) to User Learning Profile 

@@ -1,6 +1,7 @@
 
 
 import mongoose, { Document, ObjectId, Schema } from "mongoose"
+import { title } from "process"
 
 export interface IPartContent 
 {
@@ -28,6 +29,7 @@ export const PartContentSchema = new Schema<IPartContent>
 
 export interface ILearningModulePart extends Document 
 {
+    title: string, 
     learningModuleId?: ObjectId, 
     quizId?: ObjectId,
     content: IPartContent[],
@@ -38,6 +40,11 @@ export interface ILearningModulePart extends Document
 const LearningModulePartSchema = new Schema<ILearningModulePart> 
         (
             {
+                title: 
+                {
+                    type: String, 
+                    required: true 
+                },
                 learningModuleId: 
                 {
                     type: mongoose.Types.ObjectId
@@ -62,6 +69,29 @@ const LearningModulePartSchema = new Schema<ILearningModulePart>
         )
 
 
+export interface IPartMetaData 
+{
+    title: string, 
+    hasBeenCompleted: boolean 
+}
+
+export const PartMetaDataSchema  = new Schema
+    (
+        {
+            title: 
+            {
+                type: String, 
+                required: true 
+            },
+            hasBeenCompleted: 
+            {
+                type: Boolean, 
+                required: true,
+                default: false 
+            }
+        }
+    )
+
 export interface ILearningModule extends Document 
 {
     title: string, 
@@ -72,6 +102,7 @@ export interface ILearningModule extends Document
     description: string, 
     imgSrc: string,
     totalParts: number, 
+    partsMetaData: IPartMetaData[], 
     parts?: ILearningModulePart[], 
     isDraft: boolean 
 }
@@ -121,6 +152,10 @@ const LearningModuleSchema = new Schema<ILearningModule>
                     type: Number, 
                     required: true, 
                     default: 0
+                },
+                partsMetaData: 
+                {
+                    type: [PartMetaDataSchema]
                 },
                 parts:
                 {

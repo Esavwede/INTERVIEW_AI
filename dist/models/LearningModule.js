@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="63c7b716-862d-5556-87a2-1d243ca82772")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="910bff7f-0008-5b3c-806e-8a0ff117e84b")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LearningModule = exports.PartContentSchema = void 0;
+exports.LearningModule = exports.PartMetaDataSchema = exports.PartContentSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 exports.PartContentSchema = new mongoose_1.Schema({
     type: {
@@ -38,6 +38,10 @@ exports.PartContentSchema = new mongoose_1.Schema({
     }
 });
 const LearningModulePartSchema = new mongoose_1.Schema({
+    title: {
+        type: String,
+        required: true
+    },
     learningModuleId: {
         type: mongoose_1.default.Types.ObjectId
     },
@@ -52,6 +56,17 @@ const LearningModulePartSchema = new mongoose_1.Schema({
     isLast: {
         type: Boolean,
         require: true,
+        default: false
+    }
+});
+exports.PartMetaDataSchema = new mongoose_1.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    hasBeenCompleted: {
+        type: Boolean,
+        required: true,
         default: false
     }
 });
@@ -90,6 +105,9 @@ const LearningModuleSchema = new mongoose_1.Schema({
         required: true,
         default: 0
     },
+    partsMetaData: {
+        type: [exports.PartMetaDataSchema]
+    },
     parts: {
         type: [LearningModulePartSchema]
     },
@@ -102,4 +120,4 @@ const LearningModuleSchema = new mongoose_1.Schema({
 });
 exports.LearningModule = mongoose_1.default.model('learningModule', LearningModuleSchema);
 //# sourceMappingURL=LearningModule.js.map
-//# debugId=63c7b716-862d-5556-87a2-1d243ca82772
+//# debugId=910bff7f-0008-5b3c-806e-8a0ff117e84b

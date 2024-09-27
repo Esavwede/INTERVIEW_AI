@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="53dc39d9-13d6-5992-90eb-9ff158e76a61")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fa4bb97f-f341-5081-b38a-cfcc734ebb90")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -22,7 +22,7 @@ class LearningModulePartRepo {
     }
     create(moduleID, part) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield LearningModule_1.LearningModule.findByIdAndUpdate(moduleID, { $addToSet: { parts: part }, $inc: { numberOfParts: 1 } }, { new: false });
+            yield LearningModule_1.LearningModule.findByIdAndUpdate(moduleID, { $addToSet: { parts: part, partsMetaData: { title: part.title } }, $inc: { numberOfParts: 1 } }, { new: false });
         });
     }
     find(learningModuleId, partIndex) {
@@ -46,4 +46,4 @@ class LearningModulePartRepo {
 }
 exports.LearningModulePartRepo = LearningModulePartRepo;
 //# sourceMappingURL=learningModulePart.repo.js.map
-//# debugId=53dc39d9-13d6-5992-90eb-9ff158e76a61
+//# debugId=fa4bb97f-f341-5081-b38a-cfcc734ebb90

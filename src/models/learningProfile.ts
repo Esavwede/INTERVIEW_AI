@@ -1,5 +1,6 @@
 
 import mongoose, { Schema, Document, Types, ObjectId} from "mongoose" 
+import { IPartMetaData, PartMetaDataSchema } from "./LearningModule"
  
 
 export interface ILearningModuleOverview extends Document 
@@ -12,6 +13,7 @@ export interface ILearningModuleOverview extends Document
     title: string,
     description: string,
     imgSrc: string,
+    partsMetaData: IPartMetaData[] 
     totalParts: number, 
     currentPart: number,
     nextPart: number 
@@ -66,6 +68,10 @@ export const LearningModuleOverviewSchema = new Schema<ILearningModuleOverview>
                 {
                     type: Number, 
                     required: true
+                },
+                partsMetaData:
+                {
+                    type: [PartMetaDataSchema]
                 },
                 currentPart: 
                 {

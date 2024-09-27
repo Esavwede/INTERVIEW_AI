@@ -3,9 +3,7 @@ import { LearningModulePartService } from "@src/services/learningModulePart/lear
 import { LearningModulePartRepo } from "@src/repos/learningModulePart/learningModulePart.repo";
 import { Request, Response} from "express"
 import { LearningModulePartSchema_Create, LearningModulePartSchema_Get, LearningModulePartSchema_Update } from "@src/schemas/learningModulePart/learningModulePart.schema";
-import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
-import logger from "@src/system/logger/logger";
-
+import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError"
 
 export class LearningModulePartController 
 {

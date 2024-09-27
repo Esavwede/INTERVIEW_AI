@@ -184,13 +184,12 @@ export class LearningModuleService
         await this.learningModuleRepo.incrementNumberOfParts( moduleId )
     }
 
-
     async getLearningModulesUnderStage
     ( 
         stageNumber: number,
         page: number, 
         limit: number 
-    ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts'>[] | null >
+    ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts' | 'partsMetaData'>[] | null >
     {
         try 
         {

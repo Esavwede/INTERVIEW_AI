@@ -1,5 +1,6 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="49871be5-4466-567f-bbf2-848b9e9c1c03")}catch(e){}}();
+
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e425918c-645f-5e0d-b192-c3a568e0b65f")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateLearningModulePartSchema = exports.GetLearningModuleValidationSchema = exports.LearningModulePartValidationSchema = void 0;
@@ -16,6 +17,7 @@ const SectionUpdateSchema = zod_1.z.object({
 const PartSchema = zod_1.z.array(SectionSchema);
 exports.LearningModulePartValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
+        title: zod_1.z.string({ required_error: "Part Title Must Be Provided", invalid_type_error: "Part Title Must be string" }),
         learningModuleId: zod_1.z.string().min(1, 'INPUT LEARNING MODULE ID'),
         quizId: zod_1.z.string().optional(),
         content: PartSchema,
@@ -38,4 +40,6 @@ exports.UpdateLearningModulePartSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=learningModulePart.schema.js.map
-//# debugId=49871be5-4466-567f-bbf2-848b9e9c1c03
+
+//# debugId=e425918c-645f-5e0d-b192-c3a568e0b65f
+

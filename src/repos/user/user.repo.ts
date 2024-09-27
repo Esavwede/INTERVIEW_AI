@@ -41,7 +41,6 @@ export class UserRepository
         return true 
     }
 
-
     async findById( userID: string ): Promise< IUser | null > 
     {
             const user = await User.findByIdAndUpdate({ _id: userID },{ isVerified: true })
@@ -102,5 +101,31 @@ export class UserRepository
         return modifiedCount
     }
 
+    async markLearningModulePartAsCompleted( userId: string, learningModuleId: string, partTitle: string  ): Promise<number> 
+    {
+        
+        // Update query
+       const { modifiedCount } =  await User.updateOne(
+          {
+             _id: userId,
+            "learningProfile._id": learningModuleId,
+            "learningProfile.partsMetaData.title": partTitle // Ensure the title exists in partsMetaData
+          },
+          {
+            $set: {
+              "learningProfile.$[profile].partsMetaData.$[part].hasBeenCompleted": true // Update the hasBeenCompleted status
+            }
+          },
+          {
+            arrayFilters: [
+              { "profile._id": { $exists: true } }, // Ensure the learningProfile exists
+              { "part.title": partTitle } // Target the part with the matching title
+            ]
+          }
+        );
+
+        return modifiedCount
+        
+    }
     
 }
