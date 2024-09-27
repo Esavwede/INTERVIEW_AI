@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="58fa5da3-ad89-5276-8c5c-41e1736d7d0e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e6da5998-89fd-5438-807f-1a35ffbbaf76")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -92,7 +92,26 @@ class UserRepository {
             return modifiedCount;
         });
     }
+    markLearningModulePartAsCompleted(userId, learningModuleId, partTitle) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { modifiedCount } = yield User_1.User.updateOne({
+                _id: userId,
+                "learningProfile._id": learningModuleId,
+                "learningProfile.partsMetaData.title": partTitle
+            }, {
+                $set: {
+                    "learningProfile.$[profile].partsMetaData.$[part].hasBeenCompleted": true
+                }
+            }, {
+                arrayFilters: [
+                    { "profile._id": { $exists: true } },
+                    { "part.title": partTitle }
+                ]
+            });
+            return modifiedCount;
+        });
+    }
 }
 exports.UserRepository = UserRepository;
 //# sourceMappingURL=user.repo.js.map
-//# debugId=58fa5da3-ad89-5276-8c5c-41e1736d7d0e
+//# debugId=e6da5998-89fd-5438-807f-1a35ffbbaf76

@@ -1,18 +1,16 @@
 
 
-import { UserRepository } from "@src/repos/user/user.repo";
-import { UserDTO } from "@src/DTOs/user/user";
-import { sendMail } from "@src/util/mail/sendMain";
-import { ServerError } from "@src/util/Errors/Endpoints/serverError";
-import  logger from "@src/system/logger/logger";
+import { UserRepository } from "@src/repos/user/user.repo"
+import { UserDTO } from "@src/DTOs/user/user"
+import { sendMail } from "@src/util/mail/sendMain"
+import { ServerError } from "@src/util/Errors/Endpoints/serverError"
+import  logger from "@src/system/logger/logger"
 import { config } from "dotenv"
-import { UnauthorizedError } from "@src/util/Errors/Endpoints/unauthorizedError";
-import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
-import { generateJwtToken } from "@src/util/Auth/tokens";
-import { LearningArea } from "@src/models/area";
-import { groupLearningAreasByStage } from "@src/util/learningModule/organizeLearningModules";
-import { ILearningModuleOverview } from "@src/models/learningProfile";
-import { ForbiddenError } from "@src/util/Errors/Endpoints/forbiddenError";
+import { UnauthorizedError } from "@src/util/Errors/Endpoints/unauthorizedError"
+import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError"
+import { generateJwtToken } from "@src/util/Auth/tokens"
+import { ILearningModuleOverview } from "@src/models/learningProfile"
+import { ForbiddenError } from "@src/util/Errors/Endpoints/forbiddenError"
 import { IUser } from "@src/models/User";
 config() 
 
@@ -160,28 +158,13 @@ export class UserService
 
              const accessToken = generateJwtToken( payload)
              const refreshToken = generateJwtToken( payload )
-            
-           
-
-
-             if( newUser ) 
-             {
-
-                    logger.info("User New")
-                    // Fetch Learning Areas 
-                    const learningModules = await LearningArea.find({})
-                    // 
-
-                    const learningModulesGroupedByStage = groupLearningAreasByStage( learningModules )
-                    console.dir( learningModulesGroupedByStage ) 
-                    
-                    return { success: true, data:{ user:{  newUser: true, firstname, lastname }, tokens:{ accessToken, refreshToken}, learningModules: learningModulesGroupedByStage } }  
-                     
-             }
           
+             console.log('---Debug----')
+             console.log( learningProfile ) 
+
              // User not New Return User profile and Learning Profile Details
              logger.info('User Not New')
-             return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, learningProfile}, tokens:{ accessToken, refreshToken }}}
+             return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens:{ accessToken, refreshToken }}}
         }
         catch(e: any )
         {
@@ -266,5 +249,26 @@ export class UserService
     {
         await this.userRepository.markUserHasCreatedFirstJobProfileAsFalse( userId ) 
     }   
+
+
+    async markLearningModulePartAsCompleted( userId: string, learningModuleId: string, partTitle: string )
+    {
+        try 
+        {
+            const markedAsCompleted = await this.userRepository.markLearningModulePartAsCompleted( userId, learningModuleId, partTitle )
+
+            if( !markedAsCompleted )
+            {
+                throw new NotFoundError(`Could not find module part: ${ partTitle } on user learning profile`)
+            }
+
+            logger.debug('User learning module part marked as complete') 
+        }
+        catch(e: any)
+        {
+            logger.error(e,'USER_SERVICE_ERROR: Error occured while marking User learning module part as completed ')
+            throw e 
+        }
+    }
 
 }// 

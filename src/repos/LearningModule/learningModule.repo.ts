@@ -68,8 +68,7 @@ export default class LearningModuleRepo
 
         console.log(' ----Here ---')
         console.dir( userLearningOverview ) 
-    }
-       
+    }     
 
     async getNextPart( moduleId: string, nextPartIndex: number )
     {
@@ -112,16 +111,16 @@ export default class LearningModuleRepo
         stageNumber: number,
         page: number,
         limit: number
-      ): Promise<   Pick<   ILearningModule, '_id' | 'title' | 'area' | 'description' |'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts' >[] | null> {
+      ): Promise<   Pick<   ILearningModule, '_id' | 'title' | 'area' | 'description' |'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts' | 'partsMetaData' >[] | null> {
 
         // Define the fields to be selected in the query
-        const fields = '_id title area description imgSrc stage stageName stageNumber totalParts';
+        const fields = '_id title area description imgSrc stage stageName stageNumber totalParts partsMetaData';
       
         // Calculate the number of documents to skip based on the current page
         var skip = (page - 1) * limit;
 
         // Fetch the learning modules with the specified stage ID
-        const learningModules = await LearningModule.find({ stageNumber })
+        const learningModules = await LearningModule.find({ stageNumber, isDraft: false  })
           .select(fields)
           .skip(skip)
           .limit(limit);

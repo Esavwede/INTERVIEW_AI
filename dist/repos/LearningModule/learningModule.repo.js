@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1cad694c-89cc-5b19-90fc-3c00a55e77a4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8c875762-712d-554a-97bc-1ce4f2f17d67")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -97,9 +97,9 @@ class LearningModuleRepo {
     }
     getLearningModulesUnderStage(stageNumber, page, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const fields = '_id title area description imgSrc stage stageName stageNumber totalParts';
+            const fields = '_id title area description imgSrc stage stageName stageNumber totalParts partsMetaData';
             var skip = (page - 1) * limit;
-            const learningModules = yield LearningModule_1.LearningModule.find({ stageNumber })
+            const learningModules = yield LearningModule_1.LearningModule.find({ stageNumber, isDraft: false })
                 .select(fields)
                 .skip(skip)
                 .limit(limit);
@@ -111,4 +111,4 @@ class LearningModuleRepo {
 }
 exports.default = LearningModuleRepo;
 //# sourceMappingURL=learningModule.repo.js.map
-//# debugId=1cad694c-89cc-5b19-90fc-3c00a55e77a4
+//# debugId=8c875762-712d-554a-97bc-1ce4f2f17d67

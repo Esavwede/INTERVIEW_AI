@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9f3b8934-4ac9-54ae-980a-511a4d722e5d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="af876e8e-aa35-59a9-b90a-392c3ff6757f")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -22,8 +22,6 @@ const dotenv_1 = require("dotenv");
 const unauthorizedError_1 = require("@src/util/Errors/Endpoints/unauthorizedError");
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const tokens_1 = require("@src/util/Auth/tokens");
-const area_1 = require("@src/models/area");
-const organizeLearningModules_1 = require("@src/util/learningModule/organizeLearningModules");
 const forbiddenError_1 = require("@src/util/Errors/Endpoints/forbiddenError");
 (0, dotenv_1.config)();
 class UserService {
@@ -129,13 +127,8 @@ class UserService {
                 const payload = { _id, userHasCreatedFirstJobProfile };
                 const accessToken = (0, tokens_1.generateJwtToken)(payload);
                 const refreshToken = (0, tokens_1.generateJwtToken)(payload);
-                if (newUser) {
-                    logger_1.default.info("User New");
-                    const learningModules = yield area_1.LearningArea.find({});
-                    const learningModulesGroupedByStage = (0, organizeLearningModules_1.groupLearningAreasByStage)(learningModules);
-                    console.dir(learningModulesGroupedByStage);
-                    return { success: true, data: { user: { newUser: true, firstname, lastname }, tokens: { accessToken, refreshToken }, learningModules: learningModulesGroupedByStage } };
-                }
+                console.log('---Debug----');
+                console.log(learningProfile);
                 logger_1.default.info('User Not New');
                 return { data: { user: { newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens: { accessToken, refreshToken } } };
             }
@@ -207,7 +200,22 @@ class UserService {
             yield this.userRepository.markUserHasCreatedFirstJobProfileAsFalse(userId);
         });
     }
+    markLearningModulePartAsCompleted(userId, learningModuleId, partTitle) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const markedAsCompleted = yield this.userRepository.markLearningModulePartAsCompleted(userId, learningModuleId, partTitle);
+                if (!markedAsCompleted) {
+                    throw new notFoundError_1.NotFoundError(`Could not find module part: ${partTitle} on user learning profile`);
+                }
+                logger_1.default.debug('User learning module part marked as complete');
+            }
+            catch (e) {
+                logger_1.default.error(e, 'USER_SERVICE_ERROR: Error occured while marking User learning module part as completed ');
+                throw e;
+            }
+        });
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=9f3b8934-4ac9-54ae-980a-511a4d722e5d
+//# debugId=af876e8e-aa35-59a9-b90a-392c3ff6757f

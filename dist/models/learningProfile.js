@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ab1ef5ac-4ede-5410-875e-c577735123ae")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a32dc13a-a82d-5b75-a806-c25120d60840")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -27,6 +27,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LearningProfile = exports.LearningModuleOverviewSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
+const LearningModule_1 = require("./LearningModule");
 exports.LearningModuleOverviewSchema = new mongoose_1.Schema({
     _id: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -65,6 +66,9 @@ exports.LearningModuleOverviewSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
+    partsMetaData: {
+        type: [LearningModule_1.PartMetaDataSchema]
+    },
     currentPart: {
         type: Number,
         required: true,
@@ -87,4 +91,4 @@ const LearningProfileSchema = new mongoose_1.Schema({
 });
 exports.LearningProfile = mongoose_1.default.model("learningProfile", LearningProfileSchema);
 //# sourceMappingURL=learningProfile.js.map
-//# debugId=ab1ef5ac-4ede-5410-875e-c577735123ae
+//# debugId=a32dc13a-a82d-5b75-a806-c25120d60840

@@ -37,7 +37,6 @@ export const SignupSchema = z.object(
     }
 )
 
-
 export const VerifyUserValidationSchema = z.object 
                     (
                         {
@@ -83,8 +82,28 @@ export const SaveUserFirstAndLastNameValidationSchema = z.object
                                         }
                                     )
 
-
+export const markLearningModulePartAsCompletedValidationSchema = z.object
+                                                    (
+                                                        {
+                                                            body: z.object      
+                                                                    (
+                                                                        {
+                                                                           _id: z.string
+                                                                            ({
+                                                                             required_error:"learning id required", 
+                                                                             invalid_type_error:"learning id must be of type string"
+                                                                            }),
+                                                                            partTitle: z.string
+                                                                            ({
+                                                                             required_error:"partTitle required", 
+                                                                             invalid_type_error:"partTitle must be of type string"
+                                                                            })  
+                                                                        }
+                                                                    )
+                                                        }
+                                                    )
 
  export type SignupInput =  TypeOf<typeof SignupSchema>
  export type VerifyUserSchema = z.infer<typeof VerifyUserValidationSchema> 
  export type SaveUserFirstAndLastNameSchema = z.infer<typeof SaveUserFirstAndLastNameValidationSchema> 
+ export type MarkLearningModuleAsCompletedSchema = z.infer<typeof markLearningModulePartAsCompletedValidationSchema>

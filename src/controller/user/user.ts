@@ -1,7 +1,7 @@
 import { UserService } from "@src/services/user/user";
 import { UserRepository } from "@src/repos/user/user.repo";
 import  { Request, Response } from "express-serve-static-core" 
-import { SaveUserFirstAndLastNameSchema, SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
+import { MarkLearningModuleAsCompletedSchema, SaveUserFirstAndLastNameSchema, SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
 import { config } from "dotenv"
 config() 
@@ -140,7 +140,7 @@ export class UserController
 
             return res.status(200).json({ success: true, data: userReturnData }) // Returns User Details 
         }
-        catch( err : any )
+        catch( err : any ) 
         {
             const e = err as AnyAppError 
             if( !e.statusCode ) return res.status(500).json({ success: false, msg: "Server Error" })
@@ -197,7 +197,7 @@ export class UserController
             const userId = req.user?._id 
             if( !userId ) return res.status(401).json({ success: false, msg:"could not authenticated user"})
             
-            const learningModuleOverview = req.body.learningModules as ILearningModuleOverview[]
+            const learningModuleOverview = req.body.learningModules as unknown as ILearningModuleOverview[]
             await this.userService.saveUserLearningModuleOverview( userId, learningModuleOverview)
             return res.status(200).json({ success: true, msg:"Learning Modules Overview Saved to user Learning Profile"})
         }
@@ -208,6 +208,27 @@ export class UserController
                 if( !err.statusCode ) return res.status(500).json({ success: false, msg: 'Server Error' })
                 
                 return res.status( err.statusCode ).json({ success: false, msg: err.message }) 
+        }
+    }
+
+
+    async markUserLearningPartAsComplete(req: Request<{},{}, MarkLearningModuleAsCompletedSchema['body']>, res: Response )
+    {
+        try 
+        {
+            const {_id,partTitle  } = req.body 
+            const userId = req.user?._id || '' 
+
+
+            this.userService.markLearningModulePartAsCompleted( userId, _id, partTitle )
+            return res.status(200).json({ success: true, msg:"Successfully marked part as completed"})
+        }
+        catch(err: any )
+        {
+            const e = err as AnyAppError
+
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg: e.message })
+            return res.status(e.statusCode).json({ success: false, msg: e.message })
         }
     }
 

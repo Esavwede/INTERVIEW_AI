@@ -14,7 +14,7 @@
     {
         "options":
         {
-            "expiresIn":"1h"
+            "expiresIn":"23h"
         }
     }
 }

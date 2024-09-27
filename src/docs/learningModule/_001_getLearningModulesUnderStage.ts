@@ -87,6 +87,20 @@
  *                           totalParts:
  *                             type: integer
  *                             example: 4
+ *                           partsMetaData:
+ *                             type: array
+ *                             items:
+ *                               type: object
+ *                               properties:
+ *                                 title:
+ *                                   type: string
+ *                                   example: "Introduction to dressing"
+ *                                 hasBeenCompleted:
+ *                                   type: boolean
+ *                                   example: false
+ *                                 _id:
+ *                                   type: string
+ *                                   example: "66f6abec4f40b38f69a13604"
  *       '401':
  *         description: Unauthorized - user not authenticated.
  *         content:

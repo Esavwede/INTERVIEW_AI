@@ -55,7 +55,9 @@ app.use(cookieParser(EnvVars.CookieProps.Secret))
 
 // Cors 
 app.use(cors({
-  origin: '*', // Allows clear all origins, you can restrict this to specific origins
+  origin: ['*','https://interviewaiafrotech.netlify.app/'], // Allows clear all origins, you can restrict this to specific origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true 
 }));
 
 

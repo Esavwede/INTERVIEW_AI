@@ -31,6 +31,7 @@ export const LearningModulePartValidationSchema = z.object
                         body: z.object 
                             (
                                 {
+                                    title: z.string({ required_error: "Part Title Must Be Provided", invalid_type_error:"Part Title Must be string"}),
                                     learningModuleId: z.string().min(1,'INPUT LEARNING MODULE ID'),
                                     content: PartSchema,
                                     isLast: z.boolean({
