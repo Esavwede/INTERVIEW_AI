@@ -22,8 +22,11 @@ export async function sendMail( mailOptions: { email: string, html: string, subj
 
        const { email, subject, text, html } = mailOptions
       
-       const result = await  mg.messages.create('sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org', {
-            from: "Interview AI <mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org>",
+       const MAIL_URL = process.env.ENV_SIGNUP_MAIL_URL || 'sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org'
+       const MAIL_SENDER = process.env.ENV_SIGNUP_MAIL_SENDER || 'mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org'
+
+       const result = await  mg.messages.create( MAIL_URL, {
+            from: `Interview AI <${MAIL_SENDER}>`,
             to: [ email],
             subject,
             text,

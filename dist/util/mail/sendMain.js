@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="199a9a78-6082-5d57-a485-207b23bbfcc9")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e16e7133-9f56-59b9-bece-edf2a6c21a70")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -28,8 +28,10 @@ function sendMail(mailOptions) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { email, subject, text, html } = mailOptions;
-            const result = yield mg.messages.create('sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org', {
-                from: "Interview AI <mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org>",
+            const MAIL_URL = process.env.ENV_SIGNUP_MAIL_URL || 'sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org';
+            const MAIL_SENDER = process.env.ENV_SIGNUP_MAIL_SENDER || 'mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org';
+            const result = yield mg.messages.create(MAIL_URL, {
+                from: `Interview AI <${MAIL_SENDER}>`,
                 to: [email],
                 subject,
                 text,
@@ -44,4 +46,4 @@ function sendMail(mailOptions) {
     });
 }
 //# sourceMappingURL=sendMain.js.map
-//# debugId=199a9a78-6082-5d57-a485-207b23bbfcc9
+//# debugId=e16e7133-9f56-59b9-bece-edf2a6c21a70
