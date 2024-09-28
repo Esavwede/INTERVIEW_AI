@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0e96f3ea-95b1-5553-a79a-722d25e7a84f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="04556248-f6d3-5e6f-914d-766402c0e313")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -102,9 +102,13 @@ app.get('/', (_, res) => {
 app.get('/users', (_, res) => {
     return res.status(200).json({ success: true, "msg": "Welcome to the Interview AI API" });
 });
-app.get('/auth/google', signinWithGoogle_1.default.authenticate('google', {
+function access(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+}
+app.get('/auth/google', access, signinWithGoogle_1.default.authenticate('google', {
     scope: ['profile', 'email']
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=0e96f3ea-95b1-5553-a79a-722d25e7a84f
+//# debugId=04556248-f6d3-5e6f-914d-766402c0e313

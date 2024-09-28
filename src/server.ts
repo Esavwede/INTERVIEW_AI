@@ -136,16 +136,15 @@ app.get('/users', (_: Request, res: Response) => {
   return res.status(200).json({ success: true, "msg":"Welcome to the Interview AI API"})
 });
 
-app.get('/auth/google', passport.authenticate('google', {
+function access(req: Request, res: Response, next: NextFunction )
+{
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  next() 
+}
+
+app.get('/auth/google', access, passport.authenticate('google', {
   scope: ['profile', 'email']
 }));
-
-
-// app.get('/auth/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
-//   // Successful authentication, redirect home.
-//   console.log( req.user ) 
-//   res.send("Authentication Successfull For Interview AI") 
-// });
 
 // **** Export default **** //
 
