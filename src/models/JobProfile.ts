@@ -87,7 +87,5 @@ const JobProfileSchema = new Schema<IJobProfile>
                             )
 
 
-
-
 const JobProfile = mongoose.model("jobProfile", JobProfileSchema ) 
 export default JobProfile 

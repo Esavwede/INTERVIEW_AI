@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5e40e586-21df-57a2-9469-c0ce2f1ad1a5")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b22b68e8-77b7-55fa-9432-80ed6f1f0aa2")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -93,15 +93,15 @@ class UserController {
                 console.log(req.user);
                 if (!user)
                     return res.status(500).json({ success: false, msg: "User Object Empty" });
-                const { _id, firstname, lastname, email, learningProfile, newUser } = user;
+                const { _id, firstname, lastname, email, learningProfile, newUser, userHasCreatedFirstJobProfile } = user;
                 const signDetails = { _id, email, firstname, lastname };
                 const accessToken = (0, tokens_1.generateJwtToken)(signDetails);
                 const refreshToken = (0, tokens_1.generateJwtToken)(signDetails);
-                const newUserReturnData = { user: { newUser: true, firstname, lastname }, tokens: { accessToken, refreshToken } };
+                const newUserReturnData = { user: { newUser: true, firstname, lastname, userHasCreatedFirstJobProfile }, tokens: { accessToken, refreshToken } };
                 if (newUser) {
                     return res.status(200).json({ success: true, data: newUserReturnData });
                 }
-                const userReturnData = { user: { newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens: { accessToken, refreshToken } };
+                const userReturnData = { user: { newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } };
                 return res.status(200).json({ success: true, data: userReturnData });
             }
             catch (err) {
@@ -185,4 +185,4 @@ class UserController {
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=5e40e586-21df-57a2-9469-c0ce2f1ad1a5
+//# debugId=b22b68e8-77b7-55fa-9432-80ed6f1f0aa2

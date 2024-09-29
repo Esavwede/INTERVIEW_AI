@@ -7,6 +7,8 @@ import { UserService } from "../user/user";
 import { UserRepository  } from "@src/repos/user/user.repo";
 import { ConflictError } from "@src/util/Errors/Endpoints/conflictError";
 import { Logger } from "pino";
+import { generateJobDescriptions } from "@src/util/jobDescription/generateJobDescriptions";
+import { fetchUserResumeAsText } from "@src/util/jobDescription/fetchUserResume";
 
 
 
@@ -51,7 +53,6 @@ export class JobProfileService
         }
     }
 
-
     async addNewJobProfileToJobProfiles
     (
         userId: string, 
@@ -83,7 +84,7 @@ export class JobProfileService
     }
 
         // Get User Job Profiles 
-        async getUserJobProfiles
+    async getUserJobProfiles
         (
             userId: string,
             childLogger: Logger
@@ -102,7 +103,7 @@ export class JobProfileService
                 logger.error(e,`Job_Profile_Service: Could Not Get User Job Profiles`)
                 throw new ServerError("Server Error")
             }
-        }
+    }
 
 
     async deleteJobProfileEntry( userId: string, jobProfileId: string, childLogger: Logger )
@@ -121,4 +122,34 @@ export class JobProfileService
             throw e 
         }
     }
+
+
+    async generateJobDescriptions(
+        
+        userJobProfile: { jobRole: string, experienceLevel: string, resumeUrl: string }
+    )
+    {
+        try 
+        {
+            const { jobRole, experienceLevel, resumeUrl } = userJobProfile 
+
+            // Fetch User Resume As Text 
+            const userResumeText = await fetchUserResumeAsText( resumeUrl )
+
+            // Set Payload to generate Job Descriptions 
+            const userJobProfilePayload = { jobRole, experienceLevel, resume: userResumeText }
+
+            // Generated Job Descriptions 
+            const generatedJobDescriptions = await generateJobDescriptions( userJobProfilePayload) 
+
+            return generatedJobDescriptions 
+        }
+        catch(e: any)
+        {
+            logger.error(e,"Could Not Get Resume Url For User") 
+            throw new ServerError("server error") 
+        }
+    }
+
+
 }

@@ -8,6 +8,7 @@ import { learningModulePartRoutes } from "./learningModulePart/learningModulePar
 import { learningAreaRoutes } from "./learningArea/learningArea.route"
 import { learningProfileRoutes } from "./learningProfile/learningProfile.route"
 import { jobProfileRoutes } from "./jobProfile/jobProfile.route"
+import { jobDescriptionRoutes } from "./jobDescription/jobDescription.route"
 
 export function routes( app: Express )
 {
@@ -24,6 +25,7 @@ export function routes( app: Express )
         quizModuleRoutes( app ) 
         learningAreaRoutes( app ) 
         jobProfileRoutes(app) 
+        jobDescriptionRoutes(app)
       
 
         logger.info("API ROUTES CREATED")   

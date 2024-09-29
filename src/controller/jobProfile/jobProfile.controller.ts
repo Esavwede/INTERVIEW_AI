@@ -4,15 +4,13 @@ import { AnyAppError } from "@src/util/Errors/Endpoints/anyAppError"
 import { Request, Response } from "express-serve-static-core"
 import   logger from "@src/system/logger/logger"
 import { JobProfileService } from "@src/services/jobProfile/jobProfile.service"
-import { CreateJobProfileSchema, DeleteJobProfileSchema } from "@src/schemas/jobProfile/jobProfile.schema"
+import { CreateJobProfileSchema, DeleteJobProfileSchema, GenerateJobDescriptionsSchema } from "@src/schemas/jobProfile/jobProfile.schema"
 import { JobProfileRepo } from "@src/repos/jobProfile/jobProfile.repo"
 import { uploadFile } from "@src/util/upload/doc/uploadDocToCloud"
-import { generateJobRoleFromResume } from "@src/util/jobRoleGenerator/generateJobRole"
 
 
 export class JobProfileController
 {
-
     protected jobProfileService: JobProfileService 
 
     constructor( )
@@ -47,10 +45,11 @@ export class JobProfileController
             /** Create Child Logger */
             const childLogger = logger.child( userLogContext )
 
-            const { public_id, secure_url } = await uploadFile( req.file?.path, childLogger ) 
+            // Upload User Resume 
+            const { public_id, url } = await uploadFile( req.file?.path, childLogger ) 
 
-            // Upload Resume 
-            const jobProfileDoc = { jobRole, experienceLevel, resumeUrl: secure_url, resumeId: public_id }
+            // Save User Job Profile 
+            const jobProfileDoc = { jobRole, experienceLevel, resumeUrl: url, resumeId: public_id }
 
             // Check if User has not created a job profile before 
             const userHasCreatedJobProfileBefore = req.user?.userHasCreatedFirstJobProfile  
@@ -67,13 +66,8 @@ export class JobProfileController
                 childLogger.debug(`User ${ userId } does not have an existing Job Profile. Creating new Job profile and adding new JobProfileEntry `)
                 await this.jobProfileService.createNewJobProfile( userId, jobProfileDoc, childLogger) 
             }
-
-            
-            res.status(201).json({ success: true, msg:"Job Profile Created" })
-
-            // Generate Job Role For User In the Background 
-            const resumePath = req.resumePath || ''  
-          return  generateJobRoleFromResume( userId, jobRole, experienceLevel, resumePath ) 
+ 
+            return res.status(201).json({ success: true, msg:"Job Profile Created" })
         }
         catch(err: any)
         {
@@ -121,6 +115,25 @@ export class JobProfileController
         catch(e: any )
         {
             return res.status(500).json({ success: false, msg: e.message })
+        }
+    }
+
+
+    async generateJobDescriptions(req: Request<{},{},GenerateJobDescriptionsSchema['body']>, res: Response )
+    {
+        try 
+        {
+            const userJobProfile = req.body 
+            const generatedJobDescriptions = await this.jobProfileService.generateJobDescriptions( userJobProfile )
+            return res.status(200).json({ success: true, data:{ generatedJobDescriptions }})
+        }
+        catch(err: any)
+        {
+            const e = err as AnyAppError
+
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg:"Server Error" })
+
+                return res.status(e.statusCode).json({ success: false, msg: e.message })
         }
     }
 

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2f015d3f-42e1-5377-b1a6-5526062a5d69")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="20577815-c06b-58dc-bf4d-321462f2ebce")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -22,12 +22,14 @@ const logger_1 = __importDefault(require("./system/logger/logger"));
 const connect_1 = require("./system/database/connect");
 const mongoose_1 = __importDefault(require("mongoose"));
 const swagger_1 = require("./util/swagger");
+const websocketsServer_1 = require("./websocketsServer");
 var db = mongoose_1.default.connection;
 function start() {
     return __awaiter(this, void 0, void 0, function* () {
         var db = yield (0, connect_1.createDatabaseConnection)();
         (0, swagger_1.swaggerInit)(server_1.default);
         const server = (0, http_1.createServer)(server_1.default);
+        yield (0, websocketsServer_1.initializeWebsocketsServer)(server);
         const SERVER_START_MSG = ('Express server started on port: ' + EnvVars_1.default.Port.toString());
         server.listen(EnvVars_1.default.Port, () => logger_1.default.info(SERVER_START_MSG));
         process.on("SIGINT", () => { gracefulShutdown(); });
@@ -53,4 +55,4 @@ function start() {
 }
 start();
 //# sourceMappingURL=index.js.map
-//# debugId=2f015d3f-42e1-5377-b1a6-5526062a5d69
+//# debugId=20577815-c06b-58dc-bf4d-321462f2ebce

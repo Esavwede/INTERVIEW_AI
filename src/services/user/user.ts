@@ -164,7 +164,7 @@ export class UserService
 
              // User not New Return User profile and Learning Profile Details
              logger.info('User Not New')
-             return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens:{ accessToken, refreshToken }}}
+             return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens:{ accessToken, refreshToken }}}
         }
         catch(e: any )
         {

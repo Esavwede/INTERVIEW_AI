@@ -31,6 +31,18 @@
  *                           type: string
  *                           description: Unique identifier for the user.
  *                           example: 66edd4673a44e06b864fbb53
+ *                         firstname:
+ *                           type: string
+ *                           description: user's firstname 
+ *                           example: userFirstname 
+ *                         lastname:
+ *                           type: string
+ *                           description: the lastname of the user
+ *                           example: userLastname
+ *                         userHasCreatedFirstJobProfile:
+ *                           type: boolean
+ *                           description: Returns true or false depending on if the user has created a job profile before 
+ *                           example: false 
  *                         learningProfile:
  *                           type: array
  *                           items:
