@@ -3,7 +3,6 @@ import { config } from "dotenv"
 config() 
 import logger from "@src/system/logger/logger";
 import { v2 } from "cloudinary"
-import { raw } from "express";
 import { Logger } from "pino";
 import { ServerError } from "@src/util/Errors/Endpoints/serverError";
 
@@ -23,11 +22,11 @@ export async function uploadFile( filePath: string, childLogger: Logger)
 {
   try 
   {
-      const { secure_url, public_id } = await cloudinary.uploader.upload( filePath ,{ resource_type: 'raw'})
+      const { secure_url, public_id, url } = await cloudinary.uploader.upload( filePath ,{ resource_type: 'raw'})
       childLogger.debug(`Resume Uploaded Successfully`)
       console.log('---Debug----') 
       console.log( secure_url ) 
-      return { public_id, secure_url }
+      return { public_id, url }
   }
   catch(e: any)
   {

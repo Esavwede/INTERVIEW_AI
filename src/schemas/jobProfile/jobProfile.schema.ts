@@ -56,5 +56,40 @@ export const DeleteJobProfileValidationSchema = z.object
                                             )
 
 
+export const GenerateJobDescriptionsValidationSchema = z.object
+                                                            (
+                                                                {
+                                                                    body: z.object
+                                                                            (
+                                                                                {
+                                                                                       jobRole: z.string
+                                                                                        (
+                                                                                            {
+                                                                                                required_error: "jobRole required",
+                                                                                                invalid_type_error: "jobRole must be of type string"
+                                                                                            }
+                                                                                        ),
+                                                                                        experienceLevel: z.string
+                                                                                        (
+                                                                                            {
+                                                                                                required_error: "experienceLevel required",
+                                                                                                invalid_type_error:"experience level must be of type string"
+                                                                                            }
+                                                                                        ),
+                                                                                        resumeUrl: z.string
+                                                                                        (
+                                                                                            {
+                                                                                                required_error: "resumeUrl Required",
+                                                                                                invalid_type_error:"resumeUrl must be of type string"
+                                                                                            }
+                                                                                        ),
+
+                                                                                }
+                                                                            )
+                                                                }
+                                                            )
+
+
 export type CreateJobProfileSchema = z.infer<typeof CreateJobProfileValidationSchema>
 export type DeleteJobProfileSchema = z.infer<typeof DeleteJobProfileValidationSchema>  
+export type GenerateJobDescriptionsSchema = z.infer<typeof GenerateJobDescriptionsValidationSchema>

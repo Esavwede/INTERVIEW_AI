@@ -90,11 +90,8 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 // Add APIs, must be after middleware
 routes(app) 
 
-app.get('/sentry-test',(req, res)=>{ throw new Error("I'm disappointed withh sentry's documentation ")})
 // The error handler must be registered before any other error middleware and after all controllers
 Sentry.setupExpressErrorHandler(app);
-
-
 
 // Add error handler
 app.use((
@@ -115,13 +112,6 @@ app.use((
 });
 
 
-
-// **** Front-End Content **** //
-
-// // Set views directory (html)
-// const viewsDir = path.join(__dirname, 'views');
-// app.set('views', viewsDir);
-
 // Set static directory (js and css).
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
@@ -137,7 +127,7 @@ app.get('/users', (_: Request, res: Response) => {
 });
 
 function access(req: Request, res: Response, next: NextFunction )
-{
+{ 
   res.setHeader('Access-Control-Allow-Origin', '*')
   next() 
 }

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6386718b-7eca-5ed7-891f-cec5c9c9c0f7")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4f326352-17e0-5a01-b0f5-5765c4181727")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -21,6 +21,8 @@ const serverError_1 = require("@src/util/Errors/Endpoints/serverError");
 const user_1 = require("../user/user");
 const user_repo_1 = require("@src/repos/user/user.repo");
 const conflictError_1 = require("@src/util/Errors/Endpoints/conflictError");
+const generateJobDescriptions_1 = require("@src/util/jobDescription/generateJobDescriptions");
+const fetchUserResume_1 = require("@src/util/jobDescription/fetchUserResume");
 class JobProfileService {
     constructor(jobProfileRepo) {
         this.jobProfileRepo = jobProfileRepo;
@@ -90,7 +92,22 @@ class JobProfileService {
             }
         });
     }
+    generateJobDescriptions(userJobProfile) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { jobRole, experienceLevel, resumeUrl } = userJobProfile;
+                const userResumeText = yield (0, fetchUserResume_1.fetchUserResumeAsText)(resumeUrl);
+                const userJobProfilePayload = { jobRole, experienceLevel, resume: userResumeText };
+                const generatedJobDescriptions = yield (0, generateJobDescriptions_1.generateJobDescriptions)(userJobProfilePayload);
+                return generatedJobDescriptions;
+            }
+            catch (e) {
+                logger_1.default.error(e, "Could Not Get Resume Url For User");
+                throw new serverError_1.ServerError("server error");
+            }
+        });
+    }
 }
 exports.JobProfileService = JobProfileService;
 //# sourceMappingURL=jobProfile.service.js.map
-//# debugId=6386718b-7eca-5ed7-891f-cec5c9c9c0f7
+//# debugId=4f326352-17e0-5a01-b0f5-5765c4181727

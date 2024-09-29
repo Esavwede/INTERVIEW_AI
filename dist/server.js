@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="04556248-f6d3-5e6f-914d-766402c0e313")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="05b46b95-4a91-5344-9b4b-69543de9bede")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -82,7 +82,6 @@ if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Production.valueOf()) {
     app.use((0, helmet_1.default)());
 }
 (0, routes_1.routes)(app);
-app.get('/sentry-test', (req, res) => { throw new Error("I'm disappointed withh sentry's documentation "); });
 Sentry.setupExpressErrorHandler(app);
 app.use((err, _, res, next) => {
     if (EnvVars_1.default.NodeEnv !== misc_1.NodeEnvs.Test.valueOf()) {
@@ -111,4 +110,4 @@ app.get('/auth/google', access, signinWithGoogle_1.default.authenticate('google'
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=04556248-f6d3-5e6f-914d-766402c0e313
+//# debugId=05b46b95-4a91-5344-9b4b-69543de9bede

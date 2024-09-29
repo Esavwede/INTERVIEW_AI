@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="af876e8e-aa35-59a9-b90a-392c3ff6757f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e3e52aba-7c01-5006-8628-d054ea9e3812")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -130,7 +130,7 @@ class UserService {
                 console.log('---Debug----');
                 console.log(learningProfile);
                 logger_1.default.info('User Not New');
-                return { data: { user: { newUser: false, userId: _id, firstname, lastname, learningProfile }, tokens: { accessToken, refreshToken } } };
+                return { data: { user: { newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } } };
             }
             catch (e) {
                 logger_1.default.error(e, "Service: Signin");
@@ -218,4 +218,4 @@ class UserService {
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=af876e8e-aa35-59a9-b90a-392c3ff6757f
+//# debugId=e3e52aba-7c01-5006-8628-d054ea9e3812

@@ -120,7 +120,7 @@ export class UserController
             if( !user ) return res.status(500).json({ success: false, msg:"User Object Empty" })
                 
             // User Details 
-            const { _id, firstname, lastname,email, learningProfile, newUser } = user 
+            const { _id, firstname, lastname,email, learningProfile, newUser, userHasCreatedFirstJobProfile } = user 
             const signDetails = { _id, email,  firstname,lastname }
 
             // JWT Tokens 
@@ -129,14 +129,14 @@ export class UserController
            
     
             // Data For NewUser 
-            const newUserReturnData = { user:{  newUser: true, firstname, lastname }, tokens:{ accessToken, refreshToken}  }
+            const newUserReturnData = { user:{  newUser: true, firstname, lastname, userHasCreatedFirstJobProfile }, tokens:{ accessToken, refreshToken}  }
 
             if( newUser ) 
             {
                 return res.status(200).json({ success: true, data: newUserReturnData } ) // Returns New User Details  
             }
             
-            const userReturnData = {  user:{  newUser: false, userId: _id, firstname, lastname, learningProfile}, tokens:{ accessToken, refreshToken } }
+            const userReturnData = {  user:{  newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile,  learningProfile}, tokens:{ accessToken, refreshToken } }
 
             return res.status(200).json({ success: true, data: userReturnData }) // Returns User Details 
         }
