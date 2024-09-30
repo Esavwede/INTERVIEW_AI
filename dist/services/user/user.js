@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e3e52aba-7c01-5006-8628-d054ea9e3812")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3d6b3ffc-8e32-5f70-85e4-9e55deb47656")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -23,6 +23,7 @@ const unauthorizedError_1 = require("@src/util/Errors/Endpoints/unauthorizedErro
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const tokens_1 = require("@src/util/Auth/tokens");
 const forbiddenError_1 = require("@src/util/Errors/Endpoints/forbiddenError");
+const redisClient_1 = require("@src/middleware/cache/redisClient");
 (0, dotenv_1.config)();
 class UserService {
     constructor(userRepository) {
@@ -112,6 +113,7 @@ class UserService {
     }
     signin(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
+            const cacheClient = yield (0, redisClient_1.startRedis)();
             try {
                 const user = yield this.findByEmail(email);
                 if (!user)
@@ -126,9 +128,13 @@ class UserService {
                 const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user;
                 const payload = { _id, userHasCreatedFirstJobProfile };
                 const accessToken = (0, tokens_1.generateJwtToken)(payload);
-                const refreshToken = (0, tokens_1.generateJwtToken)(payload);
-                console.log('---Debug----');
-                console.log(learningProfile);
+                const refreshToken = (0, tokens_1.generateRefreshToken)(payload);
+                if (typeof refreshToken === 'string') {
+                    console.log('Saving Refresh Token');
+                }
+                if (!firstname && !lastname) {
+                    return { data: { user: { newUser: false, userId: _id, firstname: null, lastname: null, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } } };
+                }
                 logger_1.default.info('User Not New');
                 return { data: { user: { newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } } };
             }
@@ -218,4 +224,4 @@ class UserService {
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=e3e52aba-7c01-5006-8628-d054ea9e3812
+//# debugId=3d6b3ffc-8e32-5f70-85e4-9e55deb47656

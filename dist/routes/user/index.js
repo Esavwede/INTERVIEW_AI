@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2c1b1da8-3b31-595c-b3a2-fb4ae82f0559")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="d1862579-712d-5b05-a8d6-ea7e4fe554a2")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -28,8 +28,9 @@ function userRoutes(app) {
     app.get('/auth/google/callback', server_1.passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind(userController));
     router.patch('/learning-profile', (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     router.patch('/markLearningModulePartAsComplete', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.markLearningModulePartAsCompletedValidationSchema), userController.markUserLearningPartAsComplete.bind(userController));
+    router.post('/token', userController.getNewAccessToken.bind(userController));
     app.use('/api/v1', router);
     logger_1.default.info("User Routes Created");
 }
 //# sourceMappingURL=index.js.map
-//# debugId=2c1b1da8-3b31-595c-b3a2-fb4ae82f0559
+//# debugId=d1862579-712d-5b05-a8d6-ea7e4fe554a2

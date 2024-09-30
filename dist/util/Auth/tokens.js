@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3751ae86-ec25-5a4c-b5b7-60771ecc1160")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="42ccc1a1-464c-500a-9cfb-461eb29f54fb")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -29,6 +29,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateJwtToken = generateJwtToken;
+exports.generateRefreshToken = generateRefreshToken;
 exports.validateRequestToken = validateRequestToken;
 const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -38,6 +39,7 @@ const serverError_1 = require("../Errors/Endpoints/serverError");
 dotenv_1.default.config();
 function generateJwtToken(user) {
     try {
+        console.log('generating tokens');
         const secretKey = process.env.JWT_SECRET;
         const options = config_1.default.get("jwt.options");
         if (!secretKey) {
@@ -45,6 +47,28 @@ function generateJwtToken(user) {
             return false;
         }
         const token = jsonwebtoken_1.default.sign(user, secretKey, options);
+        console.log('token generated');
+        console.log(token);
+        return token;
+    }
+    catch (e) {
+        logger_1.default.error(e, "JWT_SIGNING_ERROR");
+        throw new serverError_1.ServerError("Server Encountered Error While Signing User ");
+    }
+}
+function generateRefreshToken(user) {
+    try {
+        console.log('generating tokens');
+        const secretKey = process.env.JWT_REFRESH_TOKEN_SECRET;
+        const options = config_1.default.get("jwt.options");
+        if (!secretKey) {
+            logger_1.default.error('JWT SECRET KEY UNDEFINED');
+            logger_1.default.debug(secretKey);
+            return false;
+        }
+        const token = jsonwebtoken_1.default.sign(user, secretKey, options);
+        console.log('token generated');
+        console.log(token);
         return token;
     }
     catch (e) {
@@ -73,4 +97,4 @@ function validateRequestToken(req, res, next) {
     }
 }
 //# sourceMappingURL=tokens.js.map
-//# debugId=3751ae86-ec25-5a4c-b5b7-60771ecc1160
+//# debugId=42ccc1a1-464c-500a-9cfb-461eb29f54fb

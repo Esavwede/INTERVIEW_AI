@@ -7,6 +7,7 @@ import { JobProfileService } from "@src/services/jobProfile/jobProfile.service"
 import { CreateJobProfileSchema, DeleteJobProfileSchema, GenerateJobDescriptionsSchema } from "@src/schemas/jobProfile/jobProfile.schema"
 import { JobProfileRepo } from "@src/repos/jobProfile/jobProfile.repo"
 import { uploadFile } from "@src/util/upload/doc/uploadDocToCloud"
+import { Console } from "console"
 
 
 export class JobProfileController
@@ -54,6 +55,8 @@ export class JobProfileController
             // Check if User has not created a job profile before 
             const userHasCreatedJobProfileBefore = req.user?.userHasCreatedFirstJobProfile  
 
+
+            console.log("User Has created job profile before:  " + userHasCreatedJobProfileBefore ) 
             if( userHasCreatedJobProfileBefore )
             {
                 // Adds Job profile to user job profiles 

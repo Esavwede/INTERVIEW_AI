@@ -1,6 +1,5 @@
 
 
-
 import { config } from "dotenv";
 config();
 import { createClient, RedisClientType } from "redis";
@@ -10,6 +9,7 @@ import { Request, Response, NextFunction } from "express-serve-static-core";
 
 let RedisClient: RedisClientType<any> | undefined;
 let setCache: ((key: string, data: {} | string ) => Promise<void>) | undefined;
+
 
 export async function initializeRedis() {
   try {

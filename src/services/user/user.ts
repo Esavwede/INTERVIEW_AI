@@ -8,11 +8,15 @@ import  logger from "@src/system/logger/logger"
 import { config } from "dotenv"
 import { UnauthorizedError } from "@src/util/Errors/Endpoints/unauthorizedError"
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError"
-import { generateJwtToken } from "@src/util/Auth/tokens"
+import { generateJwtToken, generateRefreshToken } from "@src/util/Auth/tokens"
 import { ILearningModuleOverview } from "@src/models/learningProfile"
 import { ForbiddenError } from "@src/util/Errors/Endpoints/forbiddenError"
 import { IUser } from "@src/models/User";
+import { startRedis } from "@src/middleware/cache/redisClient"
+
+
 config() 
+
 
 
 export class UserService 
@@ -134,6 +138,9 @@ export class UserService
 
     async signin( email: string, password: string  )
     {   
+
+        const cacheClient = await startRedis() 
+
         try 
         {
     
@@ -153,15 +160,25 @@ export class UserService
 
             const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user 
 
-            // Data to Store in Jwt 
-            const payload = { _id, userHasCreatedFirstJobProfile  } 
+             // Data to Store in Jwt 
+             const payload = { _id, userHasCreatedFirstJobProfile  } 
 
              const accessToken = generateJwtToken( payload)
-             const refreshToken = generateJwtToken( payload )
-          
-             console.log('---Debug----')
-             console.log( learningProfile ) 
+             const refreshToken = generateRefreshToken( payload )
 
+
+             // store refresh token 
+             if( typeof refreshToken === 'string' )
+             {
+                console.log('Saving Refresh Token')  
+             }
+             
+
+             if( !firstname && !lastname )
+             {
+                return { data:{   user:{  newUser: false, userId: _id, firstname: null, lastname: null, userHasCreatedFirstJobProfile, learningProfile }, tokens:{ accessToken, refreshToken }}}
+             }
+             
              // User not New Return User profile and Learning Profile Details
              logger.info('User Not New')
              return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens:{ accessToken, refreshToken }}}
@@ -250,7 +267,6 @@ export class UserService
         await this.userRepository.markUserHasCreatedFirstJobProfileAsFalse( userId ) 
     }   
 
-
     async markLearningModulePartAsCompleted( userId: string, learningModuleId: string, partTitle: string )
     {
         try 
@@ -271,4 +287,5 @@ export class UserService
         }
     }
 
-}// 
+
+}

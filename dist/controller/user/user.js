@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b22b68e8-77b7-55fa-9432-80ed6f1f0aa2")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b3fcef45-19a3-5b4b-abb5-847d476b266d")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -17,12 +17,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_1 = require("@src/services/user/user");
 const user_repo_1 = require("@src/repos/user/user.repo");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const conflictError_1 = require("@src/util/Errors/Endpoints/conflictError");
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const tokens_1 = require("@src/util/Auth/tokens");
+const redisClient_1 = require("@src/middleware/cache/redisClient");
 class UserController {
     constructor() {
         const userRepository = new user_repo_1.UserRepository();
@@ -61,6 +63,7 @@ class UserController {
             }
             catch (e) {
                 const err = e;
+                console.log(err);
                 if (!err.statusCode)
                     return res.status(500).json({ success: false, msg: "Server Error" });
                 return res.status(err.statusCode).json({ success: false, message: e.message });
@@ -182,7 +185,33 @@ class UserController {
             }
         });
     }
+    getNewAccessToken(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cache = yield (0, redisClient_1.startRedis)();
+            try {
+                const { refreshToken } = req.body;
+                if (!refreshToken)
+                    return res.sendStatus(401);
+                var refreshTokenValue = yield (cache === null || cache === void 0 ? void 0 : cache.get(refreshToken));
+                console.log(refreshTokenValue);
+                console.log(':::>');
+                if (!refreshTokenValue)
+                    return res.sendStatus(403);
+                refreshTokenValue = refreshTokenValue.replace(/"/g, '');
+                const decoded = jsonwebtoken_1.default.verify(refreshTokenValue, process.env.JWT_REFRESH_TOKEN_SECRET || '');
+                const token = (0, tokens_1.generateJwtToken)(decoded);
+                return res.status(200).json({ success: true, accessToken: token });
+            }
+            catch (e) {
+                logger_1.default.error(e, 'here....');
+                return res.status(500).json({ success: false, msg: e.message });
+            }
+            finally {
+                yield (cache === null || cache === void 0 ? void 0 : cache.quit());
+            }
+        });
+    }
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=b22b68e8-77b7-55fa-9432-80ed6f1f0aa2
+//# debugId=b3fcef45-19a3-5b4b-abb5-847d476b266d

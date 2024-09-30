@@ -3,6 +3,7 @@ import { UserRepository } from "@src/repos/user/user.repo";
 import  { Request, Response } from "express-serve-static-core" 
 import { MarkLearningModuleAsCompletedSchema, SaveUserFirstAndLastNameSchema, SignupInput, VerifyUserSchema} from "@src/schemas/user/signupSchema";
 import { UserSigninDTO } from "@src/DTOs/user/user";
+import jwt from "jsonwebtoken"
 import { config } from "dotenv"
 config() 
 
@@ -14,6 +15,8 @@ import { AnyAppError } from "@src/util/Errors/Endpoints/anyAppError";
 import { ConflictError } from "@src/util/Errors/Endpoints/conflictError";
 import logger from "@src/system/logger/logger";
 import { generateJwtToken } from "@src/util/Auth/tokens";
+import { IUserRequest } from "types";
+import { startRedis } from "@src/middleware/cache/redisClient";
 
 
 export class UserController 
@@ -78,7 +81,7 @@ export class UserController
         catch(e: any )
         {
             const err = e as AnyAppError
-
+            console.log(err) 
             if( !err.statusCode ) return res.status(500).json({ success: false, msg:"Server Error"}) 
             return res.status( err.statusCode  ).json({ success: false, message: e.message })
         }
@@ -211,7 +214,6 @@ export class UserController
         }
     }
 
-
     async markUserLearningPartAsComplete(req: Request<{},{}, MarkLearningModuleAsCompletedSchema['body']>, res: Response )
     {
         try 
@@ -232,5 +234,40 @@ export class UserController
         }
     }
 
+    async getNewAccessToken(req: Request, res: Response)
+    {
+
+        const cache = await startRedis() 
+
+                try 
+                {
+                    
+                    const { refreshToken } = req.body;
+                    if (!refreshToken) return res.sendStatus(401);
+                    
+                    
+                    var refreshTokenValue = await cache?.get(refreshToken)
+                    console.log( refreshTokenValue )
+                    console.log(':::>')
+                    if (!refreshTokenValue) return res.sendStatus(403);
+
+                    refreshTokenValue = refreshTokenValue.replace(/"/g, '')
+                
+                    const decoded = jwt.verify(refreshTokenValue, process.env.JWT_REFRESH_TOKEN_SECRET || '' )
+
+                    const token = generateJwtToken( decoded as IUserRequest)
+
+                    return res.status(200).json({ success: true, accessToken: token })
+                }
+                catch(e: any)
+                {
+                    logger.error(e,'here....')
+                    return res.status(500).json({ success: false, msg: e.message })
+                }
+                finally 
+                {
+                    await cache?.quit() 
+                }
+    }
 
 } 

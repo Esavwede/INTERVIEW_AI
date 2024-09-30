@@ -9,14 +9,15 @@ import mongoose, { Connection } from "mongoose"
 import { swaggerInit } from './util/swagger';
 import { initializeWebsocketsServer } from './websocketsServer';
 
+
 // **** Run **** //
 var db: Connection = mongoose.connection
 
 async function start()
 {
-
+  
       var db: Connection = await createDatabaseConnection()
-      swaggerInit(app) 
+      swaggerInit(app)
       const server: Server = createServer(app)
       await initializeWebsocketsServer( server ) 
       const SERVER_START_MSG = ('Express server started on port: ' + EnvVars.Port.toString());
