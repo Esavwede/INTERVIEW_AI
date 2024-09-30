@@ -49,8 +49,12 @@ export async function initializeWebsocketsServer( server: http.Server )
 
             if ( !candidateFirstname || !roleName || !experienceLevel || !jobDescription || !resumeUrl ) {
 
+                console.log('incomplete interview details ')
+                console.dir( socket.handshake.query ) 
+
                 // Identify Missing Fields 
-                socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query ) 
+                return socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query ) 
+
             }
 
             // Store user details in socket instance
@@ -94,6 +98,11 @@ export async function initializeWebsocketsServer( server: http.Server )
             // Send Welcome Message To Client 
             var serverResponse = { msg: `Welcome to the interview ${ candidateFirstname }`, metaData:{ interviewComplete: false, audioUrl:'audioUrl' }}
 
+
+            console.log(`RESPONSE FROM SERVER: ${ serverResponse.msg }`)
+
+
+            
             socket.emit('INTERVIEWER_RESPONSE', serverResponse ) 
 
 
@@ -106,6 +115,7 @@ export async function initializeWebsocketsServer( server: http.Server )
                 // Ensure Interview Session Exists 
                 if( !interviewSessionData )
                 {
+                    console.log("Could Not find  Client Session In memory")
                     socket.emit('SERVER_ERROR','COULD_NOT_FIND_INTERVIEW_DATA_IN_MEMORY') 
                     return 
                 }

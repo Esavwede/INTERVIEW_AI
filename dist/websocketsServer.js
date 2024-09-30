@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="99927414-cfa0-5d3a-99bd-1baa409f24af")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="410e229a-c80d-5ab3-af90-93924a567c56")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -40,7 +40,9 @@ function initializeWebsocketsServer(server) {
             io.use((socket, next) => {
                 const { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl } = socket.handshake.query;
                 if (!candidateFirstname || !roleName || !experienceLevel || !jobDescription || !resumeUrl) {
-                    socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query);
+                    console.log('incomplete interview details ');
+                    console.dir(socket.handshake.query);
+                    return socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query);
                 }
                 socket.data = { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl };
                 next();
@@ -97,4 +99,4 @@ function initializeWebsocketsServer(server) {
     });
 }
 //# sourceMappingURL=websocketsServer.js.map
-//# debugId=99927414-cfa0-5d3a-99bd-1baa409f24af
+//# debugId=410e229a-c80d-5ab3-af90-93924a567c56

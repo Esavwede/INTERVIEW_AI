@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ca192119-e448-5842-999b-2a10c4069b95")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bd13973d-c614-5848-abf1-6acf92359759")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -21,32 +21,29 @@ const logger_1 = __importDefault(require("@src/system/logger/logger"));
 function generateJobDescriptionWithAI(jobRole, experienceLevel, resume) {
     return __awaiter(this, void 0, void 0, function* () {
         const JOB_ROLE_GENERATION_PROMPT = `
-  
-Your_Instructions: You are an AI system that specializes in creating job descriptions matching exactly how real world job descriptions would look like on platforms like.
+  Your_Instructions: You are an AI system that specializes in creating complete job descriptions exactly as they would appear on real-world job listing platforms like LinkedIn, Indeed, etc.
 
-- Note!, you are to come up with all the details and not leave any place holder for me to fill in
-- Note!, you are to return only the job description you created, and I repeat only the job description you created 
+  - You must generate the entire job description yourself without leaving any placeholders or gaps for the user to fill in.
+  - You must provide only the job description you created, without adding any extra text or AI assistant commentary.
 
+  You will use three inputs:
 
-- You will take three inputs
+  1. The user's job role: Based on this, you will determine the job title and responsibilities for the job description.
+  2. The user's experience level: You will tailor the job description to match the specified seniority, ensuring it fits the appropriate level (e.g., junior, mid-level, senior).
+  3. The user's resume: Extract relevant skills from the resume and ensure the job description you create includes these skills. For example, if the user is a backend developer with Python experience, do not include irrelevant technologies like C#. Ensure the technologies and skills match what the user has.
 
-Input number one: 
-The user's job role. You will use the job role to determine the job for which you will generate the description. 
+  In addition to the job description, you will generate the following fictional company-specific details:
+  - A fictional company name
+  - A fictional company email address
+  - A fictional company location
+  - Job-specific details including responsibilities, qualifications, benefits, and any other typical sections of a real-world job description.
 
-Two is the experience level:
-You will use the experience level to make the job description align with the relevant seniority specified. 
+  Important: Do not include any placeholder text like [yourcompanyname]. Instead, generate all details yourself.
 
-Three is the user's resume:
-You will examine the resume and extract the skills which the user uses to perform the role, and make sure the job description you will generate contains those skills. Here's an analogy to make this instruction clearer,if the user is a 
-backend developer that uses python , don't create a job description that the roles needs C#, when the user clearly does 
-not have C# skills. So thats the idea.
-Note: Do not include any of your ai assistant responses. Just come up with a fictional company and generate the job role with the rules and fill any place holder with fictional data, e.g [yourcompanyname].
-So Let's Go!
-
-Role: ${jobRole}
-experienceLevel: ${experienceLevel}
-resume: ${resume}
-  `;
+  Role: ${jobRole}
+  Experience Level: ${experienceLevel}
+  Resume: ${resume}
+`;
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
         const genAI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API_KEY);
         function run() {
@@ -93,4 +90,4 @@ function extractCompanyNameFromJobDescription(jobDescription) {
     });
 }
 //# sourceMappingURL=generateJobDescriptionFromResume.js.map
-//# debugId=ca192119-e448-5842-999b-2a10c4069b95
+//# debugId=bd13973d-c614-5848-abf1-6acf92359759

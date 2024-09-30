@@ -5,8 +5,6 @@ import logger from "@src/system/logger/logger";
 export async function generateJobDescriptionWithAI( jobRole: string, experienceLevel: string, resume: string )
 {
 
-  
-
 
   const JOB_ROLE_GENERATION_PROMPT = `
   Your_Instructions: You are an AI system that specializes in creating complete job descriptions exactly as they would appear on real-world job listing platforms like LinkedIn, Indeed, etc.
