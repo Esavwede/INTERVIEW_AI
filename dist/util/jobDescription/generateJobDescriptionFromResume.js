@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="01a9ff24-465a-5da6-94cf-7ac0a4dec815")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c1d2f04c-7925-53a8-a7c8-70826bf7ce0c")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -28,22 +28,25 @@ function generateJobDescriptionWithAI(jobRole, experienceLevel, resume) {
 
   You will use three inputs:
 
-  1. The user's job role: Based on this, you will determine the job title and responsibilities for the job description.
-  2. The user's experience level: You will tailor the job description to match the specified seniority, ensuring it fits the appropriate level (e.g., junior, mid-level, senior).
-  3. The user's resume: Extract relevant skills from the resume and ensure the job description you create includes these skills. For example, if the user is a backend developer with Python experience, do not include irrelevant technologies like C#. Ensure the technologies and skills match what the user has.
+  1. The user's job role: You will create a job title and responsibilities based on this input. Ensure the job role is clear and concise (e.g., Backend Developer, Project Manager).
+  2. The user's experience level: Tailor the job description to match the specified seniority (e.g., junior, mid-level, senior), including responsibilities and qualifications that fit the appropriate level of expertise.
+  3. The user's resume: Extract relevant skills and technologies from the resume, ensuring that only those applicable to the user's experience are included. For example, if the user is a backend developer with Python experience, avoid including irrelevant technologies like C#. Focus on matching the user's core skills.
 
   In addition to the job description, you will generate the following fictional company-specific details:
-  - A fictional company name
-  - A fictional company email address
-  - A fictional company location
-  - Job-specific details including responsibilities, qualifications, benefits, and any other typical sections of a real-world job description.
+  - A fictional company name that sounds realistic and industry-appropriate.
+  - A fictional company email address.
+  - A fictional company location (city and country).
+  - Job-specific details including responsibilities, qualifications, benefits, employment type (e.g., full-time, part-time), and any other typical sections of a real-world job description.
+  - Include any additional relevant sections, such as salary range, working hours, or remote work options, if applicable to the role.
 
-  Important: Do not include any placeholder text like [yourcompanyname]. Instead, generate all details yourself.
+  Important:
+  - Do not include any placeholder text like [yourcompanyname]. Generate all details yourself.
+  - Ensure the fictional company details are consistent throughout the job description and match the role’s industry or expertise level.
 
   Role: ${jobRole}
   Experience Level: ${experienceLevel}
   Resume: ${resume}
-`;
+  `;
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
         const genAI = new generative_ai_1.GoogleGenerativeAI(GEMINI_API_KEY);
         function run() {
@@ -90,4 +93,4 @@ function extractCompanyNameFromJobDescription(jobDescription) {
     });
 }
 //# sourceMappingURL=generateJobDescriptionFromResume.js.map
-//# debugId=01a9ff24-465a-5da6-94cf-7ac0a4dec815
+//# debugId=c1d2f04c-7925-53a8-a7c8-70826bf7ce0c
