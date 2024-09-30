@@ -42,15 +42,22 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes';
 import { RouteError } from '@src/common/classes';
 import { NodeEnvs } from '@src/common/misc';
 import { routes } from './routes';
+import { initialize } from "passport";
+import { initializeRedis } from "./middleware/cache/redisCache";
+
 
 
 const app = express();
+
+var redisClient: any 
+var SetCache: any 
 
 // Basic middleware
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(EnvVars.CookieProps.Secret))
+
 
 
 // Cors 
@@ -86,6 +93,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(helmet());
 }
+
 
 // Add APIs, must be after middleware
 routes(app) 
@@ -138,5 +146,5 @@ app.get('/auth/google', access, passport.authenticate('google', {
 
 // **** Export default **** //
 
-export { passport } 
+export { passport, redisClient, SetCache } 
 export default app

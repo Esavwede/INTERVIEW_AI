@@ -10,7 +10,6 @@ import { fetchUserResumeAsText } from "./util/jobDescription/fetchUserResume";
 import { extractCompanyNameFromJobDescription } from "./util/jobDescription/generateJobDescriptionFromResume";
 
 
-
 export async function initializeWebsocketsServer( server: http.Server )
 {
     try 
@@ -46,6 +45,7 @@ export async function initializeWebsocketsServer( server: http.Server )
         io.use((socket, next) => {
 
             const { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl } = socket.handshake.query       
+            
 
             if ( !candidateFirstname || !roleName || !experienceLevel || !jobDescription || !resumeUrl ) {
 
@@ -54,7 +54,7 @@ export async function initializeWebsocketsServer( server: http.Server )
             }
 
             // Store user details in socket instance
-            socket.data = { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl};
+            socket.data = { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl  };
             next();
         })
         
@@ -93,6 +93,7 @@ export async function initializeWebsocketsServer( server: http.Server )
 
             // Send Welcome Message To Client 
             var serverResponse = { msg: `Welcome to the interview ${ candidateFirstname }`, metaData:{ interviewComplete: false, audioUrl:'audioUrl' }}
+
             socket.emit('INTERVIEWER_RESPONSE', serverResponse ) 
 
 
@@ -124,8 +125,11 @@ export async function initializeWebsocketsServer( server: http.Server )
                 // Check Interview Completed Status 
                 if( interviewCompleted )
                 {
-                    const interviewerResponse = { msg:'Interview Ended', metaData:{ interviewComplete: true, audioUrl:""  }}
-                    // Create Results 
+                    const interviewTrascript = parsedInterviewSessionData['interviewTranscript']
+                    const interviewResult = await Interviewer.generateInterviewResults( interviewTrascript ) 
+
+                    const interviewerResponse = { msg:'Interview Ended', metaData:{ interviewComplete: true, audioUrl:"", interviewResult }}
+                    
                     // Delete Interview Details From Memory 
                     socket.emit('INTERVIEW_COMPLETED', interviewerResponse)
                 }

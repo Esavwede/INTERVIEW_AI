@@ -8,6 +8,7 @@ import { IinterviewData } from "./interfaces/interviewData";
 //*** Prompts  */
 import { INTERVIEW_COMPLETE_CHECKER } from "./prompts/AI_Interviewer_Prompts";
 import { generatePromptForInterviewerResponse } from "./functions/generatePromptForInterviewerResponse";
+import { INTERVIEW_RESULT_GENERATOR } from "./prompts/InterviewTranscriptAnalyser";
 
 
 export class AI_Interviewer 
@@ -91,5 +92,15 @@ export class AI_Interviewer
                 process.exit(1) 
         }
         }
+
+
+        async generateInterviewResults( interviewTranscript: string  )
+        {
+            const prompt =  INTERVIEW_RESULT_GENERATOR + '\n' + interviewTranscript 
+            const interviewResult = await this.runPromptWithGemini( prompt )   
+            return interviewResult 
+        }
+
+        
 
 }

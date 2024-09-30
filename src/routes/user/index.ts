@@ -42,7 +42,14 @@ export function userRoutes( app: Express )
         userController.markUserLearningPartAsComplete.bind( userController ) 
     )
 
+
+    router.post('/token',
+        userController.getNewAccessToken.bind( userController )  
+    )
+
     app.use('/api/v1', router )
     logger.info("User Routes Created")
+
+
 }
 

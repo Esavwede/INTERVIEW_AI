@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="ddc68693-7c85-5293-9e32-548148a681de")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="99927414-cfa0-5d3a-99bd-1baa409f24af")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -71,7 +71,9 @@ function initializeWebsocketsServer(server) {
                     parsedInterviewSessionData['interviewTranscript'] = parsedInterviewSessionData['interviewTranscript'] + candidateMessage;
                     const interviewCompleted = yield Interviewer.checkInterviewCompleted(parsedInterviewSessionData['interviewTranscript']);
                     if (interviewCompleted) {
-                        const interviewerResponse = { msg: 'Interview Ended', metaData: { interviewComplete: true, audioUrl: "" } };
+                        const interviewTrascript = parsedInterviewSessionData['interviewTranscript'];
+                        const interviewResult = yield Interviewer.generateInterviewResults(interviewTrascript);
+                        const interviewerResponse = { msg: 'Interview Ended', metaData: { interviewComplete: true, audioUrl: "", interviewResult } };
                         socket.emit('INTERVIEW_COMPLETED', interviewerResponse);
                     }
                     else {
@@ -95,4 +97,4 @@ function initializeWebsocketsServer(server) {
     });
 }
 //# sourceMappingURL=websocketsServer.js.map
-//# debugId=ddc68693-7c85-5293-9e32-548148a681de
+//# debugId=99927414-cfa0-5d3a-99bd-1baa409f24af

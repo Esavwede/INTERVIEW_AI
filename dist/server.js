@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="05b46b95-4a91-5344-9b4b-69543de9bede")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cb9f7c6d-b4ba-5199-8ddf-d6b2cd4121fb")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passport = void 0;
+exports.SetCache = exports.redisClient = exports.passport = void 0;
 const Sentry = __importStar(require("@sentry/node"));
 const { nodeProfilingIntegration } = require("@sentry/profiling-node");
 Sentry.init({
@@ -59,6 +59,8 @@ const classes_1 = require("@src/common/classes");
 const misc_1 = require("@src/common/misc");
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
+var redisClient;
+var SetCache;
 app.use((0, compression_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -110,4 +112,4 @@ app.get('/auth/google', access, signinWithGoogle_1.default.authenticate('google'
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=05b46b95-4a91-5344-9b4b-69543de9bede
+//# debugId=cb9f7c6d-b4ba-5199-8ddf-d6b2cd4121fb
