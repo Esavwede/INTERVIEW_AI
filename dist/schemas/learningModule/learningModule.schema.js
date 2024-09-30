@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4cee3e0e-9738-5bb6-b6fa-eb8d20263693")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="245ed3d9-8de1-5835-ac97-c4e96b4d0119")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetLearningModulesUnderStageValidationSchema = exports.GetLearningModulePartValidationSchema = exports.SaveLearningModuleSummaryValidationSchema = exports.DeleteLearningModuleSchema = exports.UpdateLearningModuleSchema = exports.GetLearningModuleSchema = exports.PublishLearningModuleValidationSchema = exports.CreateLearningModuleSchema = exports.LearningModuleOverviewSchema = exports.LearningModuleOverviewSchema2 = void 0;
@@ -170,14 +170,6 @@ exports.GetLearningModulePartValidationSchema = zod_1.z.object({
 });
 exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
     query: zod_1.z.object({
-        page: zod_1.z.string({
-            required_error: "page must be include in request query"
-        })
-            .min(1, 'page not included in request query'),
-        limit: zod_1.z.string({
-            required_error: "limit must be included in request query"
-        })
-            .min(1, 'limit must be included in request query '),
         stageNumber: zod_1.z.string({
             required_error: "stageNumber must be included in request params",
             invalid_type_error: "stageNumber must be of type string"
@@ -185,4 +177,4 @@ exports.GetLearningModulesUnderStageValidationSchema = zod_1.z.object({
     })
 });
 //# sourceMappingURL=learningModule.schema.js.map
-//# debugId=4cee3e0e-9738-5bb6-b6fa-eb8d20263693
+//# debugId=245ed3d9-8de1-5835-ac97-c4e96b4d0119

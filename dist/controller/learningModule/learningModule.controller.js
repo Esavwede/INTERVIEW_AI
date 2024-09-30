@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b0e5b775-4eb2-58f9-b564-a04cd422c726")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2fdb510c-b782-59be-929c-7881e2f0c574")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -61,16 +61,10 @@ class LearningModuleController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const stageNumber = Number(req.query.stageNumber);
-                const page = Number(req.query.page);
-                const limit = Number(req.query.limit);
                 if (typeof stageNumber !== 'number') {
                     return res.status(400).json({ success: false, msg: "stageNumber Must be a number, e.g 1" });
                 }
-                if (page <= 0)
-                    return res.status(400).json({ success: false, msg: "Page cannot be less than 1" });
-                if (limit <= 0)
-                    return res.status(400).json({ success: false, msg: "limit cannot be less than 1" });
-                const learningModules = yield this.learningModuleService.getLearningModulesUnderStage(stageNumber, page, limit);
+                const learningModules = yield this.learningModuleService.getLearningModulesUnderStage(stageNumber);
                 return res.status(200).json({ success: true, data: { learningModules } });
             }
             catch (e) {
@@ -153,4 +147,4 @@ class LearningModuleController {
 }
 exports.LearningModuleController = LearningModuleController;
 //# sourceMappingURL=learningModule.controller.js.map
-//# debugId=b0e5b775-4eb2-58f9-b564-a04cd422c726
+//# debugId=2fdb510c-b782-59be-929c-7881e2f0c574

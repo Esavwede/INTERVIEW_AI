@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="42ccc1a1-464c-500a-9cfb-461eb29f54fb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="90e948e9-5279-51df-9356-e05de5b61397")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -58,17 +58,12 @@ function generateJwtToken(user) {
 }
 function generateRefreshToken(user) {
     try {
-        console.log('generating tokens');
         const secretKey = process.env.JWT_REFRESH_TOKEN_SECRET;
         const options = config_1.default.get("jwt.options");
         if (!secretKey) {
-            logger_1.default.error('JWT SECRET KEY UNDEFINED');
-            logger_1.default.debug(secretKey);
             return false;
         }
         const token = jsonwebtoken_1.default.sign(user, secretKey, options);
-        console.log('token generated');
-        console.log(token);
         return token;
     }
     catch (e) {
@@ -97,4 +92,4 @@ function validateRequestToken(req, res, next) {
     }
 }
 //# sourceMappingURL=tokens.js.map
-//# debugId=42ccc1a1-464c-500a-9cfb-461eb29f54fb
+//# debugId=90e948e9-5279-51df-9356-e05de5b61397

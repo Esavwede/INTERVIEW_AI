@@ -139,8 +139,6 @@ export class UserService
     async signin( email: string, password: string  )
     {   
 
-        const cacheClient = await startRedis() 
-
         try 
         {
     
@@ -166,13 +164,6 @@ export class UserService
              const accessToken = generateJwtToken( payload)
              const refreshToken = generateRefreshToken( payload )
 
-
-             // store refresh token 
-             if( typeof refreshToken === 'string' )
-             {
-                console.log('Saving Refresh Token')  
-             }
-             
 
              if( !firstname && !lastname )
              {

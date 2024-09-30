@@ -75,18 +75,15 @@ export class LearningModuleController
         try 
         {
             const stageNumber = Number( req.query.stageNumber )
-            const page = Number( req.query.page ) 
-            const limit = Number( req.query.limit ) 
 
             if( typeof stageNumber !== 'number' )
             {
                 return res.status(400).json({ success: false, msg:"stageNumber Must be a number, e.g 1"})
             }
 
-            if( page <= 0 ) return res.status(400).json({ success: false, msg:"Page cannot be less than 1"})
-            if( limit <= 0 ) return res.status(400).json({ success: false, msg:"limit cannot be less than 1"})
 
-            const learningModules = await this.learningModuleService.getLearningModulesUnderStage( stageNumber, page, limit )
+
+            const learningModules = await this.learningModuleService.getLearningModulesUnderStage( stageNumber )
             return res.status(200).json({ success: true, data:{ learningModules }})
         }
         catch(e: any)

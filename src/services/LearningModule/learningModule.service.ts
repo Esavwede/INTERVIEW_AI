@@ -187,13 +187,11 @@ export class LearningModuleService
     async getLearningModulesUnderStage
     ( 
         stageNumber: number,
-        page: number, 
-        limit: number 
     ): Promise<  Pick<ILearningModule, '_id' | 'title' | 'area' | 'description' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc' | 'totalParts' | 'partsMetaData'>[] | null >
     {
         try 
         {
-            const learningModules = await this.learningModuleRepo.getLearningModulesUnderStage( stageNumber, page, limit ) 
+            const learningModules = await this.learningModuleRepo.getLearningModulesUnderStage( stageNumber ) 
 
             if( !learningModules ) return null 
             

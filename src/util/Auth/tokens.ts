@@ -44,22 +44,17 @@ export function generateRefreshToken( user: object ): string | boolean
 {
     try 
     {
-
-        console.log('generating tokens')
         const secretKey = process.env.JWT_REFRESH_TOKEN_SECRET 
         const options: SignOptions = config.get("jwt.options")
     
         if( !secretKey )
         {
-            logger.error('JWT SECRET KEY UNDEFINED')
-            logger.debug( secretKey ) 
             return false
         }
     
        
         const token = jwt.sign( user, secretKey, options )
-        console.log('token generated')
-        console.log(token)
+ 
         return token 
     }
     catch(e: any)

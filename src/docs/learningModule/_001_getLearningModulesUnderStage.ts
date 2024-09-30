@@ -24,22 +24,6 @@
  *           type: string
  *         required: true
  *         description: A number which represents the order of the stage 
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           default: 1
- *           minimum: 1
- *         required: true 
- *         description: The page number for pagination (defaults to 1).
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           default: 10
- *           minimum: 1
- *         required: true
- *         description: Number of results per page (defaults to 10).
  *     responses:
  *       '200':
  *         description: Successful response with learning modules

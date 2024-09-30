@@ -320,21 +320,6 @@ export const GetLearningModulesUnderStageValidationSchema = z.object
                                                                     query: z.object
                                                                     (
                                                                         {
-                                                                            page: z.string
-                                                                                    (
-                                                                                        { 
-                                                                                            required_error:"page must be include in request query"
-                                                                                        }
-                                                                                    )
-                                                                                    .min(1,'page not included in request query'),
-
-                                                                            limit: z.string 
-                                                                                    (
-                                                                                        {
-                                                                                            required_error:"limit must be included in request query" 
-                                                                                        }
-                                                                                    )
-                                                                                    .min(1,'limit must be included in request query '),
                                                                             stageNumber: z.string
                                                                                     (
                                                                                         {
