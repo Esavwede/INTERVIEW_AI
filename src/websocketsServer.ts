@@ -8,6 +8,7 @@ import { IinterviewSessionData } from "./apps/AI_Interviewer/interfaces/intervie
 import { initializeRedis } from "./middleware/cache/redisCache";
 import { fetchUserResumeAsText } from "./util/jobDescription/fetchUserResume";
 import { extractCompanyNameFromJobDescription } from "./util/jobDescription/generateJobDescriptionFromResume";
+import exp from "constants";
 
 
 export async function initializeWebsocketsServer( server: http.Server )
@@ -40,6 +41,8 @@ export async function initializeWebsocketsServer( server: http.Server )
         })
 
 
+
+
         
         /** Setup Authentication Middleware  */
         io.use((socket, next) => {
@@ -49,11 +52,12 @@ export async function initializeWebsocketsServer( server: http.Server )
 
             if ( !candidateFirstname || !roleName || !experienceLevel || !jobDescription || !resumeUrl ) {
 
+
                 console.log('incomplete interview details ')
-                console.dir( socket.handshake.query ) 
+                console.dir( candidateFirstname + '-' + roleName + '-' + experienceLevel + '-' + jobDescription + '-' + resumeUrl ) 
 
                 // Identify Missing Fields 
-                return socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query ) 
+                return socket.emit('INCOMPLETE_INTERVIEW_DATA',{ candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl }) 
 
             }
 
@@ -93,16 +97,15 @@ export async function initializeWebsocketsServer( server: http.Server )
              }
 
             // Save Session To Memory 
-            setCache(socket.id, interviewSessionData )
+            await setCache(socket.id, interviewSessionData )
 
             // Send Welcome Message To Client 
             var serverResponse = { msg: `Welcome to the interview ${ candidateFirstname }`, metaData:{ interviewComplete: false, audioUrl:'audioUrl' }}
 
 
+            console.log('---Debug---')
             console.log(`RESPONSE FROM SERVER: ${ serverResponse.msg }`)
 
-
-            
             socket.emit('INTERVIEWER_RESPONSE', serverResponse ) 
 
 
@@ -158,6 +161,11 @@ export async function initializeWebsocketsServer( server: http.Server )
                     setCache( socket.id, parsedInterviewSessionData ) 
 
                     const interviewerResponse = { msg: generatedInterviewerResponse, metaData:{ interviewComplete: false, audioUrl: 'audioUrl'}}
+
+                    console.log('--- Consequent ----')
+                    console.log( interviewerResponse.msg ) 
+
+                    
                     socket.emit('INTERVIEWER_RESPONSE', interviewerResponse )
                 }
             })

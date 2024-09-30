@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="410e229a-c80d-5ab3-af90-93924a567c56")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6d58d8f7-7d07-52af-8ac3-cf23bccff23e")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -41,8 +41,8 @@ function initializeWebsocketsServer(server) {
                 const { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl } = socket.handshake.query;
                 if (!candidateFirstname || !roleName || !experienceLevel || !jobDescription || !resumeUrl) {
                     console.log('incomplete interview details ');
-                    console.dir(socket.handshake.query);
-                    return socket.emit('INCOMPLETE_INTERVIEW_DATA', socket.handshake.query);
+                    console.dir(candidateFirstname + '-' + roleName + '-' + experienceLevel + '-' + jobDescription + '-' + resumeUrl);
+                    return socket.emit('INCOMPLETE_INTERVIEW_DATA', { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl });
                 }
                 socket.data = { candidateFirstname, roleName, experienceLevel, jobDescription, resumeUrl };
                 next();
@@ -59,12 +59,15 @@ function initializeWebsocketsServer(server) {
                     interviewTranscript: `Interviewer: Welcome to the Interview ${candidateFirstname}`,
                     interviewData
                 };
-                setCache(socket.id, interviewSessionData);
+                yield setCache(socket.id, interviewSessionData);
                 var serverResponse = { msg: `Welcome to the interview ${candidateFirstname}`, metaData: { interviewComplete: false, audioUrl: 'audioUrl' } };
+                console.log('---Debug---');
+                console.log(`RESPONSE FROM SERVER: ${serverResponse.msg}`);
                 socket.emit('INTERVIEWER_RESPONSE', serverResponse);
                 socket.on('message', (message) => __awaiter(this, void 0, void 0, function* () {
                     var interviewSessionData = yield RedisClient.get(socket.id);
                     if (!interviewSessionData) {
+                        console.log("Could Not find  Client Session In memory");
                         socket.emit('SERVER_ERROR', 'COULD_NOT_FIND_INTERVIEW_DATA_IN_MEMORY');
                         return;
                     }
@@ -84,6 +87,8 @@ function initializeWebsocketsServer(server) {
                         parsedInterviewSessionData['interviewTranscript'] = parsedInterviewSessionData['interviewTranscript'] + '\n' + generatedInterviewerResponse;
                         setCache(socket.id, parsedInterviewSessionData);
                         const interviewerResponse = { msg: generatedInterviewerResponse, metaData: { interviewComplete: false, audioUrl: 'audioUrl' } };
+                        console.log('--- Consequent ----');
+                        console.log(interviewerResponse.msg);
                         socket.emit('INTERVIEWER_RESPONSE', interviewerResponse);
                     }
                 }));
@@ -99,4 +104,4 @@ function initializeWebsocketsServer(server) {
     });
 }
 //# sourceMappingURL=websocketsServer.js.map
-//# debugId=410e229a-c80d-5ab3-af90-93924a567c56
+//# debugId=6d58d8f7-7d07-52af-8ac3-cf23bccff23e
