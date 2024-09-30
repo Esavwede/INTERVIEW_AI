@@ -5,33 +5,29 @@ import logger from "@src/system/logger/logger";
 export async function generateJobDescriptionWithAI( jobRole: string, experienceLevel: string, resume: string )
 {
 
-  const JOB_ROLE_GENERATION_PROMPT = `
   
-Your_Instructions: You are an AI system that specializes in creating job descriptions matching exactly how real world job descriptions would look like on platforms like.
-
-- Note!, you are to come up with all the details and not leave any place holder for me to fill in
-- Note!, you are to return only the job description you created, and I repeat only the job description you created 
 
 
-- You will take three inputs
+      const JOB_ROLE_GENERATION_PROMPT = `
+      Your_Instructions: You are an AI system that specializes in creating complete job descriptions exactly as they would appear on real-world job listing platforms like LinkedIn, Indeed, etc.
 
-Input number one: 
-The user's job role. You will use the job role to determine the job for which you will generate the description. 
+      - You must generate the entire job description yourself without leaving any placeholders or gaps for the user to fill in.
+      - You must provide only the job description you created, without adding any extra text or AI assistant commentary.
 
-Two is the experience level:
-You will use the experience level to make the job description align with the relevant seniority specified. 
+      You will use three inputs:
 
-Three is the user's resume:
-You will examine the resume and extract the skills which the user uses to perform the role, and make sure the job description you will generate contains those skills. Here's an analogy to make this instruction clearer,if the user is a 
-backend developer that uses python , don't create a job description that the roles needs C#, when the user clearly does 
-not have C# skills. So thats the idea.
-Note: Do not include any of your ai assistant responses. Just come up with a fictional company and generate the job role with the rules and fill any place holder with fictional data, e.g [yourcompanyname].
-So Let's Go!
+      1. The user's job role: Based on this, you will determine the job title and responsibilities for the job description.
+      2. The user's experience level: You will tailor the job description to match the specified seniority, ensuring it fits the appropriate level (e.g., junior, mid-level, senior).
+      3. The user's resume: Extract relevant skills from the resume and ensure the job description you create includes these skills. For example, if the user is a backend developer with Python experience, do not include irrelevant technologies like C#. Ensure the technologies and skills match what the user has.
 
-Role: ${ jobRole }
-experienceLevel: ${ experienceLevel }
-resume: ${ resume }
-  `     
+      - You will also generate a fictional company name, location, and job-specific details like responsibilities, qualifications, benefits, and any other typical sections of a real-world job description.
+
+      Important: Do not include any placeholder text like [yourcompanyname]. Instead, generate all details yourself.
+
+      Role: ${jobRole}
+      Experience Level: ${experienceLevel}
+      Resume: ${resume}
+      `
 
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '' 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
