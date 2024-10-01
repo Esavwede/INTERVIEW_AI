@@ -160,7 +160,7 @@ export class UserController
 
             await this.userService.verifyUser( userID ) 
         
-            return res.status(200).json({ success: true, msg:"User Verified"})
+            return res.redirect('https://interviewaiafrotech.netlify.app/auth/login')
         }
         catch(e: any)
         {
