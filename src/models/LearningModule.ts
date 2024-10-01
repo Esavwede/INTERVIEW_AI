@@ -1,7 +1,6 @@
 
 
-import mongoose, { Document, ObjectId, Schema } from "mongoose"
-import { title } from "process"
+import mongoose, { Document, ObjectId, Schema, Types } from "mongoose"
 
 export interface IPartContent 
 {
@@ -9,6 +8,7 @@ export interface IPartContent
     type: string, 
     value: string 
 }
+
 
 export const PartContentSchema = new Schema<IPartContent>
                 (
@@ -71,9 +71,11 @@ const LearningModulePartSchema = new Schema<ILearningModulePart>
 
 export interface IPartMetaData 
 {
+    _id:  Types.ObjectId | string,
     title: string, 
     hasBeenCompleted: boolean 
 }
+
 
 export const PartMetaDataSchema  = new Schema
     (
