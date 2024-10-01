@@ -1,5 +1,6 @@
 
-
+import { config } from "dotenv"
+config() 
 import logger from '@src/system/logger/logger';
 import FormData from 'form-data';
 import Mailgun from 'mailgun.js';
