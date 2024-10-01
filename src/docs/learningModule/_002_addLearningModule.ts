@@ -1,5 +1,3 @@
-
-
 /**
  * @openapi
  * components:
@@ -10,8 +8,8 @@
  *       bearerFormat: JWT
  * /api/v1/users/learning-modules:
  *   post:
- *     summary: Adds Learning Module(s) to a Users Learning Profile 
- *     description: Saves one or more learning Modules to a user's learning Profile 
+ *     summary: Adds a Learning Module to a User's Learning Profile 
+ *     description: Saves a learning module to a user's learning profile 
  *     tags:
  *       - Learning Module
  *     security:
@@ -24,80 +22,73 @@
  *           schema:
  *             type: object
  *             required:
- *               - learningModules
+ *               - _id
+ *               - stage
+ *               - stageName
+ *               - stageNumber
+ *               - area
+ *               - totalParts
+ *               - title
+ *               - description
+ *               - imgSrc
+ *               - partsMetaData # Added here
  *             properties:
- *               learningModules:
+ *               _id:
+ *                 type: string
+ *                 description: The unique identifier of the module
+ *                 example: "66e435b00c582c06d8d9c85f"
+ *               stage:
+ *                 type: string
+ *                 description: The unique identifier of the stage
+ *                 example: "66e4306ddf630e7925f92bb4"
+ *               stageName:
+ *                 type: string
+ *                 description: The stage name
+ *                 example: core
+ *               stageNumber:
+ *                 type: number
+ *                 description: The number representing the stage
+ *                 example: 1
+ *               area:
+ *                 type: string
+ *                 description: The unique identifier of the area
+ *                 example: "66e4300d61f75b8017be6eb8"
+ *               totalParts:
+ *                 type: integer
+ *                 description: The total number of parts in the module
+ *                 example: 5
+ *               title:
+ *                 type: string
+ *                 description: The title of the module
+ *                 example: "Writing World Class Resumes"
+ *               description:
+ *                 type: string
+ *                 description: A brief description of the module
+ *                 example: "description"
+ *               imgSrc:
+ *                 type: string
+ *                 format: uri
+ *                 description: The URL of the image associated with the module
+ *                 example: "https://example.com/image.png"
+ *               partsMetaData: # New field added here
  *                 type: array
  *                 items:
  *                   type: object
  *                   required:
- *                     - _id
- *                     - stage
- *                     - stageName
- *                     - stageNumber
- *                     - area
- *                     - totalParts
  *                     - title
- *                     - description
- *                     - imgSrc
- *                     - partsMetaData # Added here
+ *                     - hasBeenCompleted
  *                   properties:
- *                     _id:
- *                       type: string
- *                       description: The unique identifier of the module
- *                       example: "66e435b00c582c06d8d9c85f"
- *                     stage:
- *                       type: string
- *                       description: The unique identifier of the stage
- *                       example: "66e4306ddf630e7925f92bb4"
- *                     stageName:
- *                       type: string
- *                       description: The stage name
- *                       example: core
- *                     stageNumber:
- *                       type: number
- *                       description: The number representing the stage
- *                       example: 1
- *                     area:
- *                       type: string
- *                       description: The unique identifier of the area
- *                       example: "66e4300d61f75b8017be6eb8"
- *                     totalParts:
- *                       type: integer
- *                       description: The total number of parts in the module
- *                       example: 5
  *                     title:
  *                       type: string
- *                       description: The title of the module
- *                       example: "Writing World Class Resumes"
- *                     description:
- *                       type: string
- *                       description: A brief description of the module
- *                       example: "description"
- *                     imgSrc:
- *                       type: string
- *                       format: uri
- *                       description: The URL of the image associated with the module
- *                       example: "https://example.com/image.png"
- *                     partsMetaData: # New field added here
- *                       type: array
- *                       items:
- *                         type: object
- *                         required:
- *                           - title
- *                           - hasBeenCompleted
- *                         properties:
- *                           title:
- *                             type: string
- *                             description: The title of the part
- *                             example: "Introduction to dressing"
- *                           hasBeenCompleted:
- *                             type: boolean
- *                             description: Indicates if the part has been completed
- *                             example: false
+ *                       description: The title of the part
+ *                       example: "Introduction to dressing"
+ *                     hasBeenCompleted:
+ *                       type: boolean
+ *                       description: Indicates if the part has been completed
+ *                       example: false
  *     responses:
  *       '200':
- *         description: Successfully Added Learning Module(s) to User Learning Profile 
+ *         description: Successfully Added Learning Module to User Learning Profile 
  *         content:
  *           application/json:
  *             schema:

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a4bf9d67-00a7-5a5d-aac6-bb92d48b39b7")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f5720088-4bd0-57ce-82b1-da56150f11ca")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -20,6 +20,8 @@ function validateRequestSchema(schema) {
         }
         catch (e) {
             if (e instanceof zod_1.ZodError) {
+                console.log('Debugging-----');
+                console.log(e);
                 var errs = [];
                 e.errors.forEach((e) => { errs.push(e.message); });
                 logger_1.default.error('Zod: Request Schema Error');
@@ -32,4 +34,4 @@ function validateRequestSchema(schema) {
     };
 }
 //# sourceMappingURL=validateRequestSchema.js.map
-//# debugId=a4bf9d67-00a7-5a5d-aac6-bb92d48b39b7
+//# debugId=f5720088-4bd0-57ce-82b1-da56150f11ca

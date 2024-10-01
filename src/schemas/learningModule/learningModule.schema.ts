@@ -4,98 +4,104 @@
 import { z, TypeOf } from "zod"
 
 
-export const LearningModuleOverviewSchema2 = z.object
+/** Saves the Summary Of A newly added learning module to the user profile  */         
+export const SaveLearningModuleSummaryValidationSchema = z.object(
+    {
+
+        body: z.object
+        (
+            {
+                _id: z.string
+                (
+                    {
+                        required_error: "Module Id Not In Request",
+                        invalid_type_error: "Module Id Must Be of Type String",
+                    }
+                )
+                .min(1,'Invalid Length For Module Id'),
+
+                area: z.string
+                (
+                    {
+                        required_error: "Learning Area Not Found In Request",
+                        invalid_type_error: "Learning Area Must Be of Type String",
+                    }
+                )
+                .min(2,"Learning Area Length Cannot Be less than 2"),
+
+                stage: z.string
+                (
+                    {
+                        required_error: "Stage not Found In Request Body",
+                        invalid_type_error: "Stage Must Be Of Type String",
+                    }
+                )
+                .min(1,'Stage Length Cannot Be less Than 1'),
+                stageName: z.string
+                (
+                    {
+                        required_error: "StageName not Found In Request Body",
+                        invalid_type_error: "StageName Must Be Of Type String",
+                    }
+                )
+                .min(1,'Stage Name Length Cannot Be less Than 1'),
+                stageNumber: z.number
+                (
+                    {
+                        required_error: "StageNumber not Found In Request Body",
+                        invalid_type_error: "StageNumber Must Be Of Type String",
+                    }
+                )
+                .min(1,'Stage Number Cannot Be less Than 1'),
+
+                title: z.string
+                (
+                    {
+                        required_error: "Title not Found In Request Body",
+                        invalid_type_error: "Title Must Be Of Type String",
+                    }
+                )
+                .min(1,'Title Length Cannot Be less than 1'),
+
+                description: z.string
+                (
+                    {
+                        required_error: "Description not Found In Request Body",
+                        invalid_type_error: "User Id Incorrect. Must be type: string",
+                    }
+                )
+                .min(1,"Description Length Cannot Be less than 1"), 
+
+                imgSrc: z.string
+                (
+                    {
+                        required_error: "imgSrc not Found In Request Body",
+                        invalid_type_error: "imgSrc Must Be A String",
+                    }
+                )
+                .min(1,"imgSrc Length Cannot be less than 1"),
+
+                totalParts: z.number
+                (
+                    {
+                        required_error: "totalParts not Found In Request Body",
+                        invalid_type_error: "total Parts must be type: number",
+                    }
+                ),
+                partsMetaData: z.array
+                (
+                        z.object
                     (
                         {
-                            _id: z.string
-                            (
-                                {
-                                    required_error: "Module Id Not In Request",
-                                    invalid_type_error: "Module Id Must Be of Type String",
-                                }
-                            )
-                            .min(1,'Invalid Length For Module Id'),
-
-                            area: z.string
-                            (
-                                {
-                                    required_error: "Learning Area Not Found In Request",
-                                    invalid_type_error: "Learning Area Must Be of Type String",
-                                }
-                            )
-                            .min(2,"Learning Area Length Cannot Be less than 2"),
-
-                            stage: z.string
-                            (
-                                {
-                                    required_error: "Stage not Found In Request Body",
-                                    invalid_type_error: "Stage Must Be Of Type String",
-                                }
-                            )
-                            .min(1,'Stage Length Cannot Be less Than 1'),
-                            stageName: z.string
-                            (
-                                {
-                                    required_error: "StageName not Found In Request Body",
-                                    invalid_type_error: "StageName Must Be Of Type String",
-                                }
-                            )
-                            .min(1,'Stage Name Length Cannot Be less Than 1'),
-                            stageNumber: z.number
-                            (
-                                {
-                                    required_error: "StageNumber not Found In Request Body",
-                                    invalid_type_error: "StageNumber Must Be Of Type String",
-                                }
-                            )
-                            .min(1,'Stage Number Cannot Be less Than 1'),
-
-                            title: z.string
-                            (
-                                {
-                                    required_error: "Title not Found In Request Body",
-                                    invalid_type_error: "Title Must Be Of Type String",
-                                }
-                            )
-                            .min(1,'Title Length Cannot Be less than 1'),
-
-                            description: z.string
-                            (
-                                {
-                                    required_error: "Description not Found In Request Body",
-                                    invalid_type_error: "User Id Incorrect. Must be type: string",
-                                }
-                            )
-                            .min(1,"Description Length Cannot Be less than 1"), 
-
-                            imgSrc: z.string
-                            (
-                                {
-                                    required_error: "imgSrc not Found In Request Body",
-                                    invalid_type_error: "imgSrc Must Be A String",
-                                }
-                            )
-                            .min(1,"imgSrc Length Cannot be less than 1"),
-
-                            totalParts: z.number
-                            (
-                                {
-                                    required_error: "totalParts not Found In Request Body",
-                                    invalid_type_error: "total Parts must be type: number",
-                                }
-                            ),
-                            partsMetaData: z.array
-                            (
-                                    z.object
-                                (
-                                    {
-                                            title: z.string({ required_error:"part title not found", invalid_type_error:"must be string"}),
-                                            hasBeenCompleted: z.boolean()
-                                    }
-                                )
-                            )
+                                title: z.string({ required_error:"part title not found", invalid_type_error:"must be string"}),
+                                hasBeenCompleted: z.boolean()
                         }
                     )
+                )
+            }
+        )
+    }
+)
                     
 
 export const LearningModuleOverviewSchema = z.object
@@ -280,18 +286,8 @@ export const DeleteLearningModuleSchema = z.object
                     }
                 )
 
-/** Saves the Summary Of A newly added learning module to the user profile  */                    
-export const SaveLearningModuleSummaryValidationSchema = z.object
-                    (
-                        {
-                            body: z.object
-                                    (
-                                        {
-                                            learningModules: z.array( LearningModuleOverviewSchema2 )
-                                        }
-                                    )
-                        }
-                    )          
+           
+ 
 
 export const GetLearningModulePartValidationSchema = z.object  
                         (

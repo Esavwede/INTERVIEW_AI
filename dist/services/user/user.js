@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="705b9e70-20eb-5e7a-b92d-619b921aa50e")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="367733d2-f82d-5b6e-bc5f-6e0d41415d87")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -154,10 +154,10 @@ class UserService {
             }
         });
     }
-    saveUserLearningModuleOverview(userID, learningModuleOverviewArray) {
+    saveUserLearningModuleOverview(userID, learningModuleOverview) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const saved = yield this.userRepository.saveLearningModuleOverview(userID, learningModuleOverviewArray);
+                const saved = yield this.userRepository.saveLearningModuleOverview(userID, learningModuleOverview);
                 if (!saved) {
                     logger_1.default.error(`Could not find User with id: ${userID} to save Learning Summaries `);
                     throw new notFoundError_1.NotFoundError(`Could Not Find User Learning Profile with UserId ${userID}`);
@@ -219,4 +219,4 @@ class UserService {
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=705b9e70-20eb-5e7a-b92d-619b921aa50e
+//# debugId=367733d2-f82d-5b6e-bc5f-6e0d41415d87

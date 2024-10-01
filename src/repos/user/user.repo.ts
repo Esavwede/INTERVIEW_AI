@@ -53,9 +53,9 @@ export class UserRepository
         return modifiedCount
     } 
 
-    async saveLearningModuleOverview( userID: string, learningModuleOverviewArray: ILearningModuleOverview[] ): Promise< number > 
+    async saveLearningModuleOverview( userID: string, learningModuleOverview: ILearningModuleOverview): Promise< number > 
     {
-        const { matchedCount } = await User.updateOne({ _id: userID },{ $push:{ learningProfile: {$each: learningModuleOverviewArray } }})
+        const { matchedCount } = await User.updateOne({ _id: userID },{ $push:{ learningProfile: learningModuleOverview } })
         return matchedCount
     }
     

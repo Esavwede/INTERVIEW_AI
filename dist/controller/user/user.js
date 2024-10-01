@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b3fcef45-19a3-5b4b-abb5-847d476b266d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="203b0156-0d9c-5ab6-abb0-84239ca40b89")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -120,7 +120,7 @@ class UserController {
             try {
                 const userID = req.query.token;
                 yield this.userService.verifyUser(userID);
-                return res.status(200).json({ success: true, msg: "User Verified" });
+                return res.redirect('https://interviewaiafrotech.netlify.app/auth/login');
             }
             catch (e) {
                 const err = e;
@@ -156,7 +156,7 @@ class UserController {
                 const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a._id;
                 if (!userId)
                     return res.status(401).json({ success: false, msg: "could not authenticated user" });
-                const learningModuleOverview = req.body.learningModules;
+                const learningModuleOverview = req.body;
                 yield this.userService.saveUserLearningModuleOverview(userId, learningModuleOverview);
                 return res.status(200).json({ success: true, msg: "Learning Modules Overview Saved to user Learning Profile" });
             }
@@ -214,4 +214,4 @@ class UserController {
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=b3fcef45-19a3-5b4b-abb5-847d476b266d
+//# debugId=203b0156-0d9c-5ab6-abb0-84239ca40b89

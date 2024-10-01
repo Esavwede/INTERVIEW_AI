@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e16e7133-9f56-59b9-bece-edf2a6c21a70")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a79d6397-25a5-5074-800f-d7067986e792")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -15,6 +15,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMail = sendMail;
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const form_data_1 = __importDefault(require("form-data"));
 const mailgun_js_1 = __importDefault(require("mailgun.js"));
@@ -46,4 +48,4 @@ function sendMail(mailOptions) {
     });
 }
 //# sourceMappingURL=sendMain.js.map
-//# debugId=e16e7133-9f56-59b9-bece-edf2a6c21a70
+//# debugId=a79d6397-25a5-5074-800f-d7067986e792

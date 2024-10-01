@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cb9f7c6d-b4ba-5199-8ddf-d6b2cd4121fb")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="66c3edc3-b9a1-5665-a6af-9df6d7c118ee")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -70,6 +70,10 @@ app.use((0, cors_1.default)({
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: false
 }));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use((0, cookie_session_1.default)({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_KEY || 'random-cookie-key']
@@ -112,4 +116,4 @@ app.get('/auth/google', access, signinWithGoogle_1.default.authenticate('google'
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=cb9f7c6d-b4ba-5199-8ddf-d6b2cd4121fb
+//# debugId=66c3edc3-b9a1-5665-a6af-9df6d7c118ee

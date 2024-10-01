@@ -200,7 +200,7 @@ export class UserController
             const userId = req.user?._id 
             if( !userId ) return res.status(401).json({ success: false, msg:"could not authenticated user"})
             
-            const learningModuleOverview = req.body.learningModules as unknown as ILearningModuleOverview[]
+            const learningModuleOverview = req.body as unknown as ILearningModuleOverview
             await this.userService.saveUserLearningModuleOverview( userId, learningModuleOverview)
             return res.status(200).json({ success: true, msg:"Learning Modules Overview Saved to user Learning Profile"})
         }

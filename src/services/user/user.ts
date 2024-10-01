@@ -201,11 +201,11 @@ export class UserService
         }
     }
 
-    async saveUserLearningModuleOverview( userID: string, learningModuleOverviewArray: ILearningModuleOverview[] ):Promise<void> 
+    async saveUserLearningModuleOverview( userID: string, learningModuleOverview: ILearningModuleOverview ):Promise<void> 
     {
         try 
         {
-            const saved = await this.userRepository.saveLearningModuleOverview( userID, learningModuleOverviewArray )
+            const saved = await this.userRepository.saveLearningModuleOverview( userID, learningModuleOverview )
 
             if( !saved )
             {
