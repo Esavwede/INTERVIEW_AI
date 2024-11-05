@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="bb3bd615-93b0-5f0f-a8e5-0373607de8e6")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8ade578d-0c04-52cc-9462-0bad4b581dca")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -18,18 +18,13 @@ exports.LearningModuleService = void 0;
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const serverError_1 = require("@src/util/Errors/Endpoints/serverError");
-const area_1 = require("@src/models/area");
 const user_1 = require("../user/user");
 const user_repo_1 = require("@src/repos/user/user.repo");
-const learningModulePart_repo_1 = require("@src/repos/learningModulePart/learningModulePart.repo");
-const learningModulePart_service_1 = require("../learningModulePart/learningModulePart.service");
 class LearningModuleService {
     constructor(learningModuleRepo) {
         this.learningModuleRepo = learningModuleRepo;
         const userRepository = new user_repo_1.UserRepository();
         this.userService = new user_1.UserService(userRepository);
-        const learningModulePartRepo = new learningModulePart_repo_1.LearningModulePartRepo();
-        this.learningModulePartService = new learningModulePart_service_1.LearningModulePartService(learningModulePartRepo);
     }
     create(learningModule) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,15 +34,7 @@ class LearningModuleService {
                     logger_1.default.error("Learning Module Was Not Created");
                     return false;
                 }
-                const learningModuleIsDraft = learningModule.isDraft;
-                if (learningModuleIsDraft) {
-                    logger_1.default.info("Service: Learning Module Draft Created");
-                    return newLearningModule;
-                }
-                else {
-                    yield area_1.LearningArea.updateOne({ _id: learningModule.area }, { $push: { learningModulesUnderArea: newLearningModule } });
-                    logger_1.default.info("Learning Module Published");
-                }
+                return newLearningModule;
             }
             catch (e) {
                 logger_1.default.error(e, 'SERVICE: Error Occured While Creating Learning Module ');
@@ -58,10 +45,8 @@ class LearningModuleService {
     get(learningModuleId) {
         return __awaiter(this, void 0, void 0, function* () {
             const learningModule = yield this.learningModuleRepo.get(learningModuleId);
-            if (!learningModule) {
+            if (!learningModule)
                 return false;
-            }
-            logger_1.default.info(`SERVICE: Returning Learning Module with Id: ${learningModuleId}`);
             return learningModule;
         });
     }
@@ -86,14 +71,13 @@ class LearningModuleService {
                     logger_1.default.error(`SERVICE_ERROR: DELETE_LEARNING_MODULE --> COULD NOT FIND LEARNING MODULE WITH ${moduleID} FOR DELETION `);
                     throw new notFoundError_1.NotFoundError(`COULD NOT FIND LEARNING MODULE WITH ${moduleID} FOR DELETION `);
                 }
-                return;
             }
             catch (e) {
                 throw new serverError_1.ServerError("SERVER ENCOUNTERED ERROR WHILE DELETING LEARNING MODULE");
             }
         });
     }
-    publish(learningModuleId, learningModule) {
+    publish(learningModuleId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const modifiedCount = yield this.learningModuleRepo.update(learningModuleId, { isDraft: false });
@@ -101,9 +85,6 @@ class LearningModuleService {
                     logger_1.default.error("Did not Find Module To Publish");
                     throw new notFoundError_1.NotFoundError(`COULD NOT FIND LEARNING MODULE WITH ID: ${learningModuleId} to Publish`);
                 }
-                const updatedData = yield area_1.LearningArea.updateOne({ _id: learningModule.area }, { $push: { learningModulesUnderArea: learningModule } });
-                console.dir(updatedData);
-                logger_1.default.info("Learning Module Published");
             }
             catch (e) {
                 logger_1.default.error(e, `Service: Error While Publishing Learning Module `);
@@ -135,7 +116,9 @@ class LearningModuleService {
     }
     incrementNumberOfParts(moduleId) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.learningModuleRepo.incrementNumberOfParts(moduleId);
+            const numberOfPartsIncremented = yield this.learningModuleRepo.incrementNumberOfParts(moduleId);
+            if (numberOfPartsIncremented !== 1)
+                return false;
         });
     }
     decrementNumberOfParts(moduleId) {
@@ -160,4 +143,4 @@ class LearningModuleService {
 }
 exports.LearningModuleService = LearningModuleService;
 //# sourceMappingURL=learningModule.service.js.map
-//# debugId=bb3bd615-93b0-5f0f-a8e5-0373607de8e6
+//# debugId=8ade578d-0c04-52cc-9462-0bad4b581dca

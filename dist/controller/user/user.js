@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="203b0156-0d9c-5ab6-abb0-84239ca40b89")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f505e345-b71e-57c8-af8b-1b41be3e998d")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -33,7 +33,7 @@ class UserController {
     signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                logger_1.default.info(`User_Signup_Controller: Signin Up New User`);
+                logger_1.default.info(`Signup Controller: Signing Up New User`);
                 const email = req.body.email;
                 const userExists = yield this.userService.findByEmail(email);
                 if (userExists) {
@@ -57,6 +57,7 @@ class UserController {
     signin(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                logger_1.default.info('User signing in');
                 const { password, email } = req.body;
                 const response = yield this.userService.signin(email, password);
                 return res.status(200).json(response);
@@ -214,4 +215,4 @@ class UserController {
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=203b0156-0d9c-5ab6-abb0-84239ca40b89
+//# debugId=f505e345-b71e-57c8-af8b-1b41be3e998d

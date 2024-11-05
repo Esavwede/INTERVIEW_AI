@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b3abcc9a-0c8c-5843-b8b5-5bb145f6b663")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2e776d22-a644-5d72-af58-16ba01898e12")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -25,49 +25,59 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LearningModule = exports.PartMetaDataSchema = exports.PartContentSchema = void 0;
+exports.LearningModule = exports.LearningModuleOverviewSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-exports.PartContentSchema = new mongoose_1.Schema({
-    type: {
-        type: String,
-        required: true
-    },
-    value: {
-        type: String,
-        required: true
-    }
-});
-const LearningModulePartSchema = new mongoose_1.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    learningModuleId: {
-        type: mongoose_1.default.Types.ObjectId
-    },
-    quizId: {
-        type: String,
-        default: ''
-    },
-    content: {
-        type: [exports.PartContentSchema],
-        required: true
-    },
-    isLast: {
-        type: Boolean,
-        require: true,
-        default: false
-    }
-});
-exports.PartMetaDataSchema = new mongoose_1.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    hasBeenCompleted: {
-        type: Boolean,
+const learningModulePart_1 = require("./learningModulePart");
+exports.LearningModuleOverviewSchema = new mongoose_1.Schema({
+    _id: {
+        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
-        default: false
+        unique: false
+    },
+    area: {
+        type: String,
+        required: true
+    },
+    stage: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: true
+    },
+    stageName: {
+        type: String,
+        required: true
+    },
+    stageNumber: {
+        type: Number,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    imgSrc: {
+        type: String,
+        required: true
+    },
+    totalParts: {
+        type: Number,
+        required: true
+    },
+    partsMetaData: {
+        type: [learningModulePart_1.PartMetaDataSchema]
+    },
+    currentPart: {
+        type: Number,
+        required: true,
+        default: 1
+    },
+    nextPart: {
+        type: Number,
+        required: true,
+        default: 1
     }
 });
 const LearningModuleSchema = new mongoose_1.Schema({
@@ -106,10 +116,10 @@ const LearningModuleSchema = new mongoose_1.Schema({
         default: 0
     },
     partsMetaData: {
-        type: [exports.PartMetaDataSchema]
+        type: [learningModulePart_1.PartMetaDataSchema]
     },
     parts: {
-        type: [LearningModulePartSchema]
+        type: [learningModulePart_1.LearningModulePartSchema]
     },
     isDraft: {
         type: Boolean,
@@ -120,4 +130,4 @@ const LearningModuleSchema = new mongoose_1.Schema({
 });
 exports.LearningModule = mongoose_1.default.model('learningModule', LearningModuleSchema);
 //# sourceMappingURL=LearningModule.js.map
-//# debugId=b3abcc9a-0c8c-5843-b8b5-5bb145f6b663
+//# debugId=2e776d22-a644-5d72-af58-16ba01898e12

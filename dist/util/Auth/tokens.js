@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="90e948e9-5279-51df-9356-e05de5b61397")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="528c47eb-2ea7-5095-962f-b79f35dd1aa3")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -39,7 +39,7 @@ const serverError_1 = require("../Errors/Endpoints/serverError");
 dotenv_1.default.config();
 function generateJwtToken(user) {
     try {
-        console.log('generating tokens');
+        logger_1.default.debug('Generating Token');
         const secretKey = process.env.JWT_SECRET;
         const options = config_1.default.get("jwt.options");
         if (!secretKey) {
@@ -47,8 +47,7 @@ function generateJwtToken(user) {
             return false;
         }
         const token = jsonwebtoken_1.default.sign(user, secretKey, options);
-        console.log('token generated');
-        console.log(token);
+        logger_1.default.debug('Token Generated');
         return token;
     }
     catch (e) {
@@ -92,4 +91,4 @@ function validateRequestToken(req, res, next) {
     }
 }
 //# sourceMappingURL=tokens.js.map
-//# debugId=90e948e9-5279-51df-9356-e05de5b61397
+//# debugId=528c47eb-2ea7-5095-962f-b79f35dd1aa3

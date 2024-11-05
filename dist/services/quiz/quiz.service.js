@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="360d7ef0-2f4d-5ec4-9cc7-41b3368af03c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="77f44cd8-404f-5cf8-baa7-927ae48e852d")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -24,12 +24,14 @@ class QuizSservice {
     }
     create(quiz) {
         return __awaiter(this, void 0, void 0, function* () {
-            const quizCreated = yield this.quizRepo.create(quiz);
-            if (!quizCreated) {
-                return false;
+            try {
+                yield this.quizRepo.create(quiz);
+                logger_1.default.info("Quiz Created");
             }
-            logger_1.default.info("Quiz Created");
-            return true;
+            catch (e) {
+                logger_1.default.error(e, "Error Occured While Creating Quiz");
+                throw new serverError_1.ServerError("Server Error. Error Occured while creating quiz");
+            }
         });
     }
     find(quizID) {
@@ -51,8 +53,6 @@ class QuizSservice {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const updatedQuiz = yield this.quizRepo.update(quizID, updateBody);
-                logger_1.default.info("Updated Quiz Result");
-                logger_1.default.info(updatedQuiz);
                 if (updatedQuiz !== 1) {
                     logger_1.default.error("COULD NOT FIND QUIZ TO UPDATE");
                     throw new notFoundError_1.NotFoundError(`QUIZ_UPDATE_ERROR: Did Not Find Quiz With ID: ${quizID} for Update `);
@@ -77,4 +77,4 @@ class QuizSservice {
 }
 exports.QuizSservice = QuizSservice;
 //# sourceMappingURL=quiz.service.js.map
-//# debugId=360d7ef0-2f4d-5ec4-9cc7-41b3368af03c
+//# debugId=77f44cd8-404f-5cf8-baa7-927ae48e852d

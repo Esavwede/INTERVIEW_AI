@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fa4bb97f-f341-5081-b38a-cfcc734ebb90")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7dc11925-ef95-51af-8b9b-4cb91432ef46")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -10,13 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LearningModulePartRepo = void 0;
 const LearningModule_1 = require("@src/models/LearningModule");
-const logger_1 = __importDefault(require("@src/system/logger/logger"));
 class LearningModulePartRepo {
     constructor() {
     }
@@ -25,15 +21,11 @@ class LearningModulePartRepo {
             yield LearningModule_1.LearningModule.findByIdAndUpdate(moduleID, { $addToSet: { parts: part, partsMetaData: { title: part.title } }, $inc: { numberOfParts: 1 } }, { new: false });
         });
     }
-    find(learningModuleId, partIndex) {
+    find(_id, partIndex) {
         return __awaiter(this, void 0, void 0, function* () {
-            const _id = learningModuleId;
             const result = yield LearningModule_1.LearningModule.findOne({ _id }, { parts: { $slice: [partIndex, 1] }, _id: 0, quizId: 0, title: 0, area: 0, stage: 0, description: 0, imgSrc: 0, numberOfParts: 0 });
-            if (!result) {
+            if (!result)
                 return null;
-            }
-            logger_1.default.info('--Debug--1');
-            logger_1.default.info(result.parts);
             return result.parts;
         });
     }
@@ -46,4 +38,4 @@ class LearningModulePartRepo {
 }
 exports.LearningModulePartRepo = LearningModulePartRepo;
 //# sourceMappingURL=learningModulePart.repo.js.map
-//# debugId=fa4bb97f-f341-5081-b38a-cfcc734ebb90
+//# debugId=7dc11925-ef95-51af-8b9b-4cb91432ef46

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="af988b52-1bad-5ec7-8ed0-6a29b51c9c78")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b1d2b17b-8471-5c3b-afa4-56a6e7aeec17")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -26,12 +26,6 @@ class LearningAreaRepo {
             logger_1.default.info("DATABASE: Created Learning Area ");
         });
     }
-    getAll() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield area_1.LearningArea.find({}, { _id: 1, name: 1, learningModulesUnderArea: 1 }).lean();
-            return result;
-        });
-    }
     delete(learningAreaId) {
         return __awaiter(this, void 0, void 0, function* () {
             const { deletedCount } = yield area_1.LearningArea.deleteOne({ _id: learningAreaId });
@@ -41,4 +35,4 @@ class LearningAreaRepo {
 }
 exports.LearningAreaRepo = LearningAreaRepo;
 //# sourceMappingURL=learningAreas.repo.js.map
-//# debugId=af988b52-1bad-5ec7-8ed0-6a29b51c9c78
+//# debugId=b1d2b17b-8471-5c3b-afa4-56a6e7aeec17

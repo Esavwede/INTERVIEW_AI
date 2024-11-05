@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a7c5b98a-2eab-59bd-aeb2-a731827169c1")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a704bdba-2bdd-5675-afae-f43610f8728f")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -40,9 +40,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const learningProfile_1 = require("./learningProfile");
+const LearningModule_1 = require("./LearningModule");
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
-const userSchema = new mongoose_1.Schema({
+const UserSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
         minlength: 2
@@ -73,7 +73,7 @@ const userSchema = new mongoose_1.Schema({
         default: true
     },
     learningProfile: {
-        type: [learningProfile_1.LearningModuleOverviewSchema]
+        type: [LearningModule_1.LearningModuleOverviewSchema]
     },
     userHasCreatedFirstJobProfile: {
         type: Boolean,
@@ -83,7 +83,7 @@ const userSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
-userSchema.pre("save", function (next) {
+UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!this.isModified('password'))
             return next();
@@ -92,7 +92,7 @@ userSchema.pre("save", function (next) {
         next();
     });
 });
-userSchema.methods.comparePassword = function (candidatePassword) {
+UserSchema.methods.comparePassword = function (candidatePassword) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             return yield bcrypt_1.default.compare(candidatePassword, this.password);
@@ -103,6 +103,6 @@ userSchema.methods.comparePassword = function (candidatePassword) {
         }
     });
 };
-exports.User = mongoose_1.default.model("User", userSchema);
+exports.User = mongoose_1.default.model("User", UserSchema);
 //# sourceMappingURL=User.js.map
-//# debugId=a7c5b98a-2eab-59bd-aeb2-a731827169c1
+//# debugId=a704bdba-2bdd-5675-afae-f43610f8728f

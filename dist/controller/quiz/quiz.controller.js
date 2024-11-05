@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0fb3d059-8180-5d88-86e6-971e23b8e1e8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8f6c14a0-167a-52bd-a04b-20b1582b24b5")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -36,14 +36,11 @@ class QuizController {
                 const { questions, description, title, moduleId, modulePartNumber } = req.body;
                 const questionIds = yield this.questionService.create(questions);
                 const quizBody = { description, title, moduleId, modulePartNumber, questions: questionIds };
-                const quizCreated = yield this.quizService.create(quizBody);
-                if (!quizCreated) {
-                    return res.status(500).json({ success: false, msg: "SERVER ERROR" });
-                }
+                yield this.quizService.create(quizBody);
                 return res.status(201).json({ success: true, msg: "QUIZ CREATED" });
             }
             catch (e) {
-                logger_1.default.error(e, '');
+                return res.status(500).json({ success: false, msg: e.message });
             }
         });
     }
@@ -91,4 +88,4 @@ class QuizController {
 }
 exports.QuizController = QuizController;
 //# sourceMappingURL=quiz.controller.js.map
-//# debugId=0fb3d059-8180-5d88-86e6-971e23b8e1e8
+//# debugId=8f6c14a0-167a-52bd-a04b-20b1582b24b5

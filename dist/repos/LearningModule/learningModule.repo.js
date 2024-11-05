@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5595d7d3-03fd-57b7-8807-0b0addb170f5")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fcfc2d4d-d94f-5415-8b47-04de40980fbb")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -22,8 +22,8 @@ class LearningModuleRepo {
     create(learningModuleDoc) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const learningModule = yield LearningModule_1.LearningModule.create(learningModuleDoc);
-                return { learningModuleId: learningModule._id, title: learningModule.title, stage: learningModule.stage };
+                const { _id, title, stage } = yield LearningModule_1.LearningModule.create(learningModuleDoc);
+                return { learningModuleId: _id, title: title, stage: stage };
             }
             catch (e) {
                 logger_1.default.error(e, "RepoError: Create Learning Module");
@@ -87,7 +87,8 @@ class LearningModuleRepo {
     }
     incrementNumberOfParts(moduleId) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield LearningModule_1.LearningModule.updateOne({ _id: moduleId }, { $inc: { totalParts: 1 } });
+            const { modifiedCount } = yield LearningModule_1.LearningModule.updateOne({ _id: moduleId }, { $inc: { totalParts: 1 } });
+            return modifiedCount;
         });
     }
     decrementNumberOfParts(moduleId) {
@@ -108,4 +109,4 @@ class LearningModuleRepo {
 }
 exports.default = LearningModuleRepo;
 //# sourceMappingURL=learningModule.repo.js.map
-//# debugId=5595d7d3-03fd-57b7-8807-0b0addb170f5
+//# debugId=fcfc2d4d-d94f-5415-8b47-04de40980fbb

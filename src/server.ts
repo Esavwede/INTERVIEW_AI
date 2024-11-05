@@ -4,21 +4,21 @@
 
 
 // Import with `import * as Sentry from "@sentry/node"` if you are using ESM
-import * as Sentry from "@sentry/node";
+//import * as Sentry from "@sentry/node";
 
-const { nodeProfilingIntegration } = require("@sentry/profiling-node");
+//const { nodeProfilingIntegration } = require("@sentry/profiling-node");
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [
-    nodeProfilingIntegration(),
-  ],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+// Sentry.init({
+//   dsn: process.env.SENTRY_DSN,
+//   integrations: [
+//     nodeProfilingIntegration(),
+//   ],
+//   // Tracing
+//   tracesSampleRate: 1.0, //  Capture 100% of the transactions
 
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
-});
+//   // Set sampling rate for profiling - this is relative to tracesSampleRate
+//   profilesSampleRate: 1.0,
+// });
 
 
 import { config } from "dotenv"
@@ -105,7 +105,7 @@ if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
 routes(app) 
 
 // The error handler must be registered before any other error middleware and after all controllers
-Sentry.setupExpressErrorHandler(app);
+// Sentry.setupExpressErrorHandler(app);
 
 // Add error handler
 app.use((

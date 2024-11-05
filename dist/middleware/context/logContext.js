@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e5d4eb93-6c0a-5100-8ae6-440658c28b85")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a166d1ed-57ac-53b6-96cc-f755e1ce2932")}catch(e){}}();
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addUserContext = addUserContext;
@@ -21,9 +21,7 @@ function addUserContext(req, res, next) {
         timeStamp: new Date().toISOString()
     };
     req.context = context;
-    console.log("----Debug-----");
-    console.log(req.context);
     next();
 }
 //# sourceMappingURL=logContext.js.map
-//# debugId=e5d4eb93-6c0a-5100-8ae6-440658c28b85
+//# debugId=a166d1ed-57ac-53b6-96cc-f755e1ce2932

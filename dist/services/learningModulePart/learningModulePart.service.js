@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f28253f5-1591-5b60-b93f-b58d8c77e19f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="692be85a-98d4-5b22-b976-5bd92fa402e6")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -42,15 +42,11 @@ class LearningModulePartService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 var partIndex = Number(partIndexString);
-                logger_1.default.info("SERVICE: Getting Learning Module Part ");
-                console.log(` Typeof partIndex: ${typeof partIndex}`);
                 const part = yield this.learningModulePartRepo.find(moduleID, partIndex);
                 if (!part) {
                     logger_1.default.error(`Did not find part: ${partIndex} in  ModuleID: ${moduleID}`);
                     throw new notFoundError_1.NotFoundError(`Did not find part: ${partIndex} in  ModuleID: ${moduleID}`);
                 }
-                console.log('here');
-                console.dir(part);
                 return part[0];
             }
             catch (e) {
@@ -81,4 +77,4 @@ class LearningModulePartService {
 }
 exports.LearningModulePartService = LearningModulePartService;
 //# sourceMappingURL=learningModulePart.service.js.map
-//# debugId=f28253f5-1591-5b60-b93f-b58d8c77e19f
+//# debugId=692be85a-98d4-5b22-b976-5bd92fa402e6

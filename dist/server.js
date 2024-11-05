@@ -1,44 +1,11 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="66c3edc3-b9a1-5665-a6af-9df6d7c118ee")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9c20da14-72b6-5786-909c-8b24605d01ac")}catch(e){}}();
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetCache = exports.redisClient = exports.passport = void 0;
-const Sentry = __importStar(require("@sentry/node"));
-const { nodeProfilingIntegration } = require("@sentry/profiling-node");
-Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    integrations: [
-        nodeProfilingIntegration(),
-    ],
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-});
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 const compression_1 = __importDefault(require("compression"));
@@ -88,7 +55,6 @@ if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Production.valueOf()) {
     app.use((0, helmet_1.default)());
 }
 (0, routes_1.routes)(app);
-Sentry.setupExpressErrorHandler(app);
 app.use((err, _, res, next) => {
     if (EnvVars_1.default.NodeEnv !== misc_1.NodeEnvs.Test.valueOf()) {
         jet_logger_1.default.err(err, true);
@@ -116,4 +82,4 @@ app.get('/auth/google', access, signinWithGoogle_1.default.authenticate('google'
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=66c3edc3-b9a1-5665-a6af-9df6d7c118ee
+//# debugId=9c20da14-72b6-5786-909c-8b24605d01ac

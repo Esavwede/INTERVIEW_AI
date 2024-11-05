@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2fdb510c-b782-59be-929c-7881e2f0c574")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4d657225-ed7d-5575-a840-ccf4346a7faa")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -96,7 +96,7 @@ class LearningModuleController {
                 logger_1.default.info(`Controller: ublishing Learning Module`);
                 const moduleId = req.params.id;
                 const moduleContent = req.body;
-                yield this.learningModuleService.publish(moduleId, moduleContent);
+                yield this.learningModuleService.publish(moduleId);
                 return res.status(200).json({ success: true, msg: "Learning Module Publish Successfully" });
             }
             catch (e) {
@@ -147,4 +147,4 @@ class LearningModuleController {
 }
 exports.LearningModuleController = LearningModuleController;
 //# sourceMappingURL=learningModule.controller.js.map
-//# debugId=2fdb510c-b782-59be-929c-7881e2f0c574
+//# debugId=4d657225-ed7d-5575-a840-ccf4346a7faa

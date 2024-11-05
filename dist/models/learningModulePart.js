@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e0cb179b-cb28-5882-aee7-aeb5e3124d0b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="cd13a7dc-5d0d-5abb-a470-aed3fe089745")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -25,18 +25,50 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Stage = void 0;
+exports.LearningModulePartSchema = exports.PartContentSchema = exports.PartMetaDataSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const StageSchema = new mongoose_1.Schema({
-    name: {
+exports.PartMetaDataSchema = new mongoose_1.Schema({
+    title: {
         type: String,
         required: true
     },
-    number: {
-        type: Number,
+    hasBeenCompleted: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+});
+exports.PartContentSchema = new mongoose_1.Schema({
+    type: {
+        type: String,
+        required: true
+    },
+    value: {
+        type: String,
         required: true
     }
 });
-exports.Stage = mongoose_1.default.model('stage', StageSchema);
-//# sourceMappingURL=stages.js.map
-//# debugId=e0cb179b-cb28-5882-aee7-aeb5e3124d0b
+exports.LearningModulePartSchema = new mongoose_1.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    learningModuleId: {
+        type: mongoose_1.default.Types.ObjectId
+    },
+    quizId: {
+        type: String,
+        default: ''
+    },
+    content: {
+        type: [exports.PartContentSchema],
+        required: true
+    },
+    isLast: {
+        type: Boolean,
+        require: true,
+        default: false
+    }
+});
+//# sourceMappingURL=learningModulePart.js.map
+//# debugId=cd13a7dc-5d0d-5abb-a470-aed3fe089745

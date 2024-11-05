@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="367733d2-f82d-5b6e-bc5f-6e0d41415d87")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7d523980-bb90-5d8a-bf3f-afd40e11d59a")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -31,9 +31,11 @@ class UserService {
     create(user, domain) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const newUser = yield this.userRepository.create(user);
-                const verificationLink = `${domain}/api/v1/users/verify?token=${newUser._id}`;
+                logger_1.default.debug('Create User Service: Creating new user...');
                 const { email } = user;
+                const userId = yield this.userRepository.create(user);
+                logger_1.default.debug('Create User Service: User created. UserId:' + userId);
+                const verificationLink = `${domain}/api/v1/users/verify?token=${userId}`;
                 const htmlBody = `<!DOCTYPE html>
                                 <html>
                                 <head>
@@ -55,9 +57,10 @@ class UserService {
                     html: htmlBody
                 };
                 yield (0, sendMain_1.sendMail)(mailOptions);
+                logger_1.default.info('Create User Service: Verification mail sent to user: ' + userId);
             }
             catch (e) {
-                logger_1.default.error(e, `User_Service: Error occured while creating New User `);
+                logger_1.default.error(e, `Create User Service: Error occured while creating New User `);
                 throw new serverError_1.ServerError(e.message);
             }
         });
@@ -65,8 +68,13 @@ class UserService {
     findByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                logger_1.default.info(`User_Service: Finding User By Email ${email}`);
-                return yield this.userRepository.findByEmail(email);
+                const user = yield this.userRepository.findByEmail(email);
+                if (user) {
+                    logger_1.default.info('Find By Email Service: Found User With Email. UserId: ' + user._id);
+                    return user;
+                }
+                logger_1.default.info('No User With Email');
+                return null;
             }
             catch (e) {
                 logger_1.default.error(e, `User_Service: Error Occured While Finding User By Email: ${email}`);
@@ -81,9 +89,10 @@ class UserService {
                 if (!updateResult) {
                     throw new serverError_1.ServerError("Server Could Not Update User: " + userId);
                 }
+                logger_1.default.debug(`User: ${userId} successfully updated `);
             }
             catch (e) {
-                logger_1.default.error(e, `USER_SERVICE_ERROR: Error Occured while Saving Updating User: ${userId}  `);
+                logger_1.default.error(e, `Update User Service: Error Occured while Updating User: ${userId}  `);
                 throw e;
             }
         });
@@ -91,21 +100,15 @@ class UserService {
     verifyUser(userID) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield this.userRepository.findById(userID);
-                if (!user) {
-                    logger_1.default.error(`Could not find user with ID: ${userID} from Validation `);
+                const userVerified = yield this.userRepository.markUserAsVerified(userID);
+                if (!userVerified) {
+                    logger_1.default.error(`Could not find user with ID: ${userID} for verification `);
                     return new unauthorizedError_1.UnauthorizedError("Invalid Validation Link");
                 }
-                user.isVerified = true;
-                user.markModified("isVerfied");
-                yield user.save();
-                return;
+                logger_1.default.info(`Verify Email Service: User: ${userID} email verified`);
             }
             catch (e) {
-                if (e instanceof unauthorizedError_1.UnauthorizedError) {
-                    throw e;
-                }
-                logger_1.default.error(e, 'SERVICE: Error Occured while finding user by Id ');
+                logger_1.default.error(e, 'Verify User Service: Error Occured while verifying user:  ' + userID);
                 throw new serverError_1.ServerError("Error Occured While Finding User By Id ");
             }
         });
@@ -116,21 +119,22 @@ class UserService {
                 const user = yield this.findByEmail(email);
                 if (!user)
                     throw new unauthorizedError_1.UnauthorizedError(`CHECK SIGNIN DETAILS`);
-                logger_1.default.info("User:");
-                logger_1.default.info(String(user._id));
-                if (!user.isVerified)
+                if (!user.isVerified) {
+                    logger_1.default.info(`Signin Service: User: ${user._id} email unverified. Cannot Signin to dashboard`);
                     throw new forbiddenError_1.ForbiddenError(`EMAIL NOT VERIFIED`);
+                }
                 const passwordValid = yield user.comparePassword(password);
-                if (!passwordValid)
+                if (!passwordValid) {
+                    logger_1.default.warn(`Sigin Service: User: ${user._id}'s provided password incorrect`);
                     throw new unauthorizedError_1.UnauthorizedError("Password Invalid");
-                const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user;
+                }
+                const { _id, firstname, lastname, learningProfile, userHasCreatedFirstJobProfile } = user;
                 const payload = { _id, userHasCreatedFirstJobProfile };
                 const accessToken = (0, tokens_1.generateJwtToken)(payload);
                 const refreshToken = (0, tokens_1.generateRefreshToken)(payload);
                 if (!firstname && !lastname) {
                     return { data: { user: { newUser: false, userId: _id, firstname: null, lastname: null, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } } };
                 }
-                logger_1.default.info('User Not New');
                 return { data: { user: { newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } } };
             }
             catch (e) {
@@ -162,7 +166,6 @@ class UserService {
                     logger_1.default.error(`Could not find User with id: ${userID} to save Learning Summaries `);
                     throw new notFoundError_1.NotFoundError(`Could Not Find User Learning Profile with UserId ${userID}`);
                 }
-                logger_1.default.info(saved);
             }
             catch (e) {
                 if (e instanceof notFoundError_1.NotFoundError) {
@@ -176,8 +179,7 @@ class UserService {
     getLearningModuleOverview(userId, moduleId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const learningModuleOverview = yield this.userRepository.getLearningModuleOverview(userId, moduleId);
-                return learningModuleOverview;
+                return yield this.userRepository.getLearningModuleOverview(userId, moduleId);
             }
             catch (e) {
                 logger_1.default.error(e, 'User Service: Error Occured While Getting User Learning Profile');
@@ -219,4 +221,4 @@ class UserService {
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=367733d2-f82d-5b6e-bc5f-6e0d41415d87
+//# debugId=7d523980-bb90-5d8a-bf3f-afd40e11d59a
