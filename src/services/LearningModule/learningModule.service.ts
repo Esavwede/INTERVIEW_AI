@@ -6,26 +6,18 @@ import logger from "@src/system/logger/logger";
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
 import { ServerError } from "@src/util/Errors/Endpoints/serverError";
 import { ILearningModule } from "@src/models/LearningModule";
-import { LearningArea } from "@src/models/area";
 import { UserService } from "../user/user";
 import { UserRepository } from "@src/repos/user/user.repo";
-import { LearningModulePartRepo } from "@src/repos/learningModulePart/learningModulePart.repo";
-import { LearningModulePartService } from "../learningModulePart/learningModulePart.service";
-
 
 export class LearningModuleService 
 {
 
     private userService:  UserService 
-    private learningModulePartService: LearningModulePartService 
 
     constructor( private learningModuleRepo: LearningModuleRepo )
     {
         const userRepository = new UserRepository()
         this.userService = new UserService( userRepository )    
-
-        const learningModulePartRepo = new LearningModulePartRepo() 
-        this.learningModulePartService = new LearningModulePartService( learningModulePartRepo )
     }
 
     async create( learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'isDraft'  > )
@@ -40,20 +32,7 @@ export class LearningModuleService
                         return false 
                     }
 
-                    const learningModuleIsDraft = learningModule.isDraft 
-
-                    if( learningModuleIsDraft  )
-                    {
-                        logger.info("Service: Learning Module Draft Created")
-                        return newLearningModule 
-                    }
-                    else 
-                    {
-                         // Save learning Module Details to Area 
-                         await LearningArea.updateOne({ _id: learningModule.area },{ $push: { learningModulesUnderArea: newLearningModule } })
-                         logger.info("Learning Module Published")
-                    }
-                    
+                    return newLearningModule     
            }
            catch(e: any )
            {
@@ -66,12 +45,8 @@ export class LearningModuleService
     {
             const learningModule = await this.learningModuleRepo.get( learningModuleId )
 
-            if( ! learningModule )
-            {
-                return false 
-            }
+            if( ! learningModule ) return false 
 
-            logger.info(`SERVICE: Returning Learning Module with Id: ${ learningModuleId }`)
             return learningModule 
     }
 
@@ -104,8 +79,6 @@ export class LearningModuleService
                 logger.error(`SERVICE_ERROR: DELETE_LEARNING_MODULE --> COULD NOT FIND LEARNING MODULE WITH ${ moduleID } FOR DELETION `)
                 throw new NotFoundError(`COULD NOT FIND LEARNING MODULE WITH ${ moduleID } FOR DELETION `)
             }
-
-            return 
         }
         catch(e: any )
         {
@@ -113,11 +86,11 @@ export class LearningModuleService
         }
     }
 
-    async publish( learningModuleId: string, learningModule:  Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'isDraft' | 'totalParts'> )
+    async publish( learningModuleId: string )
     {
         try 
         {
-            // Modify isDraft Property on module 
+            // Modify isDraft Property to "false"
             const modifiedCount = await this.learningModuleRepo.update( learningModuleId, { isDraft: false } )
 
             if( !modifiedCount )
@@ -125,12 +98,6 @@ export class LearningModuleService
                 logger.error("Did not Find Module To Publish")
                 throw new NotFoundError(`COULD NOT FIND LEARNING MODULE WITH ID: ${ learningModuleId } to Publish`)
             }
-
-              // Save learning Module Details to Area 
-              const updatedData = await LearningArea.updateOne({ _id: learningModule.area },{ $push: { learningModulesUnderArea: learningModule } })
-              console.dir( updatedData ) 
-
-              logger.info("Learning Module Published")
         }
         catch(e)
         {
@@ -176,7 +143,8 @@ export class LearningModuleService
 
     async incrementNumberOfParts( moduleId: string )
     {
-        await this.learningModuleRepo.incrementNumberOfParts( moduleId )
+        const numberOfPartsIncremented = await this.learningModuleRepo.incrementNumberOfParts( moduleId ) 
+        if( numberOfPartsIncremented !== 1 ) return false 
     }
 
     async decrementNumberOfParts( moduleId: string )

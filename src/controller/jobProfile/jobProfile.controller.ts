@@ -7,7 +7,6 @@ import { JobProfileService } from "@src/services/jobProfile/jobProfile.service"
 import { CreateJobProfileSchema, DeleteJobProfileSchema, GenerateJobDescriptionsSchema } from "@src/schemas/jobProfile/jobProfile.schema"
 import { JobProfileRepo } from "@src/repos/jobProfile/jobProfile.repo"
 import { uploadFile } from "@src/util/upload/doc/uploadDocToCloud"
-import { Console } from "console"
 
 
 export class JobProfileController

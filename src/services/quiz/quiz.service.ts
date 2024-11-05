@@ -14,19 +14,19 @@ export class QuizSservice
     }
 
 
-    async create( quiz: IQuizDTO_Req): Promise<boolean> 
+    async create( quiz: IQuizDTO_Req): Promise<void> 
     {
-        const quizCreated = await this.quizRepo.create( quiz )     
-        
-        if( !quizCreated )
+        try 
         {
-            return false 
+            await this.quizRepo.create( quiz )     
+            logger.info("Quiz Created") 
         }
-
-        logger.info("Quiz Created") 
-        return true 
+        catch(e: any )
+        {
+            logger.error(e,"Error Occured While Creating Quiz")
+            throw new ServerError("Server Error. Error Occured while creating quiz")
+        }
     }
-
 
     async find( quizID: string ) 
     {
@@ -53,9 +53,6 @@ export class QuizSservice
         try 
         {
             const updatedQuiz = await this.quizRepo.update( quizID, updateBody )
-
-            logger.info("Updated Quiz Result")
-            logger.info( updatedQuiz ) 
 
             if(  updatedQuiz !== 1 )
             {

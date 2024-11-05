@@ -2,7 +2,7 @@
 
 import { Question } from "@src/models/Question";
 import { IQuestion } from "@src/models/Question";
-import { IQuestionDTO_Req, IQuestionDTO_Res } from "@src/DTOs/question/question.dto";
+import { IQuestionDTO_Req } from "@src/DTOs/question/question.dto";
 
 
 export class QuestionRepo 

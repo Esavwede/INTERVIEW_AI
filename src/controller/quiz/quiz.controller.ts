@@ -41,19 +41,15 @@ export class QuizController
             
             const quizBody = { description, title, moduleId, modulePartNumber, questions: questionIds }
 
-            const quizCreated = await this.quizService.create( quizBody ) 
 
-            if( !quizCreated )
-            {
-                return res.status(500).json({ success: false, msg:"SERVER ERROR" })
-            }
-            
+            await this.quizService.create( quizBody ) 
+
             return res.status(201).json({ success: true, msg:"QUIZ CREATED" })
 
         }
         catch(e: any)
         {
-            logger.error(e,'')
+            return res.status(500).json({ success: false, msg: e.message })
         }
     }
 

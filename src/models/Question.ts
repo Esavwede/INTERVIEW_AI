@@ -2,14 +2,14 @@
 import mongoose, { Document, Schema, ObjectId } from "mongoose";
 
 
-
-
+// Option Interface 
 interface IOption
 {
     char: string, 
     value: string 
 }
 
+//Option Schema 
 const OptionSchema = new Schema<IOption>
     (
         {
@@ -28,8 +28,7 @@ const OptionSchema = new Schema<IOption>
     )
 
 
-
-
+// Quiz Question Interface 
 export interface IQuestion extends Document 
 {
     area: ObjectId,
@@ -40,6 +39,8 @@ export interface IQuestion extends Document
 }
 
 
+
+// Quiz Question Schema 
 const QuestionSchema = new Schema<IQuestion> 
             (
                 {
@@ -73,10 +74,6 @@ const QuestionSchema = new Schema<IQuestion>
                     timestamps: true 
                 }
             )
-
-
-
-
 
 
 export const Question = mongoose.model<IQuestion>('Question', QuestionSchema )

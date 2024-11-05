@@ -4,6 +4,8 @@ import { LearningModule, ILearningModule  } from "@src/models/LearningModule";
 import { IUpdateLearningModuleDTO } from "@src/DTOs/learningModule/learningModule.dto";
 import logger from "@src/system/logger/logger";
 
+
+
 export default class LearningModuleRepo
 {
 
@@ -12,13 +14,16 @@ export default class LearningModuleRepo
 
     }
 
-    async create( learningModuleDoc: Pick< ILearningModule, 'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' |  'description' | 'imgSrc' | 'isDraft' >  ): Promise< { learningModuleId: string, title: string, stage: string } | false > 
+    async create( 
+        learningModuleDoc: Pick< ILearningModule, 'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' |  'description' | 'imgSrc' | 'isDraft' > 
+
+    ): Promise< { learningModuleId: string, title: string, stage: string } | false > 
     {
         try 
         {
-            const  learningModule: ILearningModule = await LearningModule.create( learningModuleDoc )
+            const  { _id, title, stage}: ILearningModule = await LearningModule.create( learningModuleDoc )
 
-            return { learningModuleId: learningModule._id as string , title: learningModule.title, stage: learningModule.stage as unknown as string  } 
+            return { learningModuleId: _id as string, title: title, stage: stage as unknown as string  } 
         }
         catch(e: any)
         {
@@ -27,7 +32,11 @@ export default class LearningModuleRepo
         }
     }  
 
-    async get( moduleId: string ):Promise<    Pick<ILearningModule,'title' | 'description' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc'> | boolean  > 
+    async get
+     (
+        moduleId: string
+        
+     ) :Promise<    Pick<ILearningModule,'title' | 'description' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'imgSrc'> | boolean  > 
     {
         try 
         {
@@ -97,9 +106,10 @@ export default class LearningModuleRepo
         return null 
     }
 
-    async incrementNumberOfParts( moduleId: string )
+    async incrementNumberOfParts( moduleId: string ): Promise<number> 
     {
-        await LearningModule.updateOne({ _id: moduleId },{ $inc: { totalParts: 1 }})
+       const { modifiedCount } =  await LearningModule.updateOne({ _id: moduleId },{ $inc: { totalParts: 1 }})
+       return modifiedCount
     }
 
     async decrementNumberOfParts( moduleId: string )
@@ -128,4 +138,4 @@ export default class LearningModuleRepo
             return learningModules;
       }
       
-} 
+}

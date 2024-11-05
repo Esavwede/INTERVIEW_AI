@@ -10,6 +10,11 @@ const StageSchema = new Schema
                     {
                         type: String, 
                         required: true
+                    },
+                    number:
+                    {
+                        type: Number, 
+                        required: true 
                     }
                 }
             )

@@ -10,7 +10,7 @@ config()
 // Interfaces 
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
 import { SaveLearningModuleOverviewSchema } from "@src/schemas/learningModule/learningModule.schema";
-import { ILearningModuleOverview } from "@src/models/learningProfile";
+import { ILearningModuleOverview } from "@src/models/LearningModule";
 import { AnyAppError } from "@src/util/Errors/Endpoints/anyAppError";
 import { ConflictError } from "@src/util/Errors/Endpoints/conflictError";
 import logger from "@src/system/logger/logger";
@@ -36,25 +36,32 @@ export class UserController
         try 
         {
                  
+            logger.info(`Signup Controller: Signing Up New User`)
 
-        logger.info(`User_Signup_Controller: Signin Up New User`)
+            const email = req.body.email 
 
-        const email = req.body.email 
-        const userExists = await this.userService.findByEmail( email ) 
+            // Check If Email Exists 
+            const userExists = await this.userService.findByEmail( email ) 
 
-        if( userExists )
-        {
-            logger.info(`User Email: ${ email } Taken `)
-            throw new ConflictError("Account with this email exists")
-        }
 
-        const protocol = req.protocol || 'https' || 'http'
-        const host = req.get('host') || 'localhost:3000'
-        const domain = `${protocol}://${host}`
+            if( userExists )// Email Taken
+            {
+                logger.info(`User Email: ${ email } Taken `)
+                throw new ConflictError("Account with this email exists")
+            }
 
-        await this.userService.create( req.body, domain  )
-        
-        return res.status(201).json({ status: "success", msg:"User Signup Successfull" })
+
+            // Create Verify Email Url 
+            const protocol = req.protocol || 'https' || 'http'
+            const host = req.get('host') || 'localhost:3000'
+            const domain = `${protocol}://${host}`
+
+
+            // Create New User 
+            await this.userService.create( req.body, domain  )
+            
+            // User Created Successfully 
+            return res.status(201).json({ status: "success", msg:"User Signup Successfull" })
 
         }
         catch(e: any )
@@ -71,6 +78,8 @@ export class UserController
     {
         try 
         {
+             logger.info('User signing in')
+             
              const { password, email } = req.body 
 
              const response = await this.userService.signin( email, password )

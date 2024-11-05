@@ -1,8 +1,8 @@
 
 import { Request, Response } from "express-serve-static-core"
 import { LearningModuleService } from "@src/services/LearningModule/learningModule.service";
-import LearningModuleRepo from "@src/repos/LearningModule/learningModule.repo";
-import logger from "@src/system/logger/logger";
+import   LearningModuleRepo from "@src/repos/LearningModule/learningModule.repo";
+import   logger from "@src/system/logger/logger";
 import { CreateLearningModuleSchema, DeleteLearningModule, GetLearningModulePartSchema, GetLearningModulesUnderStageSchema, PublishLearningModuleSchema, UpdateLearningModuleInput  } from "@src/schemas/learningModule/learningModule.schema";
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
 import { ILearningModule } from "@src/models/LearningModule";
@@ -125,7 +125,7 @@ export class LearningModuleController
             logger.info(`Controller: ublishing Learning Module`)
             const moduleId = req.params.id 
             const moduleContent = req.body as any as Pick< ILearningModule,'title' | 'area' | 'stage' | 'stageName' | 'stageNumber' | 'description' | 'imgSrc' | 'totalParts' | 'isDraft' >
-            await this.learningModuleService.publish( moduleId,  moduleContent)
+            await this.learningModuleService.publish( moduleId )
             return res.status(200).json({ success: true, msg:"Learning Module Publish Successfully"})
         }
         catch(e: any )

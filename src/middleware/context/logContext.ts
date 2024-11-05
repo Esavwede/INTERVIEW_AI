@@ -1,4 +1,6 @@
-import {config  } from "dotenv"
+
+
+import { config  } from "dotenv"
 config() 
 import { Request, Response, NextFunction} from "express-serve-static-core"
 import { IUserLogContext } from "types"
@@ -21,9 +23,6 @@ export function addUserContext( req: Request, res: Response, next: NextFunction 
         timeStamp: new Date().toISOString()   
     }
 
-    
-    req.context = context 
-    console.log("----Debug-----")
-    console.log( req.context  ) 
+    req.context = context
     next() 
 }

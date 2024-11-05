@@ -1,7 +1,6 @@
 
 
 import JobProfile, { IJobProfileEntry } from "@src/models/JobProfile";
-import logger from "@src/system/logger/logger";
 import { Logger } from "pino";
 
 
@@ -81,5 +80,7 @@ export class JobProfileRepo
         return modifiedCount
     }
 
+ 
+    
     
 }

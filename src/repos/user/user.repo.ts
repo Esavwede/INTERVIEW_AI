@@ -2,7 +2,7 @@
 
 import { UserDTO } from "@src/DTOs/user/user"
 import { IUser, User } from "../../models/User"
-import { ILearningModuleOverview } from "@src/models/learningProfile"
+import { ILearningModuleOverview } from "@src/models/LearningModule"
 import logger from "@src/system/logger/logger"
 
 
@@ -12,25 +12,17 @@ export interface INewUser { _id: string }
 export class UserRepository 
 {
 
-    async create( user: UserDTO ): Promise< Pick<INewUser,'_id' > >
+    async create( user: UserDTO ): Promise<string> 
     {
         var newUser = await User.create( user )
-        var userObject = { _id: newUser._id as string }
-        return userObject 
+        return newUser._id as string 
     }
 
     async findByEmail( email: string ): Promise<IUser | null > 
     {
-            const user = await User.findOne({ email },{ _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 })
-
-            if(user)
-            { 
-                logger.info(`User_Repo: User Found: ${ String( user._id ) }`)
-                return user 
-            }
-
-                logger.info(`User_Repo: User Not Found `)
-                return user 
+            const requiredFields = { _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 }
+            const user = await User.findOne({ email }, requiredFields )
+            return user 
     }
 
     async update( _id: string , updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' | 'password' > >): Promise< boolean | null > 
@@ -41,10 +33,10 @@ export class UserRepository
         return true 
     }
 
-    async findById( userID: string ): Promise< IUser | null > 
+    async markUserAsVerified( userID: string ): Promise< number > 
     {
-            const user = await User.findByIdAndUpdate({ _id: userID },{ isVerified: true })
-            return user
+            const { modifiedCount } = await User.updateOne({ _id: userID },{ isVerified: true })
+            return modifiedCount
     }  
 
     async setUserNewToFalse( userID: string ): Promise< number >
@@ -87,8 +79,6 @@ export class UserRepository
           )
 
           if( update ){ console.log( update.modifiedCount )}
-          console.log('-------Here !-----')
-          console.log( update )
     }
 
     async markUserHasCreatedFirstJobProfileAsFalse

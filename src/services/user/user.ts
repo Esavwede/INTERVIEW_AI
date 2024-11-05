@@ -4,19 +4,16 @@ import { UserRepository } from "@src/repos/user/user.repo"
 import { UserDTO } from "@src/DTOs/user/user"
 import { sendMail } from "@src/util/mail/sendMain"
 import { ServerError } from "@src/util/Errors/Endpoints/serverError"
-import  logger from "@src/system/logger/logger"
+import   logger from "@src/system/logger/logger"
 import { config } from "dotenv"
 import { UnauthorizedError } from "@src/util/Errors/Endpoints/unauthorizedError"
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError"
 import { generateJwtToken, generateRefreshToken } from "@src/util/Auth/tokens"
-import { ILearningModuleOverview } from "@src/models/learningProfile"
+import { ILearningModuleOverview } from "@src/models/LearningModule"
 import { ForbiddenError } from "@src/util/Errors/Endpoints/forbiddenError"
 import { IUser } from "@src/models/User";
-import { startRedis } from "@src/middleware/cache/redisClient"
-
 
 config() 
-
 
 
 export class UserService 
@@ -32,15 +29,21 @@ export class UserService
     {
        try 
        {
+        
+            logger.debug('Create User Service: Creating new user...')
+
+             // User Email 
+             const { email } = user 
+
+            // Create new user             
+            const userId: string  = await this.userRepository.create( user ) 
+
+            logger.debug('Create User Service: User created. UserId:' + userId )
+
+            // Create email verification link 
+            const verificationLink = `${domain}/api/v1/users/verify?token=${ userId }`
            
-            const newUser: { _id: string } = await this.userRepository.create( user ) 
-
-            // Email Verification Link 
-            const verificationLink = `${domain}/api/v1/users/verify?token=${ newUser._id}`
-
-            // User Email 
-            const { email } = user 
-
+            // Verification mail body 
             const htmlBody = `<!DOCTYPE html>
                                 <html>
                                 <head>
@@ -56,6 +59,7 @@ export class UserService
                                 </html>
                                 `
 
+            // mail payload 
             const mailOptions = 
             {
                 email, 
@@ -65,11 +69,11 @@ export class UserService
             }
             
             await sendMail( mailOptions ) 
-
+            logger.info('Create User Service: Verification mail sent to user: ' + userId )
        }
        catch(e)
        {
-            logger.error(e,`User_Service: Error occured while creating New User `)
+            logger.error(e,`Create User Service: Error occured while creating New User `)
             throw new ServerError( e.message ) 
        }
     }
@@ -79,8 +83,15 @@ export class UserService
     {
        try 
        {
-            logger.info(`User_Service: Finding User By Email ${ email }`)
-            return await this.userRepository.findByEmail( email ) 
+            const user = await this.userRepository.findByEmail( email ) 
+
+            if( user )
+            {
+                logger.info('Find By Email Service: Found User With Email. UserId: ' + user._id )
+                return user 
+            }
+                logger.info('No User With Email')
+                return null 
        }
        catch(e: any)
        {
@@ -94,47 +105,42 @@ export class UserService
     {
         try 
         {
+
             const updateResult = await this.userRepository.update( userId, updateBody ) 
 
             if( !updateResult ){ throw new ServerError("Server Could Not Update User: " + userId ) }
+
+            logger.debug(`User: ${ userId } successfully updated `)
         }
         catch(e: any )
         {
-            logger.error(e,`USER_SERVICE_ERROR: Error Occured while Saving Updating User: ${ userId }  `)
+            logger.error(e,`Update User Service: Error Occured while Updating User: ${ userId }  `)
             throw e
         }
     }
+
 
     async verifyUser( userID: string )
     {
         try 
         {
-            const user = await this.userRepository.findById( userID ) 
+            const userVerified = await this.userRepository.markUserAsVerified( userID ) 
 
-            if( !user )
+            if( !userVerified )
             {
-                logger.error(`Could not find user with ID: ${ userID } from Validation `)
+                logger.error(`Could not find user with ID: ${ userID } for verification `)
                 return new UnauthorizedError("Invalid Validation Link")
             }
 
-            // Update User 
-            user.isVerified = true 
-            user.markModified("isVerfied")
-            await user.save() 
-            
-            return 
+                logger.info(`Verify Email Service: User: ${ userID } email verified`)
         }
         catch(e)
         {
-            if( e instanceof UnauthorizedError )
-            {
-                throw e 
-            }
-
-            logger.error(e,'SERVICE: Error Occured while finding user by Id ') 
+            logger.error(e,'Verify User Service: Error Occured while verifying user:  ' + userID ) 
             throw new ServerError("Error Occured While Finding User By Id ") 
         }
     }
+
 
     async signin( email: string, password: string  )
     {   
@@ -146,17 +152,23 @@ export class UserService
 
             if( !user ) throw new UnauthorizedError(`CHECK SIGNIN DETAILS`)
 
-                logger.info("User:")
-                logger.info( String( user._id ) ) 
-
-            if( !user.isVerified ) throw new ForbiddenError(`EMAIL NOT VERIFIED`)
-
+            if( !user.isVerified )
+            {
+                logger.info(`Signin Service: User: ${ user._id } email unverified. Cannot Signin to dashboard`)
+                throw new ForbiddenError(`EMAIL NOT VERIFIED`)
+            }
 
              const passwordValid = await user.comparePassword( password )
-             if( !passwordValid ) throw new UnauthorizedError("Password Invalid")
+
+             if( !passwordValid )
+             {
+                logger.warn(`Sigin Service: User: ${ user._id }'s provided password incorrect`)
+                throw new UnauthorizedError("Password Invalid")
+             }
 
 
-            const { _id, firstname, lastname, learningProfile, newUser, userHasCreatedFirstJobProfile } = user 
+            // User Data 
+            const { _id, firstname, lastname, learningProfile, userHasCreatedFirstJobProfile } = user 
 
              // Data to Store in Jwt 
              const payload = { _id, userHasCreatedFirstJobProfile  } 
@@ -165,13 +177,12 @@ export class UserService
              const refreshToken = generateRefreshToken( payload )
 
 
-             if( !firstname && !lastname )
+             if( !firstname && !lastname )// User Has Not Saved Firstname and Lastname
              {
                 return { data:{   user:{  newUser: false, userId: _id, firstname: null, lastname: null, userHasCreatedFirstJobProfile, learningProfile }, tokens:{ accessToken, refreshToken }}}
              }
              
              // User not New Return User profile and Learning Profile Details
-             logger.info('User Not New')
              return { data:{   user:{  newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens:{ accessToken, refreshToken }}}
         }
         catch(e: any )
@@ -212,8 +223,6 @@ export class UserService
                 logger.error(`Could not find User with id: ${ userID } to save Learning Summaries `)
                 throw new NotFoundError(`Could Not Find User Learning Profile with UserId ${ userID }`)
             }
-
-            logger.info( saved ) 
         }
         catch(e: any )
         {
@@ -221,8 +230,8 @@ export class UserService
             {
                 throw e 
             }
-                logger.error(e,"Error Occured while Updating User Learning Overview")
-                throw new ServerError('SERVER ERROR')
+            logger.error(e,"Error Occured while Updating User Learning Overview")
+            throw new ServerError('SERVER ERROR')
         }
     }
     
@@ -230,8 +239,7 @@ export class UserService
     {
         try 
         {
-            const learningModuleOverview = await this.userRepository.getLearningModuleOverview( userId, moduleId ) 
-            return learningModuleOverview 
+             return await this.userRepository.getLearningModuleOverview( userId, moduleId )
         }
         catch(e: any )
         {
@@ -277,6 +285,5 @@ export class UserService
             throw e 
         }
     }
-
 
 }

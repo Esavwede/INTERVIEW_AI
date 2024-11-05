@@ -1,99 +1,98 @@
 
 
 import mongoose, { Document, ObjectId, Schema, Types } from "mongoose"
+import { ILearningModulePart, IPartMetaData, LearningModulePartSchema, PartMetaDataSchema } from "./learningModulePart"
 
-export interface IPartContent 
+ 
+// Learning Module Overview Interface 
+export interface ILearningModuleOverview extends Document 
 {
-    _id: ObjectId,
-    type: string, 
-    value: string 
+    _id: Types.ObjectId | string, 
+    area: string, 
+    stage: ObjectId | string, 
+    stageName: string,
+    stageNumber: number,
+    title: string,
+    description: string,
+    imgSrc: string,
+    partsMetaData: IPartMetaData[] 
+    totalParts: number, 
+    currentPart: number,
+    nextPart: number 
 }
 
 
-export const PartContentSchema = new Schema<IPartContent>
-                (
-                    {
-                        type: 
-                        {
-                            type: String, 
-                            required: true 
-                        },
-                        value:
-                        {
-                            type: String, 
-                            required: true 
-                        }
-                    }
-                )
-
-
-export interface ILearningModulePart extends Document 
-{
-    title: string, 
-    learningModuleId?: ObjectId, 
-    quizId?: ObjectId,
-    content: IPartContent[],
-    isLast: boolean 
-}
-
-
-const LearningModulePartSchema = new Schema<ILearningModulePart> 
+// Learning Module Overview Schema 
+export const LearningModuleOverviewSchema = new Schema<ILearningModuleOverview>
         (
             {
+                _id: 
+                {
+                    type: Schema.Types.ObjectId, 
+                    required: true,
+                    unique: false 
+                },
+                area: 
+                {
+                    type: String, 
+                    required: true 
+                },
+                stage: 
+                {
+                    type: Schema.Types.ObjectId, 
+                    required: true 
+                },
+                stageName:
+                {
+                    type: String, 
+                    required: true 
+                },
+                stageNumber:
+                {
+                    type: Number, 
+                    required: true 
+                },
                 title: 
                 {
                     type: String, 
                     required: true 
                 },
-                learningModuleId: 
+                description: 
                 {
-                    type: mongoose.Types.ObjectId
-                },
-                quizId: 
-                {
-                    type: String,
-                    default: '' 
-                },
-                content: 
-                {
-                    type: [ PartContentSchema ], 
+                    type: String, 
                     required: true 
                 },
-                isLast:
+                imgSrc:
                 {
-                    type: Boolean, 
-                    require: true, 
-                    default: false 
+                    type: String, 
+                    required: true 
+                },
+                totalParts: 
+                {
+                    type: Number, 
+                    required: true
+                },
+                partsMetaData:
+                {
+                    type: [PartMetaDataSchema]
+                },
+                currentPart: 
+                {
+                    type: Number, 
+                    required: true, 
+                    default: 1
+                },
+                nextPart:
+                {
+                    type: Number, 
+                    required: true, 
+                    default: 1  
                 }
             }
         )
 
 
-export interface IPartMetaData 
-{
-    _id:  Types.ObjectId | string,
-    title: string, 
-    hasBeenCompleted: boolean 
-}
-
-
-export const PartMetaDataSchema  = new Schema
-    (
-        {
-            title: 
-            {
-                type: String, 
-                required: true 
-            },
-            hasBeenCompleted: 
-            {
-                type: Boolean, 
-                required: true,
-                default: false 
-            }
-        }
-    )
-
+// Learning Module Interface 
 export interface ILearningModule extends Document 
 {
     title: string, 
@@ -110,6 +109,7 @@ export interface ILearningModule extends Document
 }
 
 
+// Learning Module Schema 
 const LearningModuleSchema = new Schema<ILearningModule>
         ( 
             {
@@ -173,7 +173,6 @@ const LearningModuleSchema = new Schema<ILearningModule>
                 timestamps: true 
             }
         )
-
 
 
 export const LearningModule = mongoose.model('learningModule', LearningModuleSchema ) 

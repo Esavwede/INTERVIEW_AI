@@ -1,10 +1,11 @@
 
 
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 
 export interface IStage extends Document
 {
+    _id: Types.ObjectId | string,
     name: string,
     number: number 
 }
@@ -13,6 +14,11 @@ export interface IStage extends Document
 const StageSchema = new Schema<IStage> 
             (
                 {
+                    _id: 
+                    {
+                        type: Schema.Types.ObjectId, 
+                        required: true 
+                    },
                     name: 
                     {
                         type: String, 

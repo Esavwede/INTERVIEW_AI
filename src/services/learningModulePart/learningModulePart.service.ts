@@ -41,9 +41,6 @@ export class LearningModulePartService
 
             var partIndex = Number( partIndexString ) 
         
-        
-            logger.info("SERVICE: Getting Learning Module Part ") 
-            console.log(` Typeof partIndex: ${ typeof partIndex }`)
             const part = await this.learningModulePartRepo.find(moduleID, partIndex ) 
 
             if( !part )
@@ -51,9 +48,7 @@ export class LearningModulePartService
                 logger.error(`Did not find part: ${ partIndex } in  ModuleID: ${ moduleID }`)
                 throw new NotFoundError(`Did not find part: ${ partIndex } in  ModuleID: ${ moduleID }`)   
             }
-
-            console.log('here')
-            console.dir( part ) 
+            
             return part[0]
         }
         catch(e: any )

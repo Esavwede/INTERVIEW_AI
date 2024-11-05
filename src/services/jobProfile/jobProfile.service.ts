@@ -1,6 +1,6 @@
 import { IJobProfileEntry } from "@src/models/JobProfile";
 import { JobProfileRepo } from "@src/repos/jobProfile/jobProfile.repo";
-import logger from "@src/system/logger/logger";
+import   logger from "@src/system/logger/logger";
 import { NotFoundError } from "@src/util/Errors/Endpoints/notFoundError";
 import { ServerError } from "@src/util/Errors/Endpoints/serverError";
 import { UserService } from "../user/user";

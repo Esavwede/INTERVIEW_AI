@@ -1,9 +1,11 @@
+
 import mongoose, { Schema, Document } from "mongoose" 
 import bcrypt from "bcrypt" 
-import { ILearningModuleOverview, LearningModuleOverviewSchema } from "./learningProfile"
+import { ILearningModuleOverview, LearningModuleOverviewSchema } from "./LearningModule"
 import logger from "@src/system/logger/logger"
 
 
+// User Interface 
 export interface IUser extends Document 
 {
   firstname: string, 
@@ -18,9 +20,10 @@ export interface IUser extends Document
   userHasCreatedFirstJobProfile: boolean, 
   comparePassword( candidatePassword: string): Promise<boolean> 
 }
-// 
 
-  const userSchema = new Schema<IUser>(
+
+  // User Schema 
+  const UserSchema = new Schema<IUser>(
     {
         firstname: 
         {
@@ -74,7 +77,8 @@ export interface IUser extends Document
     }
   )
 
-  userSchema.pre("save", async function(next){
+  // Hash Password If Modified 
+  UserSchema.pre("save", async function(next){
 
       if( !this.isModified('password') )return next()
       const salt = await bcrypt.genSalt(10) 
@@ -82,8 +86,9 @@ export interface IUser extends Document
       next() 
   })
 
-  
-userSchema.methods.comparePassword = async function( candidatePassword: string ): Promise<boolean> {
+
+// User Compare Password Method
+UserSchema.methods.comparePassword = async function( candidatePassword: string ): Promise<boolean> {
     try 
     {
         return await bcrypt.compare( candidatePassword, this.password )
@@ -96,4 +101,4 @@ userSchema.methods.comparePassword = async function( candidatePassword: string )
 }
 
 
-  export const User = mongoose.model<IUser>("User", userSchema ) 
+export const User = mongoose.model<IUser>("User", UserSchema ) 

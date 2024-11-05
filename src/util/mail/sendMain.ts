@@ -35,7 +35,7 @@ export async function sendMail( mailOptions: { email: string, html: string, subj
           })
         
 
-          logger.info( result ) 
+          logger.info( result )
     }
     catch(e: any ) 
     {

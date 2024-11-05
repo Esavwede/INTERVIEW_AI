@@ -1,5 +1,5 @@
 
-import { ILearningArea, LearningArea } from "@src/models/area"
+import { LearningArea } from "@src/models/area"
 import logger from "@src/system/logger/logger"
 
 
@@ -18,13 +18,6 @@ export class LearningAreaRepo
     {
         await LearningArea.create( learningAreaDoc )
         logger.info("DATABASE: Created Learning Area ") 
-    }
-
-
-    async getAll(): Promise<  Pick< ILearningArea , '_id' | 'area' | 'learningModulesUnderArea' >[] | null  >
-    {
-        const result = await LearningArea.find({},{ _id: 1, name: 1, learningModulesUnderArea: 1}).lean() 
-        return result 
     }
 
 
