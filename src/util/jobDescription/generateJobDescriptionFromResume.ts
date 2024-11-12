@@ -5,7 +5,6 @@ import logger from "@src/system/logger/logger";
 export async function generateJobDescriptionWithAI( jobRole: string, experienceLevel: string, resume: string )
 {
 
-
   const JOB_ROLE_GENERATION_PROMPT = `
   Your_Instructions: You are an AI system that specializes in creating complete job descriptions exactly as they would appear on real-world job listing platforms like LinkedIn, Indeed, etc.
 
@@ -18,16 +17,22 @@ export async function generateJobDescriptionWithAI( jobRole: string, experienceL
   2. The user's experience level: Tailor the job description to match the specified seniority (e.g., junior, mid-level, senior), including responsibilities and qualifications that fit the appropriate level of expertise.
   3. The user's resume: Extract relevant skills and technologies from the resume, ensuring that only those applicable to the user's experience are included. For example, if the user is a backend developer with Python experience, avoid including irrelevant technologies like C#. Focus on matching the user's core skills.
 
-  In addition to the job description, you will generate the following fictional company-specific details:
-  - A fictional company name that sounds realistic and industry-appropriate.
-  - A fictional company email address.
-  - A fictional company location (city and country).
+  In addition to the job description, you will generate the following company-specific details:
+  - A company great name.
+  - A company email address.
+  - A company location (city and country).
   - Job-specific details including responsibilities, qualifications, benefits, employment type (e.g., full-time, part-time), and any other typical sections of a real-world job description.
   - Include any additional relevant sections, such as salary range, working hours, or remote work options, if applicable to the role.
 
   Important:
+  - The company's name must be in the job description. I repeat, the company's name must be in the job description
+  - The apply section must come last
+  - The job title must be in-between ** **, example: **English Teacher**
+  - A salary based on the job role and seniority and experience level must be included in the job description
   - Do not include any placeholder text like [yourcompanyname]. Generate all details yourself.
   - Ensure the fictional company details are consistent throughout the job description and match the role’s industry or expertise level.
+  - The elements of each section must be treated as one. For instance in the About us section, everything about the about section must be treated as a single unit. For each of these section treated as a unit, you must insert to escape characters. I repeat, you must insert two escape characters at the end of each section
+  - Salary Currency must be the value in dollars 
 
   Role: ${jobRole}
   Experience Level: ${experienceLevel}

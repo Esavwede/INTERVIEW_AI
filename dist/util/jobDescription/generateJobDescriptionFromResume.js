@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c1d2f04c-7925-53a8-a7c8-70826bf7ce0c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="eef54e70-d92d-56b2-98bf-57265ba5e812")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -32,16 +32,22 @@ function generateJobDescriptionWithAI(jobRole, experienceLevel, resume) {
   2. The user's experience level: Tailor the job description to match the specified seniority (e.g., junior, mid-level, senior), including responsibilities and qualifications that fit the appropriate level of expertise.
   3. The user's resume: Extract relevant skills and technologies from the resume, ensuring that only those applicable to the user's experience are included. For example, if the user is a backend developer with Python experience, avoid including irrelevant technologies like C#. Focus on matching the user's core skills.
 
-  In addition to the job description, you will generate the following fictional company-specific details:
-  - A fictional company name that sounds realistic and industry-appropriate.
-  - A fictional company email address.
-  - A fictional company location (city and country).
+  In addition to the job description, you will generate the following company-specific details:
+  - A company great name.
+  - A company email address.
+  - A company location (city and country).
   - Job-specific details including responsibilities, qualifications, benefits, employment type (e.g., full-time, part-time), and any other typical sections of a real-world job description.
   - Include any additional relevant sections, such as salary range, working hours, or remote work options, if applicable to the role.
 
   Important:
+  - The company's name must be in the job description. I repeat, the company's name must be in the job description
+  - The apply section must come last
+  - The job title must be in-between ** **, example: **English Teacher**
+  - A salary based on the job role and seniority and experience level must be included in the job description
   - Do not include any placeholder text like [yourcompanyname]. Generate all details yourself.
   - Ensure the fictional company details are consistent throughout the job description and match the role’s industry or expertise level.
+  - The elements of each section must be treated as one. For instance in the About us section, everything about the about section must be treated as a single unit. For each of these section treated as a unit, you must insert to escape characters. I repeat, you must insert two escape characters at the end of each section
+  - Salary Currency must be the value in dollars 
 
   Role: ${jobRole}
   Experience Level: ${experienceLevel}
@@ -93,4 +99,4 @@ function extractCompanyNameFromJobDescription(jobDescription) {
     });
 }
 //# sourceMappingURL=generateJobDescriptionFromResume.js.map
-//# debugId=c1d2f04c-7925-53a8-a7c8-70826bf7ce0c
+//# debugId=eef54e70-d92d-56b2-98bf-57265ba5e812

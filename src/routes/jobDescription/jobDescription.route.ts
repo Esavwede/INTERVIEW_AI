@@ -20,7 +20,7 @@ export function jobDescriptionRoutes( app: Express )
         router.post 
                   ( 
                     '/generate', 
-                    validateRequestToken, 
+                    //validateRequestToken, // !!!Off
                     validateRequestSchema( GenerateJobDescriptionsValidationSchema ),
                     jobProfileController.generateJobDescriptions.bind( jobProfileController ) 
                   )
