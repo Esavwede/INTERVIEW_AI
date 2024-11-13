@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f505e345-b71e-57c8-af8b-1b41be3e998d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f919a55d-9f33-5801-8423-e54f999ca897")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -212,7 +212,25 @@ class UserController {
             }
         });
     }
+    reSendSignupMail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { email } = req.body;
+                const protocol = req.protocol || 'https' || 'http';
+                const host = req.get('host') || 'localhost:3000';
+                const domain = `${protocol}://${host}`;
+                const sent = yield this.userService.resendSignupMail(email, domain);
+                if (!sent)
+                    return res.status(500).json({ success: false, "msg": "server error while resending signup mail" });
+                return res.status(200).json({ success: true, msg: "signup mail resent" });
+            }
+            catch (e) {
+                logger_1.default.error(e, "Could not send signup mail");
+                return res.status(500).json({ success: false, msg: "could not resend signup mail" });
+            }
+        });
+    }
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=f505e345-b71e-57c8-af8b-1b41be3e998d
+//# debugId=f919a55d-9f33-5801-8423-e54f999ca897

@@ -10,6 +10,7 @@ import { OnboardingValidationSchema } from "@src/schemas/onboarding/onboarding.s
 import { validateRequestToken } from "@src/util/Auth/tokens"
 import { passport } from "@src/server"
 import { SaveLearningModuleSummaryValidationSchema } from "@src/schemas/learningModule/learningModule.schema"
+import { ResendSignupMailValidationSchema } from "@src/schemas/mail/mail.schema"
 
 const router = Router() 
 
@@ -36,6 +37,7 @@ export function userRoutes( app: Express )
 
     router.patch('/learning-profile', validateRequestSchema( OnboardingValidationSchema ), userController.addLearningModulesToUserProfile.bind( userController))
 
+    router.post('/signup/resend-mail', validateRequestSchema( ResendSignupMailValidationSchema), userController.reSendSignupMail.bind( userController ) )
 
     router.patch(
         '/markLearningModulePartAsComplete',
@@ -44,14 +46,12 @@ export function userRoutes( app: Express )
         userController.markUserLearningPartAsComplete.bind( userController ) 
     )
 
-
     router.post('/token',
         userController.getNewAccessToken.bind( userController )  
     )
 
     app.use('/api/v1', router )
     logger.info("User Routes Created")
-
 
 }
 

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="61c39f5f-c7ca-5e42-90ce-01f00fdd258a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c60a7351-fe0a-568e-b403-e1df46c85bbc")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -15,6 +15,7 @@ const onboarding_schema_1 = require("@src/schemas/onboarding/onboarding.schema")
 const tokens_1 = require("@src/util/Auth/tokens");
 const server_1 = require("@src/server");
 const learningModule_schema_1 = require("@src/schemas/learningModule/learningModule.schema");
+const mail_schema_1 = require("@src/schemas/mail/mail.schema");
 const router = (0, express_1.Router)();
 function userRoutes(app) {
     const userController = new user_1.UserController();
@@ -27,10 +28,11 @@ function userRoutes(app) {
     router.post('/users/learning-modules', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.SaveLearningModuleSummaryValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     app.get('/auth/google/callback', server_1.passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind(userController));
     router.patch('/learning-profile', (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
+    router.post('/signup/resend-mail', (0, validateRequestSchema_1.validateRequestSchema)(mail_schema_1.ResendSignupMailValidationSchema), userController.reSendSignupMail.bind(userController));
     router.patch('/markLearningModulePartAsComplete', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.markLearningModulePartAsCompletedValidationSchema), userController.markUserLearningPartAsComplete.bind(userController));
     router.post('/token', userController.getNewAccessToken.bind(userController));
     app.use('/api/v1', router);
     logger_1.default.info("User Routes Created");
 }
 //# sourceMappingURL=index.js.map
-//# debugId=61c39f5f-c7ca-5e42-90ce-01f00fdd258a
+//# debugId=c60a7351-fe0a-568e-b403-e1df46c85bbc

@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="7d523980-bb90-5d8a-bf3f-afd40e11d59a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9195b8cc-2534-5f19-a6b2-3febff653e7c")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -218,7 +218,51 @@ class UserService {
             }
         });
     }
+    resendSignupMail(email, domain) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userRepository.findByEmail(email);
+                if (!user) {
+                    logger_1.default.debug("User not signedup");
+                    return false;
+                }
+                const userId = user._id;
+                const verificationLink = `${domain}/api/v1/users/verify?token=${userId}`;
+                yield this.sendSignupMail(email, userId, verificationLink);
+                return true;
+            }
+            catch (e) {
+                logger_1.default.error(e, "Error occured while resending signup mail");
+            }
+        });
+    }
+    sendSignupMail(email, userId, verificationLink) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const htmlBody = `<!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Email Verification</title>
+                            </head>
+                            <body>
+                                <p>Welcome to Interview AI!</p>
+                                <p>Please click the link below to verify your email address:</p>
+                                <p><a href="${verificationLink}" style="color: #1a0dab; text-decoration: underline;" target="_blank">Verify Email</a></p>
+                                <p>If you did not request this verification, please ignore this email.</p>
+                            </body>
+                            </html>
+                            `;
+            const mailOptions = {
+                email,
+                subject: 'Welcome To Interview AI',
+                text: 'Welcome to InterviewAI. Please visit here to verify',
+                html: htmlBody
+            };
+            yield (0, sendMain_1.sendMail)(mailOptions);
+            logger_1.default.info('Create User Service: Verification mail sent to user: ' + userId);
+        });
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=7d523980-bb90-5d8a-bf3f-afd40e11d59a
+//# debugId=9195b8cc-2534-5f19-a6b2-3febff653e7c

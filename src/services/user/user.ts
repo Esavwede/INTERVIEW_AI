@@ -286,4 +286,65 @@ export class UserService
         }
     }
 
+
+    async resendSignupMail( email: string, domain: string )
+    {
+        try 
+        {
+            // Find User 
+            const user = await this.userRepository.findByEmail( email )
+
+            // Check User Exists 
+            if( !user )
+            {
+                logger.debug("User not signedup")
+                return false 
+            }
+
+            const userId = user._id as string 
+            const verificationLink = `${domain}/api/v1/users/verify?token=${ userId }`
+
+            
+            // Send signup mail to user 
+            await this.sendSignupMail( email, userId, verificationLink )
+            return true
+        }
+        catch(e: any)
+        {
+            logger.error(e,"Error occured while resending signup mail")
+        }
+    }
+
+
+    async sendSignupMail( email: string, userId: string, verificationLink: string )
+    {
+
+        // Verification mail body 
+        const htmlBody = `<!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Email Verification</title>
+                            </head>
+                            <body>
+                                <p>Welcome to Interview AI!</p>
+                                <p>Please click the link below to verify your email address:</p>
+                                <p><a href="${ verificationLink }" style="color: #1a0dab; text-decoration: underline;" target="_blank">Verify Email</a></p>
+                                <p>If you did not request this verification, please ignore this email.</p>
+                            </body>
+                            </html>
+                            `
+
+        // mail payload 
+        const mailOptions = 
+        {
+            email, 
+            subject: 'Welcome To Interview AI',
+            text: 'Welcome to InterviewAI. Please visit here to verify',
+            html:  htmlBody 
+        }
+        
+        await sendMail( mailOptions ) 
+        logger.info('Create User Service: Verification mail sent to user: ' + userId )
+    }
 }

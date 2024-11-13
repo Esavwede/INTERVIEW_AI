@@ -17,6 +17,7 @@ import logger from "@src/system/logger/logger";
 import { generateJwtToken } from "@src/util/Auth/tokens";
 import { IUserRequest } from "types";
 import { startRedis } from "@src/middleware/cache/redisClient";
+import { ResendSignupMailSchema } from "@src/schemas/mail/mail.schema";
 
 
 export class UserController 
@@ -279,4 +280,29 @@ export class UserController
                 }
     }
 
+
+    async reSendSignupMail(req: Request<{},{},ResendSignupMailSchema['body']>, res: Response)
+    {
+        try
+        {
+
+              const { email } = req.body
+
+               // Create Verify Email Url 
+               const protocol = req.protocol || 'https' || 'http'
+               const host = req.get('host') || 'localhost:3000'
+               const domain = `${protocol}://${host}`
+
+               const sent = await this.userService.resendSignupMail( email, domain )
+
+               if( !sent ) return res.status(500).json({ success: false, "msg":"server error while resending signup mail"})
+               
+               return res.status(200).json({ success: true, msg:"signup mail resent"})
+        }
+        catch(e: any)
+        {
+            logger.error(e,"Could not send signup mail")
+            return res.status(500).json({ success: false, msg:"could not resend signup mail"})
+        }
+    }
 } 
