@@ -11,6 +11,7 @@ import { validateRequestToken } from "@src/util/Auth/tokens"
 import { passport } from "@src/server"
 import { SaveLearningModuleSummaryValidationSchema } from "@src/schemas/learningModule/learningModule.schema"
 import { ResendSignupMailValidationSchema } from "@src/schemas/mail/mail.schema"
+import { GetPasswordResetEmailValidationSchema, ResetPasswordValidationSchema } from "@src/schemas/reset/password/resetPassword.schema"
 
 const router = Router() 
 
@@ -49,6 +50,22 @@ export function userRoutes( app: Express )
     router.post('/token',
         userController.getNewAccessToken.bind( userController )  
     )
+
+
+    router.post(
+        '/reset-password/request',
+        validateRequestSchema( GetPasswordResetEmailValidationSchema),
+        userController.sendResetPasswordEmail.bind( userController )
+    )
+
+    router.post(
+        '/reset-password',
+        validateRequestSchema( ResetPasswordValidationSchema ),
+        userController.resetPassword.bind( userController )
+    )
+
+
+
 
     app.use('/api/v1', router )
     logger.info("User Routes Created")
