@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="fd334bbe-1dc3-5c94-9549-2fecb99a3c0a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="84472fad-9407-5052-806f-d9024def496b")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -24,6 +24,13 @@ class UserRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const requiredFields = { _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 };
             const user = yield User_1.User.findOne({ email }, requiredFields);
+            return user;
+        });
+    }
+    find(fields) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const requiredFields = { _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 };
+            const user = yield User_1.User.findOne(fields, requiredFields);
             return user;
         });
     }
@@ -103,4 +110,4 @@ class UserRepository {
 }
 exports.UserRepository = UserRepository;
 //# sourceMappingURL=user.repo.js.map
-//# debugId=fd334bbe-1dc3-5c94-9549-2fecb99a3c0a
+//# debugId=84472fad-9407-5052-806f-d9024def496b

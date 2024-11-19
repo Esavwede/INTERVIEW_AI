@@ -27,7 +27,7 @@ export async function sendMail( mailOptions: { email: string, html: string, subj
        const MAIL_SENDER = process.env.ENV_SIGNUP_MAIL_SENDER || 'mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org'
 
        const result = await  mg.messages.create( MAIL_URL, {
-            from: `Interview AI <${MAIL_SENDER}>`,
+            from: `Jobrail <${MAIL_SENDER}>`,
             to: [ email],
             subject,
             text,

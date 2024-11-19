@@ -18,7 +18,7 @@ import { generateJwtToken } from "@src/util/Auth/tokens";
 import { IUserRequest } from "types";
 import { startRedis } from "@src/middleware/cache/redisClient";
 import { ResendSignupMailSchema } from "@src/schemas/mail/mail.schema";
-
+import { ResetPasswordSchema } from "@src/schemas/reset/password/resetPassword.schema";
 
 export class UserController 
 {
@@ -280,7 +280,6 @@ export class UserController
                 }
     }
 
-
     async reSendSignupMail(req: Request<{},{},ResendSignupMailSchema['body']>, res: Response)
     {
         try
@@ -305,4 +304,54 @@ export class UserController
             return res.status(500).json({ success: false, msg:"could not resend signup mail"})
         }
     }
+
+    async sendResetPasswordEmail( req: Request, res: Response )
+    {
+        try 
+        {
+              // Create Verify Email Url 
+              const protocol = req.protocol || 'https' || 'http'
+              const host = req.get('host') || 'localhost:3000'
+              const domain = `${protocol}://${host}`
+
+              // User Email 
+              const { email } = req.body 
+
+              await this.userService.sendPasswordResetEmail( email, domain)
+
+              return res.status(200).json({ success: true, msg:"reset password email sent"})
+        }
+        catch(err: any)
+        {
+            const e = err as AnyAppError 
+
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg:"server error"})
+
+            return res.status(e.statusCode).json({ success: false, msg: e.message })
+        }
+    }
+
+
+    async resetPassword(req: Request< {},{},ResetPasswordSchema['body'], ResetPasswordSchema['query']>, res: Response)
+    {
+        try 
+        {
+
+            const { token } = req.query
+            const { password } = req.body 
+
+            await this.userService.resetPassword(token, password)
+            return res.status(200).json({ success: true, msg:"password reset!"})
+        }
+        catch(err: any)
+        {
+            const e = err as AnyAppError
+
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg:"server error"})
+
+            return res.status( e.statusCode ).json({ success: false, msg: e.message })
+        }
+    }
+
+
 } 

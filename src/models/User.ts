@@ -18,6 +18,8 @@ export interface IUser extends Document
   updatedAt: Date, 
   learningProfile: ILearningModuleOverview[], 
   userHasCreatedFirstJobProfile: boolean, 
+  resetPasswordToken?: string, 
+  resetPasswordExpires?: Date, 
   comparePassword( candidatePassword: string): Promise<boolean> 
 }
 
@@ -69,6 +71,14 @@ export interface IUser extends Document
           type: Boolean, 
           required: true, 
           default: false 
+        },
+        resetPasswordToken: 
+        {
+          type: String
+        },
+        resetPasswordExpires: 
+        {
+          type: String
         }
 
     },

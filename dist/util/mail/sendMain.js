@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3e1d37bd-3d61-5a00-bc4d-586dd0430441")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="b327c2e9-3b93-5503-a4ab-afb0e561ec50")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -33,7 +33,7 @@ function sendMail(mailOptions) {
             const MAIL_URL = process.env.ENV_SIGNUP_MAIL_URL || 'sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org';
             const MAIL_SENDER = process.env.ENV_SIGNUP_MAIL_SENDER || 'mailgun@sandboxe7bb68fd69ec47c8b3bc14a21fab66ed.mailgun.org';
             const result = yield mg.messages.create(MAIL_URL, {
-                from: `Interview AI <${MAIL_SENDER}>`,
+                from: `Jobrail <${MAIL_SENDER}>`,
                 to: [email],
                 subject,
                 text,
@@ -48,4 +48,4 @@ function sendMail(mailOptions) {
     });
 }
 //# sourceMappingURL=sendMain.js.map
-//# debugId=3e1d37bd-3d61-5a00-bc4d-586dd0430441
+//# debugId=b327c2e9-3b93-5503-a4ab-afb0e561ec50

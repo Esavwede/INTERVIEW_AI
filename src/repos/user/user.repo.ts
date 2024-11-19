@@ -25,6 +25,13 @@ export class UserRepository
             return user 
     }
 
+    async find( fields: {} ): Promise<IUser | null > 
+    {
+            const requiredFields = { _id: 1, email: 1, userHasCreatedFirstJobProfile: 1, password: 1, newUser: 1, isVerified: 1, firstname: 1, lastname: 1, learningProfile: 1 }
+            const user = await User.findOne( fields, requiredFields )
+            return user 
+    }
+
     async update( _id: string , updateBody: Partial< Pick< IUser, 'firstname' | 'lastname' | 'email' | 'password' > >): Promise< boolean | null > 
     {
         const { modifiedCount } = await User.updateOne({ _id },updateBody,{ upsert: false })

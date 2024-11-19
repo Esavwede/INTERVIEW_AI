@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="a704bdba-2bdd-5675-afae-f43610f8728f")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f36be7fe-e2cc-5c6c-a8a0-ca691fb49b0f")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -79,6 +79,12 @@ const UserSchema = new mongoose_1.Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: String
     }
 }, {
     timestamps: true
@@ -105,4 +111,4 @@ UserSchema.methods.comparePassword = function (candidatePassword) {
 };
 exports.User = mongoose_1.default.model("User", UserSchema);
 //# sourceMappingURL=User.js.map
-//# debugId=a704bdba-2bdd-5675-afae-f43610f8728f
+//# debugId=f36be7fe-e2cc-5c6c-a8a0-ca691fb49b0f

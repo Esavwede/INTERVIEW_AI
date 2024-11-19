@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f919a55d-9f33-5801-8423-e54f999ca897")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6db4caeb-1282-578a-a2ff-e353a7ba5ba2")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -230,7 +230,41 @@ class UserController {
             }
         });
     }
+    sendResetPasswordEmail(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const protocol = req.protocol || 'https' || 'http';
+                const host = req.get('host') || 'localhost:3000';
+                const domain = `${protocol}://${host}`;
+                const { email } = req.body;
+                yield this.userService.sendPasswordResetEmail(email, domain);
+                return res.status(200).json({ success: true, msg: "reset password email sent" });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: "server error" });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
+            }
+        });
+    }
+    resetPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { token } = req.query;
+                const { password } = req.body;
+                yield this.userService.resetPassword(token, password);
+                return res.status(200).json({ success: true, msg: "password reset!" });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: "server error" });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
+            }
+        });
+    }
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=f919a55d-9f33-5801-8423-e54f999ca897
+//# debugId=6db4caeb-1282-578a-a2ff-e353a7ba5ba2

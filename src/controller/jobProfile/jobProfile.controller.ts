@@ -81,6 +81,7 @@ export class JobProfileController
                     return res.status(500).json({ success: false, msg:"Server Error" })
                 }
                 console.dir(e ) 
+                
             return res.status( e.statusCode ).json({ success: false, msg: e.message })
         }
     }

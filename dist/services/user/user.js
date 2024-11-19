@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="9195b8cc-2534-5f19-a6b2-3febff653e7c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f40b687f-7bc3-59a9-bfa3-3bb07af03287")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -23,6 +23,7 @@ const unauthorizedError_1 = require("@src/util/Errors/Endpoints/unauthorizedErro
 const notFoundError_1 = require("@src/util/Errors/Endpoints/notFoundError");
 const tokens_1 = require("@src/util/Auth/tokens");
 const forbiddenError_1 = require("@src/util/Errors/Endpoints/forbiddenError");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 (0, dotenv_1.config)();
 class UserService {
     constructor(userRepository) {
@@ -262,7 +263,69 @@ class UserService {
             logger_1.default.info('Create User Service: Verification mail sent to user: ' + userId);
         });
     }
+    sendPasswordResetMail(email, resetLink) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const htmlBody = `<!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Jobrail Password Reset</title>
+                            </head>
+                            <body>
+                                <p> Password Reset </p>
+                                <p>To Reset your Password, click on the link below. If this was'nt you please ignore this mail</p>
+                                <p><a href="${resetLink}" style="color: #1a0dab; text-decoration: underline;" target="_blank">Reset Password</a></p>
+                            </body>
+                            </html>
+                            `;
+            const mailOptions = {
+                email,
+                subject: 'Password Reset',
+                text: 'Jobrail Password Reset',
+                html: htmlBody
+            };
+            yield (0, sendMain_1.sendMail)(mailOptions);
+            logger_1.default.info('Password Reset Mail sent to ' + email);
+        });
+    }
+    sendPasswordResetEmail(email, domain) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.userRepository.findByEmail(email);
+                if (!user)
+                    throw new notFoundError_1.NotFoundError("User Not Found");
+                const token = (0, tokens_1.generateJwtToken)({ email: user.email });
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = new Date(Date.now() + Number(process.env.RESET_PASSWORD_TOKEN_EXPIRATION) * 1000);
+                yield user.save();
+                const passwordResetLink = `${domain}/api/v1/reset-password/request?token=${token}`;
+                yield this.sendPasswordResetMail(email, passwordResetLink);
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
+    resetPassword(token, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+                const { email } = decoded;
+                const fields = { email };
+                const user = yield this.userRepository.find(fields);
+                if (!user)
+                    throw new notFoundError_1.NotFoundError("User not found");
+                user.password = password;
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
+                yield user.save();
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=9195b8cc-2534-5f19-a6b2-3febff653e7c
+//# debugId=f40b687f-7bc3-59a9-bfa3-3bb07af03287

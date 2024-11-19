@@ -12,6 +12,7 @@ import { generateJwtToken, generateRefreshToken } from "@src/util/Auth/tokens"
 import { ILearningModuleOverview } from "@src/models/LearningModule"
 import { ForbiddenError } from "@src/util/Errors/Endpoints/forbiddenError"
 import { IUser } from "@src/models/User";
+import jwt from "jsonwebtoken" 
 
 config() 
 
@@ -286,7 +287,6 @@ export class UserService
         }
     }
 
-
     async resendSignupMail( email: string, domain: string )
     {
         try 
@@ -314,7 +314,6 @@ export class UserService
             logger.error(e,"Error occured while resending signup mail")
         }
     }
-
 
     async sendSignupMail( email: string, userId: string, verificationLink: string )
     {
@@ -347,4 +346,92 @@ export class UserService
         await sendMail( mailOptions ) 
         logger.info('Create User Service: Verification mail sent to user: ' + userId )
     }
+
+    async sendPasswordResetMail( email: string, resetLink: string )
+    {
+
+        // Verification mail body 
+        const htmlBody = `<!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Jobrail Password Reset</title>
+                            </head>
+                            <body>
+                                <p> Password Reset </p>
+                                <p>To Reset your Password, click on the link below. If this was'nt you please ignore this mail</p>
+                                <p><a href="${ resetLink }" style="color: #1a0dab; text-decoration: underline;" target="_blank">Reset Password</a></p>
+                            </body>
+                            </html>
+                            `
+
+        // mail payload 
+        const mailOptions = 
+        {
+            email, 
+            subject: 'Password Reset',
+            text: 'Jobrail Password Reset',
+            html:  htmlBody 
+        }
+        
+        await sendMail( mailOptions ) 
+        logger.info('Password Reset Mail sent to ' + email )
+    }
+
+    async sendPasswordResetEmail( email: string, domain: string )
+    {
+        try 
+        {
+            // Get User
+            const user = await this.userRepository.findByEmail( email )
+
+            // Check if User Found 
+            if( !user ) throw new NotFoundError("User Not Found")
+
+            // Generate Token From Email 
+            const token = generateJwtToken({ email: user.email })
+
+            // Save token and expiration time to user
+            user.resetPasswordToken = token as string 
+            user.resetPasswordExpires = new Date( Date.now() + Number( process.env.RESET_PASSWORD_TOKEN_EXPIRATION ) * 1000 )
+            await user.save() 
+
+            // send mail 
+            const passwordResetLink = `${domain}/api/v1/reset-password/request?token=${ token }`
+
+            await this.sendPasswordResetMail( email, passwordResetLink)
+        }
+        catch(e: any)
+        {
+            throw e 
+        }
+    }
+
+
+    async resetPassword( token: string, password: string )
+    {
+        try 
+        {
+              // Decode Token to email 
+              const decoded = jwt.verify( token, process.env.JWT_SECRET as string ) as { email: string }
+            
+              const { email } = decoded 
+
+              const fields = { email }
+              const user = await this.userRepository.find(fields)
+
+              if( !user ) throw new NotFoundError("User not found")
+
+             user.password = password
+             user.resetPasswordToken = undefined
+             user.resetPasswordExpires = undefined 
+
+             await user.save() 
+        }
+        catch(e)
+        {
+            throw e 
+        }
+    }
+    
 }
