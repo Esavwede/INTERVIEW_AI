@@ -12,8 +12,7 @@ import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oaut
 
           // Define the types for the profile object from Google
               interface GoogleProfile
-                        {
-                          
+                        {                          
                           id: string;
                           displayName: string;
                           name: 
@@ -41,7 +40,7 @@ import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oaut
                                   }                       
 
 
-
+                                  
         async function authCallBack( accessToken: string, refreshToken: string, profile: GoogleProfile,done: VerifyCallback) {
           try {
 
