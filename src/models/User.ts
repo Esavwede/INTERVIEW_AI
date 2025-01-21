@@ -105,7 +105,7 @@ UserSchema.methods.comparePassword = async function( candidatePassword: string )
     }
     catch(e: any)
     {
-        logger.error(e,'Bcrypt Error') 
+        logger.error(e,'Bcrypt Error')
         return false
     }
 }

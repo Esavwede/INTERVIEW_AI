@@ -6,7 +6,7 @@ import logger from '@src/system/logger/logger';
 import { ServerError } from '@src/util/Errors/Endpoints/serverError';
 import { UserRepository } from '@src/repos/user/user.repo';
 
-import passport from 'passport';
+
 import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oauth2';
 
 
@@ -64,6 +64,7 @@ import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oaut
                       return done(null, newUser ) 
                     }
 
+                    
                       logger.info("SIGNIN_WITH_GOOGLE: Existing User Login")
                       return done(null, user )
                   
@@ -74,6 +75,6 @@ import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oaut
         }
 
 
-passport.use(new GoogleStrategy(authCredentials, authCallBack));
+const GoogleSigninStrategy = new GoogleStrategy(authCredentials, authCallBack)
 
-export default passport;
+export default GoogleSigninStrategy;

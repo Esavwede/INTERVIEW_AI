@@ -193,6 +193,19 @@ export class UserService
         }
     }
 
+    async signinWithLinkedIn( email: string )
+    {
+        try 
+        {
+
+        }
+        catch(err: any)
+        {
+            logger.error("Error While Signing in user from LinkedIn")
+        }
+    }
+
+
     async setUserNewToFalse( userID: string ): Promise<void> 
     {
         try 

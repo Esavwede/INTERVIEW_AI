@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f5720088-4bd0-57ce-82b1-da56150f11ca")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="0ec17c8a-a922-5e76-9052-6ae8e318c5e7")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -20,7 +20,6 @@ function validateRequestSchema(schema) {
         }
         catch (e) {
             if (e instanceof zod_1.ZodError) {
-                console.log('Debugging-----');
                 console.log(e);
                 var errs = [];
                 e.errors.forEach((e) => { errs.push(e.message); });
@@ -34,4 +33,4 @@ function validateRequestSchema(schema) {
     };
 }
 //# sourceMappingURL=validateRequestSchema.js.map
-//# debugId=f5720088-4bd0-57ce-82b1-da56150f11ca
+//# debugId=0ec17c8a-a922-5e76-9052-6ae8e318c5e7

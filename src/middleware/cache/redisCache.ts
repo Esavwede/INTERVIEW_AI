@@ -18,10 +18,11 @@ export async function initializeRedis() {
 
     // Initialize Redis Client
     RedisClient =  createClient({
+      username:'default',
       password: process.env.REDIS_PASSWORD || '' ,
       socket: {
-          host: 'redis-13227.c245.us-east-1-3.ec2.redns.redis-cloud.com',
-          port: 13227
+          host: 'redis-18137.c323.us-east-1-2.ec2.redns.redis-cloud.com',
+          port: 18137
       }
   });
 

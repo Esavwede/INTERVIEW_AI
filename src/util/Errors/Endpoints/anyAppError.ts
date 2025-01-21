@@ -5,5 +5,4 @@ import { ServerError } from "./serverError";
 import { UnauthorizedError } from "./unauthorizedError";
 
 
-
 export type AnyAppError = ServerError | NotFoundError | ForbiddenError | BadRequestError | UnauthorizedError 

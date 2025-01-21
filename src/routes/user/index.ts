@@ -34,7 +34,9 @@ export function userRoutes( app: Express )
     
     router.post('/users/learning-modules', validateRequestToken, validateRequestSchema( SaveLearningModuleSummaryValidationSchema ),userController.addLearningModulesToUserProfile.bind( userController ) )
   
-    app.get('/auth/google/callback', passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind( userController ) )
+    router.get('/auth/google/callback', passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind( userController ) )
+
+    router.get('/api/v1/auth/linkedin/signin', userController.signinWithLinkedin.bind( userController ))
 
     router.patch('/learning-profile', validateRequestSchema( OnboardingValidationSchema ), userController.addLearningModulesToUserProfile.bind( userController))
 

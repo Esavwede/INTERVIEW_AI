@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1e32cfb6-c96d-55c6-9615-557bca7a246a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="8a54ee85-c619-53af-9ddf-3554e12a9a63")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -27,7 +27,8 @@ function userRoutes(app) {
     router.patch('/onboarding/skip', tokens_1.validateRequestToken, userController.skipOnboarding.bind(userController));
     router.patch('/onboarding', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     router.post('/users/learning-modules', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(learningModule_schema_1.SaveLearningModuleSummaryValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
-    app.get('/auth/google/callback', server_1.passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind(userController));
+    router.get('/auth/google/callback', server_1.passport.authenticate('google', { session: false }), userController.signinWithGoogle.bind(userController));
+    router.get('/api/v1/auth/linkedin/signin', userController.signinWithLinkedin.bind(userController));
     router.patch('/learning-profile', (0, validateRequestSchema_1.validateRequestSchema)(onboarding_schema_1.OnboardingValidationSchema), userController.addLearningModulesToUserProfile.bind(userController));
     router.post('/signup/resend-mail', (0, validateRequestSchema_1.validateRequestSchema)(mail_schema_1.ResendSignupMailValidationSchema), userController.reSendSignupMail.bind(userController));
     router.patch('/markLearningModulePartAsComplete', tokens_1.validateRequestToken, (0, validateRequestSchema_1.validateRequestSchema)(signupSchema_1.markLearningModulePartAsCompletedValidationSchema), userController.markUserLearningPartAsComplete.bind(userController));
@@ -38,4 +39,4 @@ function userRoutes(app) {
     logger_1.default.info("User Routes Created");
 }
 //# sourceMappingURL=index.js.map
-//# debugId=1e32cfb6-c96d-55c6-9615-557bca7a246a
+//# debugId=8a54ee85-c619-53af-9ddf-3554e12a9a63

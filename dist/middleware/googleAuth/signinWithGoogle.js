@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5f5f020d-1b59-567a-b3d2-bf314a19fb5a")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f65c1901-e9b3-5860-8c11-899dfa9801ef")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -43,7 +43,6 @@ const User_1 = require("@src/models/User");
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
 const serverError_1 = require("@src/util/Errors/Endpoints/serverError");
 const user_repo_1 = require("@src/repos/user/user.repo");
-const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth2_1 = require("passport-google-oauth2");
 const userRepo = new user_repo_1.UserRepository();
 const authCredentials = {
@@ -75,7 +74,7 @@ function authCallBack(accessToken, refreshToken, profile, done) {
         }
     });
 }
-passport_1.default.use(new passport_google_oauth2_1.Strategy(authCredentials, authCallBack));
-exports.default = passport_1.default;
+const GoogleSigninStrategy = new passport_google_oauth2_1.Strategy(authCredentials, authCallBack);
+exports.default = GoogleSigninStrategy;
 //# sourceMappingURL=signinWithGoogle.js.map
-//# debugId=5f5f020d-1b59-567a-b3d2-bf314a19fb5a
+//# debugId=f65c1901-e9b3-5860-8c11-899dfa9801ef

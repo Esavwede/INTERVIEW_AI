@@ -121,7 +121,6 @@ export class UserController
         }
     }
 
-
     async signinWithGoogle(req: Request, res: Response )
     {
         try 
@@ -161,6 +160,28 @@ export class UserController
             return res.status( e.statusCode ).json({ success: false, msg: e.message }) 
         }
     }
+
+
+    async signinWithLinkedin(req: Request<{},{},{ accessToken: string }>, res: Response )
+    {
+        try 
+        {
+            const accessToken = req.body.accessToken 
+
+            // Fetch User Profile From LinkedIn
+
+            // Check User profile in database
+              
+        }
+        catch( err : any ) 
+        {
+            const e = err as AnyAppError 
+            if( !e.statusCode ) return res.status(500).json({ success: false, msg: "Server Error" })
+
+            return res.status( e.statusCode ).json({ success: false, msg: e.message }) 
+        }
+    }
+
 
     async verifyUser( req: Request<{},{},{}, VerifyUserSchema['query']>, res: Response)
     {
@@ -331,7 +352,6 @@ export class UserController
         }
     }
 
-
     async resetPassword(req: Request< {},{},ResetPasswordSchema['body'], ResetPasswordSchema['query']>, res: Response)
     {
         try 
@@ -352,6 +372,5 @@ export class UserController
             return res.status( e.statusCode ).json({ success: false, msg: e.message })
         }
     }
-
 
 } 
