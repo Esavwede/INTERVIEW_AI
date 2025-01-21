@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f40b687f-7bc3-59a9-bfa3-3bb07af03287")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="49a4c6b7-5048-5445-9dd4-60fc9aded059")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -141,6 +141,15 @@ class UserService {
             catch (e) {
                 logger_1.default.error(e, "Service: Signin");
                 throw e;
+            }
+        });
+    }
+    signinWithLinkedIn(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+            }
+            catch (err) {
+                logger_1.default.error("Error While Signing in user from LinkedIn");
             }
         });
     }
@@ -328,4 +337,4 @@ class UserService {
 }
 exports.UserService = UserService;
 //# sourceMappingURL=user.js.map
-//# debugId=f40b687f-7bc3-59a9-bfa3-3bb07af03287
+//# debugId=49a4c6b7-5048-5445-9dd4-60fc9aded059

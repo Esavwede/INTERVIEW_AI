@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="6db4caeb-1282-578a-a2ff-e353a7ba5ba2")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="4bc52ecc-034e-58f1-8cbb-e61e4a86e01f")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -107,6 +107,19 @@ class UserController {
                 }
                 const userReturnData = { user: { newUser: false, userId: _id, firstname, lastname, userHasCreatedFirstJobProfile, learningProfile }, tokens: { accessToken, refreshToken } };
                 return res.status(200).json({ success: true, data: userReturnData });
+            }
+            catch (err) {
+                const e = err;
+                if (!e.statusCode)
+                    return res.status(500).json({ success: false, msg: "Server Error" });
+                return res.status(e.statusCode).json({ success: false, msg: e.message });
+            }
+        });
+    }
+    signinWithLinkedin(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const accessToken = req.body.accessToken;
             }
             catch (err) {
                 const e = err;
@@ -267,4 +280,4 @@ class UserController {
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.js.map
-//# debugId=6db4caeb-1282-578a-a2ff-e353a7ba5ba2
+//# debugId=4bc52ecc-034e-58f1-8cbb-e61e4a86e01f

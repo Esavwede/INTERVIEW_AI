@@ -1,24 +1,3 @@
-/**
- * Setup express server.
- */
-
-
-// Import with `import * as Sentry from "@sentry/node"` if you are using ESM
-//import * as Sentry from "@sentry/node";
-
-//const { nodeProfilingIntegration } = require("@sentry/profiling-node");
-
-// Sentry.init({
-//   dsn: process.env.SENTRY_DSN,
-//   integrations: [
-//     nodeProfilingIntegration(),
-//   ],
-//   // Tracing
-//   tracesSampleRate: 1.0, //  Capture 100% of the transactions
-
-//   // Set sampling rate for profiling - this is relative to tracesSampleRate
-//   profilesSampleRate: 1.0,
-// });
 
 
 import { config } from "dotenv"
@@ -34,7 +13,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import logger from 'jet-logger';
 import cookieSession from 'cookie-session';
 import 'express-async-errors';
-import passport from "./middleware/googleAuth/signinWithGoogle"
+import passport from "./middleware/passportAuth/passport" 
 
 
 import EnvVars from '@src/common/EnvVars';
@@ -42,8 +21,6 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes';
 import { RouteError } from '@src/common/classes';
 import { NodeEnvs } from '@src/common/misc';
 import { routes } from './routes';
-import { initialize } from "passport";
-import { initializeRedis } from "./middleware/cache/redisCache";
 
 
 
@@ -66,6 +43,7 @@ app.use(cors({
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: false 
 }));
+
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -146,11 +124,75 @@ function access(req: Request, res: Response, next: NextFunction )
   next() 
 }
 
+
 app.get('/auth/google', access, passport.authenticate('google', {
   scope: ['profile', 'email']
 }));
 
-// **** Export default **** //
 
+app.get('/auth/linkedin', (req: Request, res: Response)=>{ 
+
+  const url = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&state=${process.env.LINKEDIN_AUTH_CSRF_STRING}&scope=profile%20email%20openid`
+  res.redirect(url)
+
+})
+
+app.get('/api/v1/auth/linkedin/callback', async(req: Request, res: Response)=>{ 
+
+
+        // Validate state string 
+        var { state, code } = req.query
+
+        if( !state ) return res.status(400).json({ success: false, msg:"unauthorized"})
+        if( !code ) return res.status(400).json({ success: false, msg:"unauthorized"})
+
+        // Protect Against CSRF
+        if( state !== process.env.LINKEDIN_AUTH_CSRF_STRING ) return res.status(400).json({ success: false, msg:"unauthorized"})
+
+
+        /** Get Access Token */
+        const url = 'https://www.linkedin.com/oauth/v2/accessToken'
+
+        const params = new URLSearchParams({
+          grant_type: 'authorization_code',
+          code: code as string, 
+          client_id: process.env.LINKEDIN_CLIENT_ID as string,
+          client_secret: process.env.LINKEDIN_CLIENT_SECRET as string, 
+          redirect_uri: process.env.LINKEDIN_REDIRECT_URI as string // Replace with your redirect URI
+        });
+  
+
+    try 
+    {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      });
+
+      
+      if (!response.ok) {
+        throw new Error(`Error fetching access token: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      console.log('Access Token Response:', data);
+
+      // Get User Data 
+      return res.json( data )
+    }
+    catch(err: any)
+    {
+        console.log("Error while signing user in with linkedin")
+        console.log(err)
+        return res.status(500).json({ success: false, msg:"server error"})
+    }
+})
+
+
+
+// **** Export default **** //
 export { passport, redisClient, SetCache } 
 export default app

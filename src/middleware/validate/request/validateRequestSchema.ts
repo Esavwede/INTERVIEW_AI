@@ -27,7 +27,6 @@ export function validateRequestSchema( schema: AnyZodObject )
            if( e instanceof ZodError )
            {
 
-            console.log('Debugging-----')
             console.log(e)
              var errs: string[] = [] 
              e.errors.forEach((e)=>{  errs.push(e.message) })
