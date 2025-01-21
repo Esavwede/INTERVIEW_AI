@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="928eb394-3b89-5ef3-97fd-96a5324add3c")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="91c3ed31-6fcb-527c-8c5c-6335db442035")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -20,7 +20,7 @@ const generateJobDescriptionFromResume_1 = require("./generateJobDescriptionFrom
 function generateJobDescriptions(userJobProfile) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const numberOfJobDescriptions = 5;
+            const numberOfJobDescriptions = 2;
             const { jobRole, experienceLevel, resume } = userJobProfile;
             var generatedJobDescriptions = [];
             let generatedJobDescription;
@@ -36,4 +36,4 @@ function generateJobDescriptions(userJobProfile) {
     });
 }
 //# sourceMappingURL=generateJobDescriptions.js.map
-//# debugId=928eb394-3b89-5ef3-97fd-96a5324add3c
+//# debugId=91c3ed31-6fcb-527c-8c5c-6335db442035
