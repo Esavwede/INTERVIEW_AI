@@ -12,7 +12,7 @@ export async function generateJobDescriptions(
 {
     try 
     {
-        const numberOfJobDescriptions = 5
+        const numberOfJobDescriptions = 2
         const { jobRole, experienceLevel, resume } = userJobProfile
         var generatedJobDescriptions: string[] = [] 
         let generatedJobDescription
