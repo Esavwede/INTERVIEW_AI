@@ -41,14 +41,9 @@ app.use(cookieParser(EnvVars.CookieProps.Secret))
 app.use(cors({
   origin: "*",
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: false 
+  credentials: true 
 }));
 
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
 
 
 
