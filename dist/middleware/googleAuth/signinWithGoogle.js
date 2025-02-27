@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="030d2ee8-b6e5-5381-b615-640d89e2c41b")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="5481a0d8-78b7-56cd-9b72-48b6abf4a79d")}catch(e){}}();
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -49,6 +49,7 @@ const authCredentials = {
     clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
     clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+    scope: ["profile", "email"]
 };
 function authCallBack(accessToken, refreshToken, profile, done) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -77,4 +78,4 @@ function authCallBack(accessToken, refreshToken, profile, done) {
 const GoogleSigninStrategy = new passport_google_oauth2_1.Strategy(authCredentials, authCallBack);
 exports.default = GoogleSigninStrategy;
 //# sourceMappingURL=signinWithGoogle.js.map
-//# debugId=030d2ee8-b6e5-5381-b615-640d89e2c41b
+//# debugId=5481a0d8-78b7-56cd-9b72-48b6abf4a79d
