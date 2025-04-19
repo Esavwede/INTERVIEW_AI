@@ -1,42 +1,41 @@
-
-
 import { config } from "dotenv";
 config();
 import { createClient, RedisClientType } from "redis";
 import logger from "@src/system/logger/logger";
 import { Request, Response, NextFunction } from "express-serve-static-core";
 
-
 let RedisClient: RedisClientType<any> | undefined;
-let setCache: ((key: string, data: {} | string ) => Promise<void>) | undefined;
-
+let setCache: ((key: string, data: {} | string) => Promise<void>) | undefined;
 
 export async function initializeRedis() {
   try {
-
-    logger.info('Initializing Redis Client ') 
+    logger.info("Initializing Redis Client ");
 
     // Initialize Redis Client
-    RedisClient =  createClient({
-      username:'default',
-      password: process.env.REDIS_PASSWORD || '' ,
+    RedisClient = createClient({
+      username: "default",
+      password: process.env.REDIS_PASSWORD || "",
       socket: {
-          host: 'redis-18137.c323.us-east-1-2.ec2.redns.redis-cloud.com',
-          port: 18137
-      }
-  });
+        host: "redis-11569.c13.us-east-1-3.ec2.redns.redis-cloud.com",
+        port: 18137,
+      },
+    });
 
     // Error Event Listener
     RedisClient.on("error", (err) => console.error("Redis Client Error", err));
-    RedisClient.on("connection",()=>{ logger.info("Redis Client Initialized" )})
-
+    RedisClient.on("connection", () => {
+      logger.info("Redis Client Initialized");
+    });
 
     // Connect to the Redis server
     await RedisClient.connect();
 
-
     // Cache middleware to check Redis for cached data
-    const cacheMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+    const cacheMiddleware = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ) => {
       const key = req.originalUrl;
 
       try {
@@ -57,7 +56,7 @@ export async function initializeRedis() {
     };
 
     // Function to set cache with expiration time
-    setCache = async (key: string, data: {} ) => {
+    setCache = async (key: string, data: {}) => {
       try {
         const ttl = 3600; // Cache expiration time in seconds
         await RedisClient?.setEx(key, ttl, JSON.stringify(data)); // Cache data with expiration
@@ -66,7 +65,6 @@ export async function initializeRedis() {
       }
     };
 
-    
     logger.info("Redis client successfully connected.");
     return { RedisClient, setCache };
   } catch (e: any) {
