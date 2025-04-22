@@ -10,14 +10,19 @@ let setCache: ((key: string, data: {} | string) => Promise<void>) | undefined;
 export async function initializeRedis() {
   try {
     logger.info("Initializing Redis Client ");
+    const REDIS_USERNAME: string = process.env.REDIS_USERNAME || "localhost";
+    const REDIS_PASSWORD: string = process.env.REDIS_PASSWORD || "*******";
+    const REDIS_HOST: string = process.env.REDIS_HOST || "localhost";
+    const REDIS_PORT: number =
+      parseInt(process.env.REDIS_PORT as string) || 6379;
 
     // Initialize Redis Client
     RedisClient = createClient({
-      username: "default",
-      password: process.env.REDIS_PASSWORD || "",
+      username: REDIS_USERNAME,
+      password: REDIS_PASSWORD || "",
       socket: {
-        host: "redis-11569.c13.us-east-1-3.ec2.redns.redis-cloud.com",
-        port: 18137,
+        host: REDIS_HOST,
+        port: REDIS_PORT,
       },
     });
 
