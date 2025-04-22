@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="eaa191d8-ef91-5dd5-a03a-2a018b467c48")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2d123271-3040-53a9-bb45-2414133aba4e")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -17,24 +17,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.startRedis = startRedis;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-const redis_1 = require("redis");
+const ioredis_1 = __importDefault(require("ioredis"));
 const logger_1 = __importDefault(require("@src/system/logger/logger"));
 function startRedis() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             console.log("Debugger---Redis");
-            let RedisClient = (0, redis_1.createClient)({
-                password: process.env.REDIS_PASSWORD || '',
-                socket: {
-                    host: 'redis-13227.c245.us-east-1-3.ec2.redns.redis-cloud.com',
-                    port: 13227,
-                    connectTimeout: 15000
-                }
+            const REDIS_USERNAME = process.env.REDIS_USERNAME || "localhost";
+            const REDIS_PASSWORD = process.env.REDIS_PASSWORD || "*******";
+            const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+            const REDIS_PORT = parseInt(process.env.REDIS_PORT) || 6379;
+            let RedisClient = new ioredis_1.default({
+                username: REDIS_USERNAME,
+                password: REDIS_PASSWORD,
+                host: REDIS_HOST,
+                port: REDIS_PORT,
             });
             RedisClient.on("error", (err) => console.error("Redis Client Error", err));
-            RedisClient.on("connect", () => { logger_1.default.info("Redis Client Initialized"); });
+            RedisClient.on("connect", () => {
+                logger_1.default.info("Redis Client Initialized");
+            });
             yield RedisClient.connect();
-            console.log('Debugger----Redis client connected');
+            console.log("Debugger----Redis client connected");
             return RedisClient;
         }
         catch (e) {
@@ -43,4 +47,4 @@ function startRedis() {
     });
 }
 //# sourceMappingURL=redisClient.js.map
-//# debugId=eaa191d8-ef91-5dd5-a03a-2a018b467c48
+//# debugId=2d123271-3040-53a9-bb45-2414133aba4e
