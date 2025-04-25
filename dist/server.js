@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="1bd67ce6-57cd-574b-8359-d9d180fe47c4")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c423f661-785b-5ade-850c-62c479c96700")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -43,18 +43,18 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(EnvVars_1.default.CookieProps.Secret));
 app.use((0, cors_1.default)({
     origin: "*",
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
 }));
 app.use((0, cookie_session_1.default)({
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_KEY || 'random-cookie-key']
+    keys: [process.env.COOKIE_KEY || "random-cookie-key"],
 }));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Dev.valueOf()) {
-    app.use((0, morgan_1.default)('dev'));
+    app.use((0, morgan_1.default)("dev"));
 }
 if (EnvVars_1.default.NodeEnv === misc_1.NodeEnvs.Production.valueOf()) {
     app.use((0, helmet_1.default)());
@@ -70,26 +70,30 @@ app.use((err, _, res, next) => {
     }
     return res.status(status).json({ error: err.message });
 });
-const staticDir = path_1.default.join(__dirname, 'public');
+const staticDir = path_1.default.join(__dirname, "public");
 app.use(express_1.default.static(staticDir));
-app.get('/', (_, res) => {
-    return res.status(200).json({ success: true, "msg": "Welcome to the Interview AI API" });
+app.get("/", (_, res) => {
+    return res
+        .status(200)
+        .json({ success: true, msg: "Welcome to the Interview AI API" });
 });
-app.get('/users', (_, res) => {
-    return res.status(200).json({ success: true, "msg": "Welcome to the Interview AI API" });
+app.get("/users", (_, res) => {
+    return res
+        .status(200)
+        .json({ success: true, msg: "Welcome to the Interview AI API" });
 });
 function access(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
     next();
 }
-app.get('/auth/google', access, passport_1.default.authenticate('google', {
-    scope: ['profile', 'email']
+app.get("/auth/google", access, passport_1.default.authenticate("google", {
+    scope: ["profile", "email"],
 }));
-app.get('/auth/linkedin', (req, res) => {
+app.get("/auth/linkedin", (req, res) => {
     const url = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&state=${process.env.LINKEDIN_AUTH_CSRF_STRING}&scope=profile%20email%20openid`;
     res.redirect(url);
 });
-app.get('/api/v1/auth/linkedin/callback', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/api/v1/auth/linkedin/callback", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var { state, code } = req.query;
     if (!state)
         return res.status(400).json({ success: false, msg: "unauthorized" });
@@ -97,19 +101,19 @@ app.get('/api/v1/auth/linkedin/callback', (req, res) => __awaiter(void 0, void 0
         return res.status(400).json({ success: false, msg: "unauthorized" });
     if (state !== process.env.LINKEDIN_AUTH_CSRF_STRING)
         return res.status(400).json({ success: false, msg: "unauthorized" });
-    const url = 'https://www.linkedin.com/oauth/v2/accessToken';
+    const url = "https://www.linkedin.com/oauth/v2/accessToken";
     const params = new URLSearchParams({
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
         code: code,
         client_id: process.env.LINKEDIN_CLIENT_ID,
         client_secret: process.env.LINKEDIN_CLIENT_SECRET,
-        redirect_uri: process.env.LINKEDIN_REDIRECT_URI
+        redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
     });
     try {
         const response = yield fetch(url, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                "Content-Type": "application/x-www-form-urlencoded",
             },
             body: params.toString(),
         });
@@ -117,7 +121,7 @@ app.get('/api/v1/auth/linkedin/callback', (req, res) => __awaiter(void 0, void 0
             throw new Error(`Error fetching access token: ${response.statusText}`);
         }
         const data = yield response.json();
-        console.log('Access Token Response:', data);
+        console.log("Access Token Response:", data);
         return res.json(data);
     }
     catch (err) {
@@ -128,4 +132,4 @@ app.get('/api/v1/auth/linkedin/callback', (req, res) => __awaiter(void 0, void 0
 }));
 exports.default = app;
 //# sourceMappingURL=server.js.map
-//# debugId=1bd67ce6-57cd-574b-8359-d9d180fe47c4
+//# debugId=c423f661-785b-5ade-850c-62c479c96700

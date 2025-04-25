@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="3a47b58b-a18f-51ad-8bc4-2174d3f5a27d")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="2df6abd6-c2fb-5b36-ad65-9b55670764c7")}catch(e){}}();
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -26,12 +26,16 @@ function initializeRedis() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             logger_1.default.info("Initializing Redis Client ");
+            const REDIS_USERNAME = process.env.REDIS_USERNAME || "localhost";
+            const REDIS_PASSWORD = process.env.REDIS_PASSWORD || "*******";
+            const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+            const REDIS_PORT = parseInt(process.env.REDIS_PORT) || 6379;
             exports.RedisClient = RedisClient = (0, redis_1.createClient)({
-                username: "default",
-                password: process.env.REDIS_PASSWORD || "",
+                username: REDIS_USERNAME,
+                password: REDIS_PASSWORD || "",
                 socket: {
-                    host: "redis-11569.c13.us-east-1-3.ec2.redns.redis-cloud.com",
-                    port: 18137,
+                    host: REDIS_HOST,
+                    port: REDIS_PORT,
                 },
             });
             RedisClient.on("error", (err) => console.error("Redis Client Error", err));
@@ -74,4 +78,4 @@ function initializeRedis() {
 }
 initializeRedis().catch((e) => logger_1.default.error(e, "Failed to initialize Redis"));
 //# sourceMappingURL=redisCache.js.map
-//# debugId=3a47b58b-a18f-51ad-8bc4-2174d3f5a27d
+//# debugId=2df6abd6-c2fb-5b36-ad65-9b55670764c7
