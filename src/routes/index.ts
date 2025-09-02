@@ -21,6 +21,8 @@ export function routes(app: Express) {
     app.post("/postmail", (req, res) => {
       const { email, firstName, lastName, jobTitle } = req.body;
       try {
+        console.log("Data received");
+        console.dir(req.body);
         const emailBody = {
           email: "ogaga@ogaga.tech",
           subject: "New User registered",

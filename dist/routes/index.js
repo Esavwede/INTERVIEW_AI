@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="c3d26cd4-3c4f-521b-bd9a-668e7087fd95")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="841ddfeb-803e-59c2-99bf-ada28e5e277f")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -25,6 +25,8 @@ function routes(app) {
         app.post("/postmail", (req, res) => {
             const { email, firstName, lastName, jobTitle } = req.body;
             try {
+                console.log("Data received");
+                console.dir(req.body);
                 const emailBody = {
                     email: "ogaga@ogaga.tech",
                     subject: "New User registered",
@@ -46,4 +48,4 @@ function routes(app) {
     }
 }
 //# sourceMappingURL=index.js.map
-//# debugId=c3d26cd4-3c4f-521b-bd9a-668e7087fd95
+//# debugId=841ddfeb-803e-59c2-99bf-ada28e5e277f
