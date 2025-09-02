@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f58c4e02-37b2-571d-a36f-5c2e298eb7df")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="e1d2598b-a9be-51cb-ac2c-76485ad6d976")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -23,13 +23,13 @@ function routes(app) {
         (0, jobProfile_route_1.jobProfileRoutes)(app);
         (0, jobDescription_route_1.jobDescriptionRoutes)(app);
         app.post("/postmail", (req, res) => {
-            const { email } = req.body;
+            const { email, firstname, lastname, jobTitle } = req.body;
             try {
                 const emailBody = {
                     email: "ogaga@ogaga.tech",
                     subject: "New User registered",
                     text: "User registered: " + email,
-                    html: "user registered: " + email,
+                    html: `user registered: ${email}. Name: ${firstname} ${lastname}. Job Title: ${jobTitle}`,
                 };
                 (0, sendMain_1.sendMail)(emailBody);
                 res.status(200).send({ message: "Mail sent successfully!" });
@@ -46,4 +46,4 @@ function routes(app) {
     }
 }
 //# sourceMappingURL=index.js.map
-//# debugId=f58c4e02-37b2-571d-a36f-5c2e298eb7df
+//# debugId=e1d2598b-a9be-51cb-ac2c-76485ad6d976

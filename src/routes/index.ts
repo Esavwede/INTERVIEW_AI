@@ -19,13 +19,13 @@ export function routes(app: Express) {
 
     // Temporary
     app.post("/postmail", (req, res) => {
-      const { email } = req.body;
+      const { email, firstname, lastname, jobTitle } = req.body;
       try {
         const emailBody = {
           email: "ogaga@ogaga.tech",
           subject: "New User registered",
           text: "User registered: " + email,
-          html: "user registered: " + email,
+          html: `user registered: ${email}. Name: ${firstname} ${lastname}. Job Title: ${jobTitle}`,
         };
         sendMail(emailBody);
         res.status(200).send({ message: "Mail sent successfully!" });
