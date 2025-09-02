@@ -1,5 +1,5 @@
 "use strict";
-!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="13ea402c-3285-59e2-a1d2-3698e5cdbba8")}catch(e){}}();
+!function(){try{var e="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&(e._sentryDebugIds=e._sentryDebugIds||{},e._sentryDebugIds[n]="f58c4e02-37b2-571d-a36f-5c2e298eb7df")}catch(e){}}();
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -13,6 +13,7 @@ const quiz_route_1 = require("./quiz/quiz.route");
 const learningModulePart_1 = require("./learningModulePart/learningModulePart");
 const jobProfile_route_1 = require("./jobProfile/jobProfile.route");
 const jobDescription_route_1 = require("./jobDescription/jobDescription.route");
+const sendMain_1 = require("@src/util/mail/sendMain");
 function routes(app) {
     try {
         (0, user_1.userRoutes)(app);
@@ -21,6 +22,23 @@ function routes(app) {
         (0, quiz_route_1.quizModuleRoutes)(app);
         (0, jobProfile_route_1.jobProfileRoutes)(app);
         (0, jobDescription_route_1.jobDescriptionRoutes)(app);
+        app.post("/postmail", (req, res) => {
+            const { email } = req.body;
+            try {
+                const emailBody = {
+                    email: "ogaga@ogaga.tech",
+                    subject: "New User registered",
+                    text: "User registered: " + email,
+                    html: "user registered: " + email,
+                };
+                (0, sendMain_1.sendMail)(emailBody);
+                res.status(200).send({ message: "Mail sent successfully!" });
+            }
+            catch (e) {
+                logger_1.default.error(e, "Mail_Error");
+                res.status(500).send({ message: e.message });
+            }
+        });
         logger_1.default.info("API ROUTES CREATED");
     }
     catch (e) {
@@ -28,4 +46,4 @@ function routes(app) {
     }
 }
 //# sourceMappingURL=index.js.map
-//# debugId=13ea402c-3285-59e2-a1d2-3698e5cdbba8
+//# debugId=f58c4e02-37b2-571d-a36f-5c2e298eb7df
